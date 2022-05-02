@@ -3,25 +3,19 @@ package pl.ue.oops.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 
 import java.security.Key;
 
 public class MainMenuScreen extends GameScreen {
 
-    private Sprite play_button;
+    private final Sprite play_button;
     public MainMenuScreen(final Oops game) {
         super(game);
-        play_button = new Sprite(new Texture(this.game.test_sprites.child("redSquare.png")));
+        play_button = new Sprite(new Texture("src/main/resources/test_sprites/redSquare.png"));
     }
 
     @Override

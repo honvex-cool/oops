@@ -3,67 +3,71 @@ package pl.ue.oops.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 import pl.ue.oops.game.scenes.Hud;
-import pl.ue.oops.game.sprites.Player;
+import pl.ue.oops.game.universe.control.Signal;
+import pl.ue.oops.game.universe.entities.Clueless;
+import pl.ue.oops.game.universe.entities.Player;
+import pl.ue.oops.game.universe.level.Level;
+import pl.ue.oops.game.universe.utils.Dimensions;
 
-import java.util.concurrent.ForkJoinWorkerThread;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
 public class LevelScreen extends GameScreen {
-
-    private Sprite sprite;
-    private Hud hud;
-    private World world;
-    private Box2DDebugRenderer b2DDR;
-    private Player player;
+    private final Hud hud;
+    private final Queue<Signal> receivedSignals = new ArrayDeque<>();
+    private final Level level = new Level(
+        new Dimensions(
+            Config.NATIVE_HEIGHT / Config.TILE_SIDE_LENGTH,
+            Config.NATIVE_WIDTH / Config.TILE_SIDE_LENGTH
+        ),
+        Config.TILE_SIDE_LENGTH
+    );
 
     public LevelScreen(final Oops game) {
         super(game);
         hud = new Hud(game.batch);
-        sprite = new Sprite(new Texture(game.test_sprites.child("greenSquare.png")));
-        player = new Player(0,0);
-        player.setNewVelocity(3);
-        //world = new World(new Vector2(0,0),true);
-        //b2DDR = new Box2DDebugRenderer();
+        level.add(new Player(0, 0)).add(new Clueless());
     }
 
-
-
-
-
-
-    private void update(float delta){
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+    private void update() {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
-        if(Gdx.input.isKeyPressed(Input.Keys.W))
-            player.move(new Vector3(0,1,0));
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-            player.move(new Vector3(0,-1,0));
-        if(Gdx.input.isKeyPressed(Input.Keys.A))
-            player.move(new Vector3(-1,0,0));
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-            player.move(new Vector3(1,0,0));
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            System.err.println("W pressed");
+            receivedSignals.add(Signal.REQUESTED_UP_MOVEMENT);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            System.err.println("S pressed");
+            receivedSignals.add(Signal.REQUESTED_DOWN_MOVEMENT);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            System.err.println("A pressed");
+            receivedSignals.add(Signal.REQUESTED_LEFT_MOVEMENT);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+            System.err.println("D pressed");
+            receivedSignals.add(Signal.REQUESTED_RIGHT_MOVEMENT);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            System.err.println("[Space] pressed");
+            receivedSignals.add(Signal.REQUESTED_SPAWN);
+        }
     }
-
-
 
     @Override
     public void render(float delta) {
+        update();
         ScreenUtils.clear(Color.CHARTREUSE);
+        level.update(delta, receivedSignals);
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        game.batch.draw(player.getTexture(),player.getPosition().x,player.getPosition().y);
+        level.render(game.batch);
         game.batch.end();
-        update(delta);
     }
 
     @Override

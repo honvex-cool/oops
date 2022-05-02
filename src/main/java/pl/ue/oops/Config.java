@@ -11,6 +11,7 @@ public class Config {
     public static final String NAME = "Oops...";
 
     public static final Color CLEAR_COLOR = Color.BLACK;
+    public static final int TILE_SIDE_LENGTH = 40;
 
     private Config() {
     }
