@@ -44,11 +44,11 @@ public class Player extends AbstractActiveGridEntity {
 
     //commented part needs some work
 
-    private int moveAnimationFramelength = 30;
+    private final int moveAnimationFramelength = 6;
     private int currentAnimationFrame = -1;
     private final Texture moveTexture;
     private Vector3 moveVector;
-    /*
+
     @Override
     public void stepAnimation(float delta) {
         if(!hasFinishedAnimation()){
@@ -58,10 +58,10 @@ public class Player extends AbstractActiveGridEntity {
             }
             else if(currentAnimationFrame == moveAnimationFramelength) {
                 sprite.setTexture(moveTexture);
-                moveVector = position.getMoveVector();
+                moveVector = position.getMoveVector().scl(1f / moveAnimationFramelength);
             }
             else {
-                position.setRenderPosition(position.getRenderPosition().add(moveVector.scl(1f/moveAnimationFramelength)));
+                position.setRenderPosition(new Vector3(position.getRenderPosition().add(moveVector)));
             }
             currentAnimationFrame--;
         }
@@ -70,5 +70,5 @@ public class Player extends AbstractActiveGridEntity {
     @Override
     public boolean hasFinishedAnimation() {
         return currentAnimationFrame<0;
-    }*/
+    }
 }

@@ -46,14 +46,14 @@ public class Position {
         this.column = column;
     }
     public Vector3 getRenderPosition() {
-        return renderPosition;
+        return new Vector3(renderPosition);
     }
     public Vector3 getGridPosition() {
         return new Vector3(column*tileSideLength,row*tileSideLength,0);
     }
 
     public Vector3 getMoveVector(){
-        Vector3 temp = getGridPosition();
+        Vector3 temp = new Vector3(getGridPosition());
         temp.add(getRenderPosition().scl(-1));
         return temp;
     }

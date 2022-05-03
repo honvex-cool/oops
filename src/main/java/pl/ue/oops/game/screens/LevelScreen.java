@@ -32,7 +32,7 @@ public class LevelScreen extends GameScreen {
                 ,Config.TILE_SIDE_LENGTH),
                 hud
         );
-        level.add(new Clueless(level.getDimensions()));
+        //level.add(new Clueless(level.getDimensions()));
     }
 
     private void update() {
@@ -76,11 +76,11 @@ public class LevelScreen extends GameScreen {
             signal = handleKeyInput();
         ScreenUtils.clear(Color.GRAY);
         level.update(delta, signal);
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
         game.batch.begin();
         level.render(game.batch);
         game.batch.end();
+        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
     }
 
     @Override
