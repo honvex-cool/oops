@@ -18,51 +18,64 @@ import java.util.Queue;
 
 public class LevelScreen extends GameScreen {
     private final Hud hud;
-    private final Queue<Signal> receivedSignals = new ArrayDeque<>();
-    private final Level level = new Level(
-        new Dimensions(
-            Config.NATIVE_HEIGHT / Config.TILE_SIDE_LENGTH,
-            Config.NATIVE_WIDTH / Config.TILE_SIDE_LENGTH
-        ),
-        Config.TILE_SIDE_LENGTH
-    );
+    //private final Queue<Signal> receivedSignals = new ArrayDeque<>();
+    private Signal signal;
+    private final Level level;
 
     public LevelScreen(final Oops game) {
         super(game);
         hud = new Hud(game.batch);
-        level.add(new Player(0, 0)).add(new Clueless());
+        level = new Level(
+                new Dimensions(
+                        Config.NATIVE_HEIGHT / Config.TILE_SIDE_LENGTH,
+                        Config.NATIVE_WIDTH / Config.TILE_SIDE_LENGTH
+                ,Config.TILE_SIDE_LENGTH),
+                hud
+        );
+        level.add(new Clueless(level.getDimensions()));
     }
 
     private void update() {
+
+    }
+
+    private Signal handleKeyInput(){
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
         if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             System.err.println("W pressed");
-            receivedSignals.add(Signal.REQUESTED_UP_MOVEMENT);
+            //receivedSignals.add(Signal.REQUESTED_UP_MOVEMENT);
+            return Signal.REQUESTED_UP_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             System.err.println("S pressed");
-            receivedSignals.add(Signal.REQUESTED_DOWN_MOVEMENT);
+            //receivedSignals.add(Signal.REQUESTED_DOWN_MOVEMENT);
+            return Signal.REQUESTED_DOWN_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             System.err.println("A pressed");
-            receivedSignals.add(Signal.REQUESTED_LEFT_MOVEMENT);
+            //receivedSignals.add(Signal.REQUESTED_LEFT_MOVEMENT);
+            return Signal.REQUESTED_LEFT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             System.err.println("D pressed");
-            receivedSignals.add(Signal.REQUESTED_RIGHT_MOVEMENT);
+            //receivedSignals.add(Signal.REQUESTED_RIGHT_MOVEMENT);
+            return Signal.REQUESTED_RIGHT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             System.err.println("[Space] pressed");
-            receivedSignals.add(Signal.REQUESTED_SPAWN);
+            //receivedSignals.add(Signal.REQUESTED_SPAWN);
+            return Signal.REQUESTED_SPAWN;
         }
+        return null;
     }
 
     @Override
     public void render(float delta) {
-        update();
-        ScreenUtils.clear(Color.CHARTREUSE);
-        level.update(delta, receivedSignals);
+        if(level.animationsFinished())
+            signal = handleKeyInput();
+        ScreenUtils.clear(Color.GRAY);
+        level.update(delta, signal);
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         game.batch.begin();

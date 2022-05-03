@@ -1,15 +1,14 @@
 package pl.ue.oops.game.universe.entities.general;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 public final class Entities {
     private Entities() {
     }
 
-    public static void render(Entity entity, SpriteBatch batch, float sideLength) {
-        final var position = entity.getPosition();
-        final var x = position.getColumn() * sideLength;
-        final var y = position.getRow() * sideLength;
-        batch.draw(entity.getSprite(), x, y, sideLength, sideLength);
+    public static void render(GridEntity gridEntity, SpriteBatch batch, float sideLength) {
+        final Vector3 position = gridEntity.getPosition().getRenderPosition();
+        batch.draw(gridEntity.getSprite(), position.x, position.y, sideLength, sideLength);
     }
 }

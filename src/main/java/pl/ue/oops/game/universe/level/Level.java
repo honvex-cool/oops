@@ -1,9 +1,12 @@
 package pl.ue.oops.game.universe.level;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import pl.ue.oops.game.scenes.Hud;
 import pl.ue.oops.game.universe.control.Signal;
+import pl.ue.oops.game.universe.entities.Player;
+import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.Entities;
-import pl.ue.oops.game.universe.entities.general.Entity;
+import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
 
 import java.util.ArrayList;
@@ -11,52 +14,89 @@ import java.util.List;
 import java.util.Queue;
 
 public class Level {
-    private List<Entity> entities = new ArrayList<>();
-    private final Dimensions dimensions;
-    private final float tileSideLength;
+    private final Player player;
+    private final AIHandler aiHandler;
+    private final Hud hud;
+    List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
+    List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
 
-    public Level(Dimensions dimensions, float tileSideLength) {
-        this.dimensions = dimensions;
-        this.tileSideLength = tileSideLength;
+    public Dimensions getDimensions() {
+        return dimensions;
     }
 
-    public Level add(Entity entity) {
-        entities.add(entity);
+    private final Dimensions dimensions;
+
+    public Level(Dimensions dimensions,Hud hud) {
+        this.dimensions = dimensions;
+        this.hud = hud;
+        player = new Player(0,0,dimensions);
+        aiHandler = new AIHandler(this);
+    }
+
+    public Level add(ActiveGridEntity activeGridEntity) {
+        activeEntities.add(activeGridEntity);
+        return this;
+    }
+    public Level add(GridEntity gridEntity) {
+        passiveEntities.add(gridEntity);
         return this;
     }
 
-    public void update(float delta, Queue<Signal> unhandledSignals) {
-        if(animationsFinished() && !unhandledSignals.isEmpty())
-            triggerAllReactions(unhandledSignals.poll());
+    public void update(float delta, /*Queue<Signal> unhandledSignals*/Signal signal) {
+        if(animationsFinished() && /*!unhandledSignals.isEmpty()*/ signal != null){
+            hud.updateTurn();
+            activeEntities.addAll(player.takeTurn(signal));
+            eraseDestroyedEntities();
+            activeEntities.addAll(aiHandler.takeTurn());
+            eraseDestroyedEntities();
+        }
         else
             stepAnimations(delta);
     }
 
     public void render(SpriteBatch batch) {
-        for(final var entity : entities)
-            Entities.render(entity, batch, tileSideLength);
+            Entities.render(player,batch,dimensions.getTileSideLength());
+        for(final var entity : activeEntities)
+            Entities.render(entity, batch, dimensions.getTileSideLength());
+        for(final var entity : passiveEntities)
+            Entities.render(entity, batch, dimensions.getTileSideLength());
+    }
+
+    private void eraseDestroyedEntities(){
+        System.err.println("Currently active entities: " + activeEntities.size());
+        final var nextEntities = new ArrayList<ActiveGridEntity>();
+        for(final var entity : activeEntities) {
+            if(entity.isActive())
+                nextEntities.add(entity);
+            else {
+                entity.dispose();
+                hud.updateScore();
+            }
+        }
+        activeEntities = nextEntities;
     }
 
     private void triggerAllReactions(Signal signal) {
-        System.err.println("Currently active entities: " + entities.size());
-        final var nextEntities = new ArrayList<Entity>();
-        for(final var entity : entities) {
-            nextEntities.addAll(entity.react(signal, dimensions));
+        System.err.println("Currently active entities: " + activeEntities.size());
+        final var nextEntities = new ArrayList<ActiveGridEntity>();
+        for(final var entity : activeEntities) {
+            nextEntities.addAll(entity.react(signal));
             if(entity.isActive())
                 nextEntities.add(entity);
             else
                 entity.dispose();
         }
-        entities = nextEntities;
+        activeEntities = nextEntities;
     }
 
     private void stepAnimations(float delta) {
-        for(final var entity : entities) {
+        for(final var entity : activeEntities) {
             entity.stepAnimation(delta);
         }
+        player.stepAnimation(delta);
     }
 
-    private boolean animationsFinished() {
-        return entities.stream().allMatch(Entity::hasFinishedAnimation);
+    public boolean animationsFinished() {
+        return (activeEntities.stream().allMatch(GridEntity::hasFinishedAnimation) && player.hasFinishedAnimation());
     }
 }

@@ -1,5 +1,6 @@
 package pl.ue.oops.game.universe.entities.general;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Disposable;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.utils.Dimensions;
@@ -7,10 +8,10 @@ import pl.ue.oops.game.universe.utils.Position;
 
 import java.util.Collection;
 
-public interface Entity extends Disposable, Visible {
+public interface GridEntity extends Disposable{
     Position getPosition();
-    Collection<Entity> react(Signal signal, Dimensions gridDimensions);
+    Sprite getSprite();
+    void stepIdleAnimation(float delta);
+    boolean hasFinishedAnimation();
     boolean isActive();
-
-    Collection<Entity> interact(Entity other);
 }
