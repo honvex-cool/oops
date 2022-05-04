@@ -11,6 +11,7 @@ import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.level.Level;
+import pl.ue.oops.game.universe.level.LevelLoader;
 import pl.ue.oops.game.universe.utils.Dimensions;
 
 import java.util.ArrayDeque;
@@ -25,13 +26,7 @@ public class LevelScreen extends GameScreen {
     public LevelScreen(final Oops game) {
         super(game);
         hud = new Hud(game.batch);
-        level = new Level(
-                new Dimensions(
-                        Config.NATIVE_HEIGHT / Config.TILE_SIDE_LENGTH,
-                        Config.NATIVE_WIDTH / Config.TILE_SIDE_LENGTH
-                ,Config.TILE_SIDE_LENGTH),
-                hud
-        );
+        level = LevelLoader.loadFromFile("src/main/resources/levels/exampleLevel.oopslvl").setHud(hud);
         //level.add(new Clueless(level.getDimensions()));
     }
 

@@ -18,6 +18,7 @@ public class Player extends AbstractActiveGridEntity {
     public Player(int x, int y, Dimensions gridDimensions) {
         super("blueSquare.png",gridDimensions);
         getPosition().set(x, y);
+        getPosition().setRenderPositionAsGridPosition();
         moveTexture = new Texture(Config.TEXTURE_PATH + "greenSquare.png");
     }
 

@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Queue;
 
 public class Level {
-    private final Player player;
+    private Player player;
     private final AIHandler aiHandler;
-    private final Hud hud;
+    private Hud hud;
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
 
@@ -26,11 +26,25 @@ public class Level {
 
     private final Dimensions dimensions;
 
-    public Level(Dimensions dimensions,Hud hud) {
+    public Level(Dimensions dimensions) {
         this.dimensions = dimensions;
-        this.hud = hud;
-        player = new Player(0,0,dimensions);
         aiHandler = new AIHandler(this);
+    }
+
+    public Level setHud(Hud hud) {
+        if(this.hud == null)
+            this.hud = hud;
+        else
+            throw new RuntimeException("Hud already set");
+        return this;
+    }
+
+    public Level setPlayer(Player player) {
+        if(this.player == null)
+            this.player = player;
+        else
+            throw new RuntimeException("Player already set");
+        return this;
     }
 
     public Level add(ActiveGridEntity activeGridEntity) {
