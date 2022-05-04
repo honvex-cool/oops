@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import pl.ue.oops.Config;
 import pl.ue.oops.game.screens.LevelScreen;
+import pl.ue.oops.game.screens.MainMenuScreen;
 
 public class Oops extends Game {
     public SpriteBatch batch;
@@ -20,7 +21,7 @@ public class Oops extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false);
         camera.update();
-        setScreen(new LevelScreen(this));
+        setScreen(new MainMenuScreen(this));
     }
 
     @Override
