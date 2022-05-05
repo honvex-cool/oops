@@ -14,10 +14,12 @@ the `DesktopLauncher` class.
 
 ### As of May 5th 2022, we have implemented the following features:
 
-* the skeleton of the application
+* the skeleton of the application:
   - window
   - basic launcher classes
   - resource and level loading
   - architecture designed for future functionality creation (interfaces and abstract classes for game entities)
 * basic movement system and user input handling
-* basic UI widgets - a passive HUD for displaying the turn number and the score
+* basic UI widgets
+  - a passive HUD for displaying the turn number and the score
+* a simple main menu using libGDX's Screen API
