@@ -15,15 +15,16 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
     }
 
     @Override
-    public Collection<ActiveGridEntity> takeTurn(Signal signal) {
+    public void takeTurn(Signal signal) {
         if(signal == null)
-            return idleBehaviour();
-        return react(signal);
+            idleBehaviour();
+        else
+            react(signal);
     }
-    public abstract Collection<ActiveGridEntity> idleBehaviour();
+    public abstract void idleBehaviour();
     @Override
-    public Collection<ActiveGridEntity> react(Signal signal) {
-        return idleBehaviour();
+    public void react(Signal signal) {
+        idleBehaviour();
     }
 
     @Override

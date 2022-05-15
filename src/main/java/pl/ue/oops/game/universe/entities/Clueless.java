@@ -1,12 +1,10 @@
 package pl.ue.oops.game.universe.entities;
 
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
-import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
+import pl.ue.oops.game.universe.entities.general.GridEntity;
+import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
-import pl.ue.oops.game.universe.utils.Dimensions;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Random;
 
 public class Clueless extends AbstractActiveGridEntity {
@@ -21,20 +19,27 @@ public class Clueless extends AbstractActiveGridEntity {
     }
 
     @Override
-    public Collection<ActiveGridEntity> idleBehaviour() {
+    public void idleBehaviour() {
         //do default stuff
         System.err.println("Clueless at " + position.getRow() + ", " + position.getColumn() + "...");
-        if(new Random().nextBoolean())
+        if(new Random().nextBoolean()) {
             level.moveHandler.moveUp(this);
-        else
-            level.moveHandler.moveRight(this);
-        if(!level.getDimensions().contain(position)) {
-            disable();
         }
-        return Collections.emptyList();
+        else {
+            level.moveHandler.moveRight(this);
+        }
+        if(new Random().nextInt()%7==0)
+            level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
     }
     @Override
     public boolean hasFinishedAnimation() {
         return true;
+    }
+
+    @Override
+    public void interact(GridEntity other) {
+        if(other.getClass().equals(Player.class)){
+            disable();
+        }
     }
 }

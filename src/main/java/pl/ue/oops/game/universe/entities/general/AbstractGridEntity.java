@@ -40,7 +40,7 @@ public abstract class AbstractGridEntity implements GridEntity{
         return active;
     }
 
-    protected final void disable() {
+    public final void disable() {
         active = false;
     }
 
@@ -56,7 +56,5 @@ public abstract class AbstractGridEntity implements GridEntity{
         texture.dispose();
     }
     @Override
-    public Collection<ActiveGridEntity> interact(GridEntity other) {
-        return Collections.emptyList();
-    }
+    public void interact(GridEntity other) { }
 }

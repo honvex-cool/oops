@@ -1,7 +1,9 @@
 package pl.ue.oops.game.universe.level;
 
 import com.badlogic.gdx.math.Vector2;
+import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
+import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Position;
 
 public class MoveHandler {
@@ -14,6 +16,11 @@ public class MoveHandler {
     public boolean move(ActiveGridEntity entity, int rowDelta, int columnDelta){
         if(isMovePossible(entity,rowDelta,columnDelta)){
             entity.getPosition().changeGridPosition(rowDelta,columnDelta);
+            final var interruptedEntities = level.getGridEntitiesAtPosition(entity.getPosition());
+            for (final var interruptedEntity: interruptedEntities) {
+                if(interruptedEntity != entity)
+                    interruptedEntity.interact(entity);
+            }
             return true;
         }
         return false;
@@ -21,10 +28,12 @@ public class MoveHandler {
 
     boolean isMovePossible(ActiveGridEntity entity, int rowDelta, int columnDelta){
         Position newPosition = new Position(entity.getPosition().getRow()+rowDelta,entity.getPosition().getColumn()+columnDelta,level.dimensions.tileSideLength());
-
-        if(level.dimensions.contain(newPosition) && level.getGridEntitiesAtPosition(newPosition).isEmpty())
+        if(Projectile.class.isAssignableFrom(entity.getClass())) //Projectiles may go out of the map bounds             //they are getting destroyed then (in Projectile.idleBehaviour())
             return true;
-
+        if(!level.dimensions.contain(newPosition))//And nothing else can
+            return false;
+        if(entity.getClass().equals(Player.class) || level.getGridEntitiesAtPosition(newPosition).isEmpty()) //Player may move onto objects to destroy them and Clueless can't, this is just some test behaviour, it will be changed
+            return true;
         return false;
     }
 

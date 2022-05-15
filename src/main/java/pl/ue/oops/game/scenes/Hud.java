@@ -24,6 +24,8 @@ public class Hud implements Disposable {
     private Integer turn;
     private Label turnLabel;
     private final Label turnNameLabel;
+    private final Label hpLabel;
+    private final Label hpNameLabel;
 
 
     public Hud(SpriteBatch spriteBatch){
@@ -35,16 +37,19 @@ public class Hud implements Disposable {
         turn = 0;
         turnLabel = new Label(String.format("%03d",turn),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
         turnNameLabel = new Label(String.format("TURN"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-
+        hpLabel = new Label(String.format("%03d",turn),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        hpNameLabel = new Label(String.format("HP"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
 
 
         Table table = new Table();
         table.setFillParent(true);
         table.top();
         table.add(scoreNameLabel).expandX();
+        table.add(hpNameLabel).expandX();
         table.add(turnNameLabel).expandX();
         table.row();
         table.add(scoreLabel).expandX();
+        table.add(hpLabel).expandX();
         table.add(turnLabel).expandX();
 
         stage.addActor(table);
@@ -57,6 +62,10 @@ public class Hud implements Disposable {
     public void updateScore(){
         score++;
         scoreLabel.setText(score);
+    }
+
+    public void updateHp(int hp){
+        hpLabel.setText(hp);
     }
 
 

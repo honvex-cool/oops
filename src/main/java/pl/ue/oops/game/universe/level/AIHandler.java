@@ -13,10 +13,8 @@ public class AIHandler {
         this.level = level;
     }
 
-    public Collection<ActiveGridEntity> takeTurn(){
-        final var returnEntities = new ArrayList<ActiveGridEntity>();
+    public void takeTurn(){
         for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
             entity.takeTurn(null);
-        return returnEntities;
     }
 }

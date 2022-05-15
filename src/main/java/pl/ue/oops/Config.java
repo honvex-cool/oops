@@ -12,7 +12,7 @@ public class Config {
 
     public static final Color CLEAR_COLOR = Color.BLACK;
     public static final int TILE_SIDE_LENGTH = 40;
-    public static String TEXTURE_PATH = "src/main/resources/test_sprites/";
+    public static final String TEXTURE_PATH = "src/main/resources/test_sprites/";
 
     private Config() {
     }

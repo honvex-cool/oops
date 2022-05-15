@@ -3,9 +3,7 @@ package pl.ue.oops.game.universe.level;
 import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.Player;
-import pl.ue.oops.game.universe.entities.general.Entities;
 import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.Position;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -35,7 +33,7 @@ public class LevelLoader {
             if(symbol.equals("@"))
                 level.setPlayer(new Player(row, column, level));
             else if(symbol.equals("?"))
-                level.add(new Clueless(row, column, level));
+                level.requestSpawn(new Clueless(row, column, level));
         }
         return level;
     }
