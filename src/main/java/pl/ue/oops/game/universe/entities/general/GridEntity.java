@@ -14,4 +14,5 @@ public interface GridEntity extends Disposable{
     void stepIdleAnimation(float delta);
     boolean hasFinishedAnimation();
     boolean isActive();
+    Collection<ActiveGridEntity> interact(GridEntity other);
 }

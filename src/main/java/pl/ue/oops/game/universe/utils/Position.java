@@ -1,7 +1,6 @@
 package pl.ue.oops.game.universe.utils;
 
 import com.badlogic.gdx.math.Vector3;
-import pl.ue.oops.game.universe.level.Level;
 
 import java.util.Objects;
 
@@ -10,7 +9,6 @@ public class Position {
     private static final int DEFAULT_COLUMN = 0;
     private int row;
     private int column;
-
     private final float tileSideLength;
 
     private Vector3 renderPosition;
@@ -57,9 +55,13 @@ public class Position {
         temp.add(getRenderPosition().scl(-1));
         return temp;
     }
-    public void set(int row, int column) {
+    public void setGridPosition(int row, int column) {
         setRow(row);
         setColumn(column);
+    }
+    public void changeGridPosition(int rowDelta, int columnDelta) {
+        this.row += rowDelta;
+        this.column += columnDelta;
     }
     public void setRenderPosition(Vector3 renderPosition) {
         this.renderPosition = renderPosition;
@@ -68,27 +70,11 @@ public class Position {
         setRenderPosition(getGridPosition());
     }
 
-    public void moveUp() {
-        setRow(getRow() + 1);
-    }
-
-    public void moveDown() {
-        setRow(getRow() - 1);
-    }
-
-    public void moveRight() {
-        setColumn(getColumn() + 1);
-    }
-
-    public void moveLeft() {
-        setColumn(getColumn() - 1);
-    }
-
     @Override
     public boolean equals(Object object) {
         if(!(object instanceof final Position position))
             return false;
-        return row == position.getRow() && column == position.getColumn();
+        return (row == position.getRow() && column == position.getColumn());
     }
 
     @Override

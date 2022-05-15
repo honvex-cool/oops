@@ -33,9 +33,9 @@ public class LevelLoader {
             final int row = scanner.nextInt(), column = scanner.nextInt();
             final var symbol = scanner.next();
             if(symbol.equals("@"))
-                level.setPlayer(new Player(row, column, dimensions));
+                level.setPlayer(new Player(row, column, level));
             else if(symbol.equals("?"))
-                level.add(new Clueless(row, column, dimensions));
+                level.add(new Clueless(row, column, level));
         }
         return level;
     }

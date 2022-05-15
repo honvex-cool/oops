@@ -1,13 +1,12 @@
 package pl.ue.oops.game.universe.entities;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
-import pl.ue.oops.game.universe.entities.general.GridEntity;
+import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.Dimensions;
 
 import java.util.Collection;
@@ -15,9 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class Player extends AbstractActiveGridEntity {
-    public Player(int x, int y, Dimensions gridDimensions) {
-        super("blueSquare.png",gridDimensions);
-        getPosition().set(x, y);
+    public Player(int x, int y, Level level) {
+        super("blueSquare.png",level);
+        getPosition().setGridPosition(x, y);
         getPosition().setRenderPositionAsGridPosition();
         moveTexture = new Texture(Config.TEXTURE_PATH + "greenSquare.png");
     }
@@ -30,13 +29,14 @@ public class Player extends AbstractActiveGridEntity {
     @Override
     public Collection<ActiveGridEntity> react(Signal signal) {
         if(signal != null) {
+            System.err.println("Player at " + position.getRow() + ", " + position.getColumn() + "...");
             switch(signal) {
-                case REQUESTED_DOWN_MOVEMENT -> {position.moveDown();currentAnimationFrame=moveAnimationFramelength;}
-                case REQUESTED_UP_MOVEMENT -> {position.moveUp();currentAnimationFrame=moveAnimationFramelength;}
-                case REQUESTED_LEFT_MOVEMENT -> {position.moveLeft();currentAnimationFrame=moveAnimationFramelength;}
-                case REQUESTED_RIGHT_MOVEMENT -> {position.moveRight();currentAnimationFrame=moveAnimationFramelength;}
+                case REQUESTED_DOWN_MOVEMENT -> {level.moveHandler.moveDown(this);currentAnimationFrame=moveAnimationFrameLength;}
+                case REQUESTED_UP_MOVEMENT -> {level.moveHandler.moveUp(this);currentAnimationFrame=moveAnimationFrameLength;}
+                case REQUESTED_LEFT_MOVEMENT -> {level.moveHandler.moveLeft(this);currentAnimationFrame=moveAnimationFrameLength;}
+                case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);currentAnimationFrame=moveAnimationFrameLength;}
                 case REQUESTED_SPAWN -> {
-                    return List.of(new Clueless(gridDimensions));
+                    return List.of(new Clueless(level));
                 }
             }
         }
@@ -45,7 +45,7 @@ public class Player extends AbstractActiveGridEntity {
 
     //commented part needs some work
 
-    private final int moveAnimationFramelength = 6;
+    private final int moveAnimationFrameLength = 6;
     private int currentAnimationFrame = -1;
     private final Texture moveTexture;
     private Vector3 moveVector;
@@ -57,9 +57,9 @@ public class Player extends AbstractActiveGridEntity {
                 position.setRenderPositionAsGridPosition();
                 sprite.setTexture(texture);
             }
-            else if(currentAnimationFrame == moveAnimationFramelength) {
+            else if(currentAnimationFrame == moveAnimationFrameLength) {
                 sprite.setTexture(moveTexture);
-                moveVector = position.getMoveVector().scl(1f / moveAnimationFramelength);
+                moveVector = position.getMoveVector().scl(1f / moveAnimationFrameLength);
             }
             else {
                 position.setRenderPosition(new Vector3(position.getRenderPosition().add(moveVector)));

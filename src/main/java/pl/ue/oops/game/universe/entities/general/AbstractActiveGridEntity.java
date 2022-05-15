@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.entities.general;
 
 import pl.ue.oops.game.universe.control.Signal;
+import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.Dimensions;
 import pl.ue.oops.game.universe.utils.Position;
 
@@ -9,8 +10,8 @@ import java.util.Collections;
 
 public abstract class AbstractActiveGridEntity extends AbstractGridEntity implements ActiveGridEntity {
 
-    public AbstractActiveGridEntity(String texturePath,Dimensions gridDimensions) {
-        super(texturePath,gridDimensions);
+    public AbstractActiveGridEntity(String texturePath, Level level) {
+        super(texturePath,level);
     }
 
     @Override
@@ -23,11 +24,6 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
     @Override
     public Collection<ActiveGridEntity> react(Signal signal) {
         return idleBehaviour();
-    }
-
-    @Override
-    public Collection<ActiveGridEntity> interact(GridEntity other) {
-        return Collections.emptyList();
     }
 
     @Override

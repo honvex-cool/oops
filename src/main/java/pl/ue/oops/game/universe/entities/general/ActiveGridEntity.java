@@ -10,5 +10,4 @@ public interface ActiveGridEntity extends GridEntity{
     Collection<ActiveGridEntity> takeTurn(Signal signal);
     public Collection<ActiveGridEntity> idleBehaviour();
     void stepAnimation(float delta);
-    Collection<ActiveGridEntity> interact(GridEntity other);
 }

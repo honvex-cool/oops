@@ -8,6 +8,7 @@ import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.Entities;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
+import pl.ue.oops.game.universe.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,9 @@ import java.util.Queue;
 
 public class Level {
     private Player player;
-    private final AIHandler aiHandler;
+    final AIHandler aiHandler;
+    public final MoveHandler moveHandler;
+    final Dimensions dimensions;
     private Hud hud;
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
@@ -24,11 +27,10 @@ public class Level {
         return dimensions;
     }
 
-    private final Dimensions dimensions;
-
     public Level(Dimensions dimensions) {
         this.dimensions = dimensions;
         aiHandler = new AIHandler(this);
+        moveHandler = new MoveHandler(this);
     }
 
     public Level setHud(Hud hud) {
@@ -51,7 +53,7 @@ public class Level {
         activeEntities.add(activeGridEntity);
         return this;
     }
-    public Level add(GridEntity gridEntity) {
+    public Level addPassive(GridEntity gridEntity) {
         passiveEntities.add(gridEntity);
         return this;
     }
@@ -112,5 +114,22 @@ public class Level {
 
     public boolean animationsFinished() {
         return (activeEntities.stream().allMatch(GridEntity::hasFinishedAnimation) && player.hasFinishedAnimation());
+    }
+
+    public List<GridEntity> getGridEntitiesAtPosition(Position position){
+        var list = new ArrayList<GridEntity>();
+        for (final var entity: passiveEntities) {
+            if(entity.getPosition().equals(position)) {
+                list.add(entity);
+            }
+        }
+        for (final var entity: activeEntities) {
+            if(entity.getPosition().equals(position)) {
+                list.add(entity);
+            }
+        }
+        if(player.getPosition().equals(position))
+            list.add(player);
+        return list;
     }
 }
