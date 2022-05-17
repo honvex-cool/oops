@@ -1,5 +1,7 @@
 package pl.ue.oops.game.universe.entities.general;
 
+import pl.ue.oops.game.animations.Animation;
+import pl.ue.oops.game.animations.MoveAnimation;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.Dimensions;
@@ -10,8 +12,12 @@ import java.util.Collections;
 
 public abstract class AbstractActiveGridEntity extends AbstractGridEntity implements ActiveGridEntity {
 
+    protected MoveAnimation moveAnimation;
     public AbstractActiveGridEntity(String texturePath, Level level) {
         super(texturePath,level);
+        moveAnimation = new MoveAnimation(0,0,this,null,null);//WE NEED SPRITE HANDLER!!!!
+        currentAnimation = idleAnimation;
+        currentAnimation.start();
     }
 
     @Override
@@ -26,14 +32,12 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
     public void react(Signal signal) {
         idleBehaviour();
     }
-
-    @Override
-    public void stepAnimation(float delta) {
-        position.setRenderPositionAsGridPosition();
-    }
-
     @Override
     public boolean hasFinishedAnimation() {
-        return true;
+        return !currentAnimation.isActive();
+    }
+    @Override
+    public MoveAnimation getMoveAnimation(){
+        return moveAnimation;
     }
 }

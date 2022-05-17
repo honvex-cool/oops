@@ -72,6 +72,7 @@ public class Level {
         if(animationsFinished() && /*!unhandledSignals.isEmpty()*/ signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
+            System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();

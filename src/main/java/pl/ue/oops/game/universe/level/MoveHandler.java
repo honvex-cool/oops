@@ -16,6 +16,7 @@ public class MoveHandler {
     public boolean move(ActiveGridEntity entity, int rowDelta, int columnDelta){
         if(isMovePossible(entity,rowDelta,columnDelta)){
             entity.getPosition().changeGridPosition(rowDelta,columnDelta);
+            entity.getMoveAnimation().start();
             final var interruptedEntities = level.getGridEntitiesAtPosition(entity.getPosition());
             for (final var interruptedEntity: interruptedEntities) {
                 if(interruptedEntity != entity)

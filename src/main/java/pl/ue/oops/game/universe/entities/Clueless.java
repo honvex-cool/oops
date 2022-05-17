@@ -1,5 +1,6 @@
 package pl.ue.oops.game.universe.entities;
 
+import pl.ue.oops.game.animations.MoveAnimation;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
@@ -12,6 +13,8 @@ public class Clueless extends AbstractActiveGridEntity {
     public Clueless(int row, int column, Level level) {
         super("redSquare.png",level);
         position.setGridPosition(row, column);
+        position.setRenderPositionAsGridPosition();
+        moveAnimation = new MoveAnimation(0,7,this,texture,texture);
     }
 
     public Clueless(Level level) {
@@ -30,10 +33,6 @@ public class Clueless extends AbstractActiveGridEntity {
         }
         if(new Random().nextInt()%7==0)
             level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
-    }
-    @Override
-    public boolean hasFinishedAnimation() {
-        return true;
     }
 
     @Override

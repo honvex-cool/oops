@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import pl.ue.oops.Config;
+import pl.ue.oops.game.animations.IdleAnimation;
+import pl.ue.oops.game.animations.MoveAnimation;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
@@ -17,6 +19,9 @@ public class Player extends AbstractActiveGridEntity {
         getPosition().setGridPosition(x, y);
         getPosition().setRenderPositionAsGridPosition();
         moveTexture = new Texture(Config.TEXTURE_PATH + "greenSquare.png");
+        moveAnimation = new MoveAnimation(0,40,this,texture,moveTexture);
+        idleAnimation = new IdleAnimation(0,10,this,texture,moveTexture);
+        currentAnimation.start();
         hp = 5;
     }
 
@@ -29,10 +34,10 @@ public class Player extends AbstractActiveGridEntity {
     public void react(Signal signal) {
         if(signal != null) {
             switch(signal) {
-                case REQUESTED_DOWN_MOVEMENT -> {level.moveHandler.moveDown(this);currentAnimationFrame=moveAnimationFrameLength;}
-                case REQUESTED_UP_MOVEMENT -> {level.moveHandler.moveUp(this);currentAnimationFrame=moveAnimationFrameLength;}
-                case REQUESTED_LEFT_MOVEMENT -> {level.moveHandler.moveLeft(this);currentAnimationFrame=moveAnimationFrameLength;}
-                case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);currentAnimationFrame=moveAnimationFrameLength;}
+                case REQUESTED_DOWN_MOVEMENT -> {level.moveHandler.moveDown(this);}
+                case REQUESTED_UP_MOVEMENT -> {level.moveHandler.moveUp(this);}
+                case REQUESTED_LEFT_MOVEMENT -> {level.moveHandler.moveLeft(this);}
+                case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);}
                 case REQUESTED_SPAWN -> {
                     level.requestSpawn(new Clueless(level));
                 }
@@ -46,7 +51,7 @@ public class Player extends AbstractActiveGridEntity {
     private int currentAnimationFrame = -1;
     private final Texture moveTexture;
     private Vector3 moveVector;
-
+/*
     @Override
     public void stepAnimation(float delta) {
         if(!hasFinishedAnimation()){
@@ -69,7 +74,7 @@ public class Player extends AbstractActiveGridEntity {
     public boolean hasFinishedAnimation() {
         return currentAnimationFrame<0;
     }
-
+*/
     @Override
     public void interact(GridEntity other) {
         if(Projectile.class.isAssignableFrom(other.getClass())){
