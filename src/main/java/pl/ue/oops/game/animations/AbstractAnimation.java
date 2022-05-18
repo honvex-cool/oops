@@ -1,14 +1,13 @@
 package pl.ue.oops.game.animations;
 
-import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 
 public abstract class AbstractAnimation implements Animation{
     protected float length;
     protected int frameLength;
-    protected int currentFrame=-1;
+    protected int currentFrame = -1;
     protected final GridEntity entity;
-    boolean paused=false;
+    boolean paused = false;
     public AbstractAnimation(float length, int frameLength, GridEntity entity){
         this.length = length;
         this.frameLength = frameLength;
@@ -37,9 +36,7 @@ public abstract class AbstractAnimation implements Animation{
     public boolean isActive() {
         if(paused)
             return false;
-        if(currentFrame>=0)
-            return true;
-        return false;
+        return currentFrame >= 0;
     }
 
     @Override

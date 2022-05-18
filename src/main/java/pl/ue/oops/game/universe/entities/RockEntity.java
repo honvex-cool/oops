@@ -1,8 +1,6 @@
 package pl.ue.oops.game.universe.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import pl.ue.oops.game.universe.entities.general.AbstractGridEntity;
-import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.level.Level;
 

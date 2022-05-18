@@ -15,7 +15,7 @@ public class SUS extends AbstractActiveGridEntity {
 
     @Override
     public void idleBehaviour() {
-        if(new Random().nextInt()%7==0)
+        if(new Random().nextInt() % 7==0)
             disable();
         position.setRenderPositionAsGridPosition();
     }

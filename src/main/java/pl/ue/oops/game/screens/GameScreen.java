@@ -16,7 +16,7 @@ public abstract class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         viewport = new StretchViewport(Config.NATIVE_WIDTH,Config.NATIVE_HEIGHT,camera); //Probably already implemented in ScreenAdapter
         camera.setToOrtho(false);
-        camera.position.set(viewport.getScreenWidth()/2,viewport.getScreenHeight()/2,0);
+        camera.position.set(viewport.getScreenWidth() / 2.0f,viewport.getScreenHeight() / 2.0f,0);
         camera.update();
     }
 }

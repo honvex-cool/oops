@@ -32,21 +32,21 @@ public class LevelLoader {
         while(scanner.hasNextInt()) {
             final int row = scanner.nextInt(), column = scanner.nextInt();
             final var symbol = scanner.next();
-            if(symbol.equals("@"))
-                level.setPlayer(new Player(row, column, level));
-            else if(symbol.equals("?"))
-                level.requestSpawn(new Clueless(row, column, level));
-            else if(symbol.equals("r")){
-                var temp = new RockEntity(level);
-                temp.getPosition().setGridPosition(row,column);
-                temp.getPosition().setRenderPositionAsGridPosition();
-                level.requestSpawn(temp);
-            }
-            else if(symbol.equals("l")){
-                var temp = new LakeEntity(level);
-                temp.getPosition().setGridPosition(row,column);
-                temp.getPosition().setRenderPositionAsGridPosition();
-                level.requestSpawn(temp);
+            switch(symbol) {
+                case "@" -> level.setPlayer(new Player(row, column, level));
+                case "?" -> level.requestSpawn(new Clueless(row, column, level));
+                case "r" -> {
+                    var temp = new RockEntity(level);
+                    temp.getPosition().setGridPosition(row, column);
+                    temp.getPosition().setRenderPositionAsGridPosition();
+                    level.requestSpawn(temp);
+                }
+                case "l" -> {
+                    var temp = new LakeEntity(level);
+                    temp.getPosition().setGridPosition(row, column);
+                    temp.getPosition().setRenderPositionAsGridPosition();
+                    level.requestSpawn(temp);
+                }
             }
         }
         return level;

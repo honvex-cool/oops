@@ -13,6 +13,8 @@ import pl.ue.oops.game.universe.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Level {
     final AIHandler aiHandler;
@@ -119,27 +121,8 @@ public class Level {
         projectiles = nextProjectiles;
     }
 
-    /*private void triggerAllReactions(Signal signal) {
-        System.err.println("Currently active entities: " + activeEntities.size());
-        final var nextEntities = new ArrayList<ActiveGridEntity>();
-        for(final var entity : activeEntities) {
-            nextEntities.addAll(entity.react(signal));
-            if(entity.isActive())
-                nextEntities.add(entity);
-            else
-                entity.dispose();
-        }
-        activeEntities = nextEntities;
-    }*/
-
     private void stepAnimations(float delta) {
-        player.stepAnimation(delta);
-        for(final var entity : activeEntities) {
-            entity.stepAnimation(delta);
-        }
-        for(final var entity : projectiles) {
-            entity.stepAnimation(delta);
-        }
+        allEntities().forEachOrdered(gridEntity -> gridEntity.stepAnimation(delta));
     }
 
     public boolean animationsFinished() {
@@ -147,19 +130,11 @@ public class Level {
     }
 
     public List<GridEntity> getGridEntitiesAtPosition(Position position){
-        var list = new ArrayList<GridEntity>();
-        for (final var entity: passiveEntities) {
-            if(entity.getPosition().equals(position)) {
-                list.add(entity);
-            }
-        }
-        for (final var entity: activeEntities) {
-            if(entity.getPosition().equals(position)) {
-                list.add(entity);
-            }
-        }
-        if(player.getPosition().equals(position))
-            list.add(player);
-        return list;
+        return allEntities().filter(entity -> entity.getPosition().equals(position)).collect(Collectors.toList());
+    }
+
+    private Stream<GridEntity> allEntities() {
+        return Stream.of(Stream.of(player), passiveEntities.stream(), activeEntities.stream(), projectiles.stream())
+            .flatMap(stream -> stream);
     }
 }

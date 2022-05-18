@@ -1,6 +1,5 @@
 package pl.ue.oops.game.universe.level;
 
-import com.badlogic.gdx.math.Vector2;
 import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.RockEntity;
@@ -31,16 +30,15 @@ public class MoveHandler {
 
     boolean isMovePossible(ActiveGridEntity entity, int rowDelta, int columnDelta){ //That's a very dirty function - we should clean it later
         Position newPosition = new Position(entity.getPosition().getRow()+rowDelta,entity.getPosition().getColumn()+columnDelta,level.dimensions.tileSideLength());
-        if(Projectile.class.isAssignableFrom(entity.getClass())) //Projectiles may go out of the map bounds             //they are getting destroyed then (in Projectile.idleBehaviour())
+        if(entity instanceof Projectile) //Projectiles may go out of the map bounds             //they are getting destroyed then (in Projectile.idleBehaviour())
             return true;
         if(!level.dimensions.contain(newPosition))//And nothing else can
             return false;
         var list = level.getGridEntitiesAtPosition(newPosition);
         if(entity.getClass().equals(Player.class)){ //player can't enter rocks
-            for (var x:list){
-                if(x.getClass().equals(RockEntity.class))
+            for (var x:list)
+                if(x instanceof RockEntity)
                     return false;
-            }
             return true;
         }
         //Here it gets even worse

@@ -4,22 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
-import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 import pl.ue.oops.game.scenes.Hud;
 import pl.ue.oops.game.universe.control.Signal;
-import pl.ue.oops.game.universe.entities.Clueless;
-import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.level.LevelLoader;
-import pl.ue.oops.game.universe.utils.Dimensions;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
 
 public class LevelScreen extends GameScreen {
     private final Hud hud;
-    //private final Queue<Signal> receivedSignals = new ArrayDeque<>();
     private Signal signal;
     private final Level level;
 
@@ -27,7 +19,6 @@ public class LevelScreen extends GameScreen {
         super(game);
         hud = new Hud(game.batch);
         level = LevelLoader.loadFromFile("src/main/resources/levels/exampleLevel.oopslvl").setHud(hud);
-        //level.add(new Clueless(level.getDimensions()));
     }
 
     private void update() {
@@ -39,27 +30,22 @@ public class LevelScreen extends GameScreen {
             Gdx.app.exit();
         if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             System.err.println("W pressed");
-            //receivedSignals.add(Signal.REQUESTED_UP_MOVEMENT);
             return Signal.REQUESTED_UP_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             System.err.println("S pressed");
-            //receivedSignals.add(Signal.REQUESTED_DOWN_MOVEMENT);
             return Signal.REQUESTED_DOWN_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             System.err.println("A pressed");
-            //receivedSignals.add(Signal.REQUESTED_LEFT_MOVEMENT);
             return Signal.REQUESTED_LEFT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
             System.err.println("D pressed");
-            //receivedSignals.add(Signal.REQUESTED_RIGHT_MOVEMENT);
             return Signal.REQUESTED_RIGHT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             System.err.println("[Space] pressed");
-            //receivedSignals.add(Signal.REQUESTED_SPAWN);
             return Signal.REQUESTED_SPAWN;
         }
         return null;
