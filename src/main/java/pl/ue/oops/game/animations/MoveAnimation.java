@@ -17,10 +17,8 @@ public class MoveAnimation extends AbstractAnimation{
     }
     @Override
     public void start() {
-        System.out.println(entity + " " + entity.getCurrentAnimation());
         entity.getCurrentAnimation().pause();
         entity.setCurrentAnimation(this);
-        System.out.println(entity + " " + entity.getCurrentAnimation());
         currentFrame = 0;
         moveVector = entity.getPosition().getMoveVector().scl(1f / frameLength); //we can use this vector to check move direction in if clauses below
         if(entity.getPosition().getGridPosition().x < entity.getPosition().getRenderPosition().x && moveTexture != null /*&& moveLeftTexture != null*/){

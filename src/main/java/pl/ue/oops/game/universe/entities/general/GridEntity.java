@@ -20,4 +20,5 @@ public interface GridEntity extends Disposable{
     IdleAnimation getIdleAnimation();
     void setCurrentAnimation(Animation animation);
     Animation getCurrentAnimation();
+     void disable();
 }

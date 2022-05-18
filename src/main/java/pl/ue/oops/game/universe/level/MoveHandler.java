@@ -1,7 +1,9 @@
 package pl.ue.oops.game.universe.level;
 
 import com.badlogic.gdx.math.Vector2;
+import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.Player;
+import pl.ue.oops.game.universe.entities.RockEntity;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Position;
@@ -27,15 +29,27 @@ public class MoveHandler {
         return false;
     }
 
-    boolean isMovePossible(ActiveGridEntity entity, int rowDelta, int columnDelta){
+    boolean isMovePossible(ActiveGridEntity entity, int rowDelta, int columnDelta){ //That's a very dirty function - we should clean it later
         Position newPosition = new Position(entity.getPosition().getRow()+rowDelta,entity.getPosition().getColumn()+columnDelta,level.dimensions.tileSideLength());
         if(Projectile.class.isAssignableFrom(entity.getClass())) //Projectiles may go out of the map bounds             //they are getting destroyed then (in Projectile.idleBehaviour())
             return true;
         if(!level.dimensions.contain(newPosition))//And nothing else can
             return false;
-        if(entity.getClass().equals(Player.class) || level.getGridEntitiesAtPosition(newPosition).isEmpty()) //Player may move onto objects to destroy them and Clueless can't, this is just some test behaviour, it will be changed
+        var list = level.getGridEntitiesAtPosition(newPosition);
+        if(entity.getClass().equals(Player.class)){ //player can't enter rocks
+            for (var x:list){
+                if(x.getClass().equals(RockEntity.class))
+                    return false;
+            }
             return true;
-        return false;
+        }
+        //Here it gets even worse
+        //We need some kind of checker class with function boolean canEnter(ActiveGridEntity entering,GridEntity entered);
+        for (var x:list){
+            if(x.getClass().equals(RockEntity.class) || x.getClass().equals(Player.class) || x.getClass().equals(Clueless.class))
+                return false;
+        }
+        return true;
     }
 
     public boolean moveUp(ActiveGridEntity entity) {

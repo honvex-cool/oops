@@ -39,6 +39,7 @@ public abstract class AbstractGridEntity implements GridEntity{
         return active;
     }
 
+    @Override
     public final void disable() {
         active = false;
     }

@@ -58,6 +58,7 @@ public class Level {
             activeEntities.add((ActiveGridEntity)gridEntity);
         else
             passiveEntities.add(gridEntity);
+        gridEntity.getPosition().setRenderPositionAsGridPosition();
         return this;
     }
 
@@ -103,7 +104,6 @@ public class Level {
                 nextActiveEntities.add(entity);
             else {
                 entity.dispose();
-                hud.updateScore();
             }
         }
 

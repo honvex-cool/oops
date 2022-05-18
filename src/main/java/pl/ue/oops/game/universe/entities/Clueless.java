@@ -38,6 +38,7 @@ public class Clueless extends AbstractActiveGridEntity {
     @Override
     public void interact(GridEntity other) {
         if(other.getClass().equals(Player.class)){
+            level.hud.updateScore();
             disable();
         }
     }

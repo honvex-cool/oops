@@ -2,7 +2,9 @@ package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.entities.Clueless;
+import pl.ue.oops.game.universe.entities.LakeEntity;
 import pl.ue.oops.game.universe.entities.Player;
+import pl.ue.oops.game.universe.entities.RockEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
 
 import java.io.FileNotFoundException;
@@ -34,6 +36,18 @@ public class LevelLoader {
                 level.setPlayer(new Player(row, column, level));
             else if(symbol.equals("?"))
                 level.requestSpawn(new Clueless(row, column, level));
+            else if(symbol.equals("r")){
+                var temp = new RockEntity(level);
+                temp.getPosition().setGridPosition(row,column);
+                temp.getPosition().setRenderPositionAsGridPosition();
+                level.requestSpawn(temp);
+            }
+            else if(symbol.equals("l")){
+                var temp = new LakeEntity(level);
+                temp.getPosition().setGridPosition(row,column);
+                temp.getPosition().setRenderPositionAsGridPosition();
+                level.requestSpawn(temp);
+            }
         }
         return level;
     }

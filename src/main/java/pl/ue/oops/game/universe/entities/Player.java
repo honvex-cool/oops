@@ -19,7 +19,7 @@ public class Player extends AbstractActiveGridEntity {
         getPosition().setGridPosition(x, y);
         getPosition().setRenderPositionAsGridPosition();
         moveTexture = new Texture(Config.TEXTURE_PATH + "greenSquare.png");
-        moveAnimation = new MoveAnimation(0,40,this,texture,moveTexture);
+        moveAnimation = new MoveAnimation(0,7,this,texture,moveTexture);
         idleAnimation = new IdleAnimation(0,10,this,texture,moveTexture);
         currentAnimation.start();
         hp = 5;
@@ -84,5 +84,12 @@ public class Player extends AbstractActiveGridEntity {
             if(hp<=0)
                 Gdx.app.exit();
         }
+    }
+
+    public void hurt(int damage){
+        hp-=damage;
+        level.hud.updateHp(hp);
+        if(hp<=0)
+            Gdx.app.exit();
     }
 }
