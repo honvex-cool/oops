@@ -2,31 +2,44 @@ package pl.ue.oops.game.universe.entities.general;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import pl.ue.oops.game.animations.Animation;
-import pl.ue.oops.game.animations.IdleAnimation;
+import pl.ue.oops.Config;
+import pl.ue.oops.game.animations.controllers.AnimationController;
+import pl.ue.oops.game.animations.controllers.AnimationControllers;
+import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
+import pl.ue.oops.game.animations.sequences.SimpleSpriteSequence;
 import pl.ue.oops.game.universe.level.Level;
-import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.Position;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
-import java.util.Collection;
-import java.util.Collections;
-
-public abstract class AbstractGridEntity implements GridEntity{
-    protected final Position position;
+public abstract class AbstractGridEntity implements GridEntity {
+    protected final GridPosition gridPosition;
     protected boolean active = true;
-    protected final Texture texture;
-    protected final Sprite sprite;
     protected final Level level;
-    protected IdleAnimation idleAnimation;
-    protected Animation currentAnimation;
-    @Override
-    public Position getPosition() {
-        return position;
+    protected AnimationController animationController;
+
+    public AbstractGridEntity(Level level, GridPosition gridPosition, String spriteName) {
+        this(level, gridPosition, AnimationControllers.singleFrame(spriteName));
+    }
+
+    public AbstractGridEntity(Level level, GridPosition gridPosition, String normalSpriteName, String moveSpriteName) {
+        this(level, gridPosition, createAnimationController(normalSpriteName, moveSpriteName));
+    }
+
+    public AbstractGridEntity(Level level, GridPosition gridPosition, AnimationController animationController) {
+        this.level = level;
+        this.animationController = animationController;
+        this.gridPosition = gridPosition;
+        this.animationController.animateRest(this.gridPosition);
+    }
+
+    private static AnimationController createAnimationController(String normalSpriteName, String moveSpriteName) {
+        Sprite normalSprite = new Sprite(new Texture(Config.TEXTURE_PATH + normalSpriteName + ".png"));
+        Sprite moveSprite = new Sprite(new Texture(Config.TEXTURE_PATH + moveSpriteName + ".png"));
+        return AnimationControllers.create(new SimpleSpriteSequence(moveSprite), new DelayedSpriteSequence(3, moveSprite, normalSprite));
     }
 
     @Override
-    public Sprite getSprite() {
-        return sprite;
+    public GridPosition getPosition() {
+        return gridPosition;
     }
 
     @Override
@@ -44,36 +57,20 @@ public abstract class AbstractGridEntity implements GridEntity{
         active = false;
     }
 
-    public AbstractGridEntity(String texturePath, Level level) {
-        texture = new Texture("src/main/resources/test_sprites/" + texturePath);
-        sprite = new Sprite(texture);
-        this.level = level;
-        position = new Position(level.getDimensions().getTileSideLength());
-        idleAnimation = new IdleAnimation(0,0,this,null,null);
-        currentAnimation = idleAnimation;
-        currentAnimation.start();
+    @Override
+    public void interact(GridEntity other) {
     }
 
     @Override
-    public void dispose() {
-        texture.dispose();
+    public void stepAnimation(float delta) {
+        if(getAnimationController().stopsTurnProgression() && !getCurrentAnimation().isInMotion())
+            getAnimationController().animateRest(getPosition());
+        else
+            getCurrentAnimation().step(delta);
     }
+
     @Override
-    public void interact(GridEntity other) { }
-    @Override
-    public IdleAnimation getIdleAnimation(){
-        return idleAnimation;
-    }
-    @Override
-    public void stepAnimation(float delta){
-        currentAnimation.step(delta);
-    }
-    @Override
-    public void setCurrentAnimation(Animation animation){
-         currentAnimation = animation;
-    }
-    @Override
-    public Animation getCurrentAnimation(){
-        return currentAnimation;
+    public AnimationController getAnimationController() {
+        return animationController;
     }
 }

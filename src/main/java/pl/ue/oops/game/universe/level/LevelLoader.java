@@ -1,11 +1,11 @@
 package pl.ue.oops.game.universe.level;
 
-import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.LakeEntity;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.RockEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -27,7 +27,7 @@ public class LevelLoader {
 
     public static Level loadFromReadable(Readable readable) {
         final var scanner = new Scanner(readable);
-        final var dimensions = new Dimensions(scanner.nextInt(), scanner.nextInt(), Config.TILE_SIDE_LENGTH);
+        final var dimensions = new Dimensions(scanner.nextInt(), scanner.nextInt());
         final var level = new Level(dimensions);
         while(scanner.hasNextInt()) {
             final int row = scanner.nextInt(), column = scanner.nextInt();
@@ -36,15 +36,11 @@ public class LevelLoader {
                 case "@" -> level.setPlayer(new Player(row, column, level));
                 case "?" -> level.requestSpawn(new Clueless(row, column, level));
                 case "r" -> {
-                    var temp = new RockEntity(level);
-                    temp.getPosition().setGridPosition(row, column);
-                    temp.getPosition().setRenderPositionAsGridPosition();
+                    var temp = new RockEntity(level, new GridPosition(row, column));
                     level.requestSpawn(temp);
                 }
                 case "l" -> {
-                    var temp = new LakeEntity(level);
-                    temp.getPosition().setGridPosition(row, column);
-                    temp.getPosition().setRenderPositionAsGridPosition();
+                    var temp = new LakeEntity(level, new GridPosition(row, column));
                     level.requestSpawn(temp);
                 }
             }

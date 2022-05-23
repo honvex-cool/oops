@@ -4,13 +4,11 @@ import pl.ue.oops.game.universe.entities.general.AbstractGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 public class LakeEntity extends AbstractGridEntity {
-    public LakeEntity(String texturePath, Level level) {
-        super(texturePath, level);
-    }
-    public LakeEntity(Level level){
-        this("lake.png",level);
+    public LakeEntity(Level level, GridPosition gridPosition){
+        super(level, gridPosition, "lake");
     }
     @Override
     public void interact(GridEntity other){

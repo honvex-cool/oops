@@ -1,12 +1,9 @@
 package pl.ue.oops.game.animations;
 
-public interface Animation {
-    void start();
-    void stop();
-    void resume();
-    void pause();
-    boolean isActive();
-    float getLength();
-    int getFrameLength();
-    void step(float delta);
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public interface Animation extends Continuous {
+    void render(SpriteBatch batch, float tileSideLength);
+
+    boolean isInMotion();
 }

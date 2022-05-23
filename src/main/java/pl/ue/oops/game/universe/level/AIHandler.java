@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.entities.SUS;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.util.Random;
 
@@ -25,8 +26,7 @@ public class AIHandler {
             int tc = new Random().nextInt() % level.getDimensions().columnCount();
             tc += level.getDimensions().columnCount();
             tr %= level.getDimensions().columnCount();
-            var sus = new SUS(level);
-            sus.getPosition().setGridPosition(tr, tc);
+            var sus = new SUS(level, new GridPosition(tr, tc));
             if(level.getGridEntitiesAtPosition(sus.getPosition()).isEmpty())
                 level.requestSpawn(sus);
         }

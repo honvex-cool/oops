@@ -1,12 +1,9 @@
 package pl.ue.oops.game.universe.utils;
 
-public record Dimensions(int rowCount, int columnCount, float tileSideLength) {
-    public boolean contain(Position position) {
-        final var row = position.getRow();
-        final var column = position.getColumn();
+public record Dimensions(int rowCount, int columnCount) {
+    public boolean contain(GridPosition gridPosition) {
+        final var row = gridPosition.getRow();
+        final var column = gridPosition.getColumn();
         return row >= 0 && row < rowCount() && column >= 0 && column < columnCount();
-    }
-    public float getTileSideLength(){
-        return tileSideLength;
     }
 }

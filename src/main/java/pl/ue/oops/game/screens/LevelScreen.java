@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 import pl.ue.oops.game.scenes.Hud;
 import pl.ue.oops.game.universe.control.Signal;
@@ -58,7 +59,7 @@ public class LevelScreen extends GameScreen {
         ScreenUtils.clear(Color.GRAY);
         level.update(delta, signal);
         game.batch.begin();
-        level.render(game.batch);
+        level.render(game.batch, Config.TILE_SIDE_LENGTH);
         game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();

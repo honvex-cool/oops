@@ -1,23 +1,21 @@
 package pl.ue.oops.game.universe.entities.general;
 
-import pl.ue.oops.game.animations.Animation;
-import pl.ue.oops.game.animations.MoveAnimation;
+import pl.ue.oops.game.animations.controllers.AnimationController;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.level.Level;
-import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.Position;
-
-import java.util.Collection;
-import java.util.Collections;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 public abstract class AbstractActiveGridEntity extends AbstractGridEntity implements ActiveGridEntity {
+    public AbstractActiveGridEntity(Level level, GridPosition gridPosition, String spriteName) {
+        super(level, gridPosition, spriteName);
+    }
 
-    protected MoveAnimation moveAnimation;
-    public AbstractActiveGridEntity(String texturePath, Level level) {
-        super(texturePath,level);
-        moveAnimation = new MoveAnimation(0,0,this,null,null);//WE NEED SPRITE HANDLER!!!!
-        currentAnimation = idleAnimation;
-        currentAnimation.start();
+    public AbstractActiveGridEntity(Level level, GridPosition gridPosition, String normalSpriteName, String moveSpriteName) {
+        super(level, gridPosition, normalSpriteName, moveSpriteName);
+    }
+
+    public AbstractActiveGridEntity(Level level, GridPosition gridPosition, AnimationController animationController) {
+        super(level, gridPosition, animationController);
     }
 
     @Override
@@ -27,17 +25,16 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
         else
             react(signal);
     }
+
     public abstract void idleBehaviour();
+
     @Override
     public void react(Signal signal) {
         idleBehaviour();
     }
+
     @Override
     public boolean hasFinishedAnimation() {
-        return !currentAnimation.isActive();
-    }
-    @Override
-    public MoveAnimation getMoveAnimation(){
-        return moveAnimation;
+        return !getCurrentAnimation().isInMotion();
     }
 }

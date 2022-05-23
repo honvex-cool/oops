@@ -5,11 +5,10 @@ import pl.ue.oops.game.scenes.Hud;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
-import pl.ue.oops.game.universe.entities.general.Entities;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.Position;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,6 @@ public class Level {
             this.hud = hud;
         else
             throw new RuntimeException("Hud already set");
-
         return this;
     }
 
@@ -60,19 +58,11 @@ public class Level {
             activeEntities.add((ActiveGridEntity)gridEntity);
         else
             passiveEntities.add(gridEntity);
-        gridEntity.getPosition().setRenderPositionAsGridPosition();
         return this;
     }
 
-    public Level requestSpawn(GridEntity gridEntity, Position position){
-        gridEntity.getPosition().setGridPosition(position.getRow(),position.getColumn());
-        gridEntity.getPosition().setRenderPositionAsGridPosition();
-        requestSpawn(gridEntity);
-        return this;
-    }
-
-    public void update(float delta, /*Queue<Signal> unhandledSignals*/Signal signal) {
-        if(animationsFinished() && /*!unhandledSignals.isEmpty()*/ signal != null){
+    public void update(float delta, Signal signal) {
+        if(animationsFinished() && signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
             System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
@@ -89,14 +79,8 @@ public class Level {
             stepAnimations(delta);
     }
 
-    public void render(SpriteBatch batch) {
-            Entities.render(player,batch,dimensions.getTileSideLength());
-        for(final var entity : activeEntities)
-            Entities.render(entity, batch, dimensions.getTileSideLength());
-        for(final var entity : passiveEntities)
-            Entities.render(entity, batch, dimensions.getTileSideLength());
-        for(final var entity : projectiles)
-            Entities.render(entity, batch, dimensions.getTileSideLength());
+    public void render(SpriteBatch batch, float tileSideLength) {
+        allEntities().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
     }
 
     private void eraseDestroyedEntities(){
@@ -104,18 +88,11 @@ public class Level {
         for(final var entity : activeEntities) {
             if(entity.isActive())
                 nextActiveEntities.add(entity);
-            else {
-                entity.dispose();
-            }
         }
-
         final var nextProjectiles = new ArrayList<Projectile>();
         for(final var entity : projectiles) {
             if(entity.isActive())
                 nextProjectiles.add(entity);
-            else {
-                entity.dispose();
-            }
         }
         activeEntities = nextActiveEntities;
         projectiles = nextProjectiles;
@@ -126,11 +103,13 @@ public class Level {
     }
 
     public boolean animationsFinished() {
-        return (activeEntities.stream().allMatch(GridEntity::hasFinishedAnimation) && player.hasFinishedAnimation());
+        return activeEntities.stream().allMatch(GridEntity::hasFinishedAnimation) && player.hasFinishedAnimation();
     }
 
-    public List<GridEntity> getGridEntitiesAtPosition(Position position){
-        return allEntities().filter(entity -> entity.getPosition().equals(position)).collect(Collectors.toList());
+    public List<GridEntity> getGridEntitiesAtPosition(GridPosition gridPosition){
+        return allEntities()
+            .filter(entity -> entity.getPosition().equals(gridPosition))
+            .collect(Collectors.toList());
     }
 
     private Stream<GridEntity> allEntities() {

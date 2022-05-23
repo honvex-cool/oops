@@ -1,26 +1,17 @@
 package pl.ue.oops.game.universe.entities;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import pl.ue.oops.Config;
-import pl.ue.oops.game.animations.IdleAnimation;
-import pl.ue.oops.game.animations.MoveAnimation;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
+import pl.ue.oops.game.universe.utils.GridPosition;
 
 public class Player extends AbstractActiveGridEntity {
     private int hp;
-    public Player(int x, int y, Level level) {
-        super("blueSquare.png",level);
-        getPosition().setGridPosition(x, y);
-        getPosition().setRenderPositionAsGridPosition();
-        Texture moveTexture = new Texture(Config.TEXTURE_PATH + "greenSquare.png");
-        moveAnimation = new MoveAnimation(0,7,this,texture, moveTexture);
-        idleAnimation = new IdleAnimation(0,10,this,texture, moveTexture);
-        currentAnimation.start();
+    public Player(int row, int column, Level level) {
+        super(level, new GridPosition(row, column), "blueSquare", "greenSquare");
         hp = 5;
     }
 
