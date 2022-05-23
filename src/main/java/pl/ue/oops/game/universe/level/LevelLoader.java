@@ -12,6 +12,10 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class LevelLoader {
+
+
+
+
     private LevelLoader() {
     }
 
@@ -32,8 +36,11 @@ public class LevelLoader {
         while(scanner.hasNextInt()) {
             final int row = scanner.nextInt(), column = scanner.nextInt();
             final var symbol = scanner.next();
-            if(symbol.equals("@"))
+            if(symbol.equals("@")){
                 level.setPlayer(new Player(row, column, level));
+
+
+            }
             else if(symbol.equals("?"))
                 level.requestSpawn(new Clueless(row, column, level));
             else if(symbol.equals("r")){

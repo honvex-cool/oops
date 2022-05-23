@@ -38,6 +38,10 @@ public class Player extends AbstractActiveGridEntity {
                 case REQUESTED_UP_MOVEMENT -> {level.moveHandler.moveUp(this);}
                 case REQUESTED_LEFT_MOVEMENT -> {level.moveHandler.moveLeft(this);}
                 case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);}
+                case REQUESTED_DOWN_ATTACK -> {level.moveHandler.moveDown(this);}
+                case REQUESTED_UP_ATTACK -> {level.moveHandler.moveUp(this);}
+                case REQUESTED_LEFT_ATTACK -> {level.moveHandler.moveLeft(this);}
+                case REQUESTED_RIGHT_ATTACK -> {level.moveHandler.moveRight(this);}
                 case REQUESTED_SPAWN -> {
                     level.requestSpawn(new Clueless(level));
                 }
