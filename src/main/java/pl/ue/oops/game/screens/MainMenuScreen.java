@@ -61,11 +61,11 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(game.camera.combined);
         game.batch.begin();
         //game.batch.draw(play_button_active, 100,400,200,200);
-        game.batch.draw(settings_button_inactive, (def_w/3f)-128f ,(def_h/3f)- 128f,256f,256f);
+        game.batch.draw(settings_button_inactive, (def_w/3f)-128f ,(def_h/3f)- 160f,256f,256f);
         //game.batch.draw(exit_button_active, 400,400,200,200);
 
-        if    ( Gdx.input.getX()>=getX((def_w/3f)-128f) &&Gdx.input.getX()<=getX((def_w/3f)+128f)
-                && Gdx.input.getY()>=getY((def_h/3f)-128f) && Gdx.input.getY()<=getY((def_h/3f)+128f) ){
+        if    ( Gdx.input.getX()>=getX((def_w/3f)-100f) &&Gdx.input.getX()<=getX((def_w/3f)+100f)
+                && Gdx.input.getY()>=getY((def_h/3f)-128f) && Gdx.input.getY()<=getY((def_h/3f)+64f) ){
 
             if(Gdx.input.isTouched()) {
                 game.setScreen(new LevelScreen(game));
@@ -77,8 +77,8 @@ public class MainMenuScreen implements Screen {
         else {
             game.batch.draw(play_button_inactive, (def_w/3)-128,(def_h/3)+128,256,256);
         }
-        if(     Gdx.input.getX()>=getX((2*def_w/3)-128) &&Gdx.input.getX()<=getX((2*def_w/3)+128) &&
-                Gdx.input.getY()>=getY((def_h/3)-128) && Gdx.input.getY()<=getY((def_h/3)+128) ){
+        if(     Gdx.input.getX()>=getX((2f*def_w/3f)-100f) &&Gdx.input.getX()<=getX((2f*def_w/3f)+100f) &&
+                Gdx.input.getY()>=getY((def_h/3f)-128f) && Gdx.input.getY()<=getY((def_h/3f)+64f) ){
             if(Gdx.input.isTouched()) {
                 Gdx.app.exit();
             }
