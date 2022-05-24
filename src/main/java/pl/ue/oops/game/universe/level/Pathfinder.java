@@ -39,8 +39,9 @@ public class Pathfinder {//bfs from player to all entities
         setupAttacks(visited, p3, q);
         p4.setGridPosition(level.player.getPosition().getRow(), level.player.getPosition().getColumn() - 1);
         setupAttacks(visited, p4, q);
-        boolean taken, cango;
-        ActiveGridEntity a;
+        boolean taken;
+        ArrayList<Integer>per=new ArrayList<>();
+        per.add(0);per.add(1);per.add(2);per.add(3);
         while (!q.isEmpty()) {
             p1 = q.remove();
             if(!level.getDimensions().contain(p1)){
@@ -50,8 +51,6 @@ public class Pathfinder {//bfs from player to all entities
 
             Position adj1=new Position(),adj2=new Position(),adj3=new Position(),adj4=new Position();
             taken = false;
-            ArrayList<Integer>per=new ArrayList<>();
-            per.add(0);per.add(1);per.add(2);per.add(3);
             Collections.shuffle(per);
             adj1.setGridPosition(p1.getRow(),p1.getColumn()-1);
             adj2.setGridPosition(p1.getRow(),p1.getColumn()+1);
