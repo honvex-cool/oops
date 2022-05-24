@@ -46,6 +46,11 @@ public class GridPosition {
     }
 
     @Override
+    public String toString() {
+        return "Position(" + getRow() + ", " + getColumn() + ")";
+    }
+
+    @Override
     public boolean equals(Object object) {
         if(!(object instanceof final GridPosition gridPosition))
             return false;

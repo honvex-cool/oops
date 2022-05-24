@@ -8,8 +8,7 @@ public class StraightLineOneWayMovement extends OneWayMovement {
     private float displacement = 0.0f;
 
     public StraightLineOneWayMovement(GridPosition startingGridPosition, GridPosition targetGridPosition, int frameLength) {
-        super(startingGridPosition, targetGridPosition, frameLength);
-        System.err.println(frameLength);
+        super(new GridPosition(startingGridPosition), new GridPosition(targetGridPosition), frameLength);
         stepValue = this.frameLength == 0.0f ? 0.0f : 1.0f / this.frameLength;
     }
 
@@ -21,6 +20,8 @@ public class StraightLineOneWayMovement extends OneWayMovement {
 
     @Override
     public Vector2 getRenderPosition(float tileSideLength) {
-        return new Vector2(normalizedTotalDisplacement).scl(tileSideLength * displacement);
+        return new Vector2(startingGridPosition.getColumn(), startingGridPosition.getRow())
+            .add(new Vector2(normalizedTotalDisplacement).scl(displacement))
+            .scl(tileSideLength);
     }
 }

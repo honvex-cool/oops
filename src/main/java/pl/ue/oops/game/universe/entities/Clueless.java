@@ -22,7 +22,6 @@ public class Clueless extends AbstractActiveGridEntity {
     @Override
     public void idleBehaviour() {
         //do default stuff
-        System.err.println("Clueless at " + gridPosition.getRow() + ", " + gridPosition.getColumn() + "...");
         if(new Random().nextBoolean())
             level.moveHandler.moveUp(this);
         else

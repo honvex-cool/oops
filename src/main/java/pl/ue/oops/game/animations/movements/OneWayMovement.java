@@ -33,7 +33,6 @@ public abstract class OneWayMovement implements Movement {
 
     @Override
     public void step(float delta) {
-        System.err.println("Current frame: " + currentFrame);
         if(isInProgress())
             ++currentFrame;
     }
