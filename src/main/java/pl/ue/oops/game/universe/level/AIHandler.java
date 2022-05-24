@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.entities.SUS;
+import pl.ue.oops.game.universe.entities.Shooter;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.utils.Position;
 
@@ -26,7 +27,12 @@ public class AIHandler {
         }
         for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
         {
-            entity.takeTurn(pathfinder.possible.get(entity));
+            if(entity instanceof Shooter){
+                entity.takeTurn(pathfinder.shooter((Shooter)entity));
+            }
+            else{
+                entity.takeTurn(pathfinder.possible.get(entity));
+            }
         }
         //spawnSUS(50);//
     }

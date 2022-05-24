@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.control.Signal;
+import pl.ue.oops.game.universe.entities.Shooter;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
@@ -151,4 +152,13 @@ public class Pathfinder {//bfs from player to all entities
         }
         return go;
     }
+
+    public Signal shooter(Shooter s){
+
+        return null;
+    }
+
+
+
+
 }

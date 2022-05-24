@@ -7,8 +7,6 @@ import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
 
-import java.util.Random;
-
 public class Clueless extends AbstractActiveGridEntity {
 
     public Clueless(int row, int column, Level level) {
@@ -26,14 +24,7 @@ public class Clueless extends AbstractActiveGridEntity {
     public void idleBehaviour() {
         //do default stuff
         System.err.println("Clueless at " + position.getRow() + ", " + position.getColumn() + "...");
-        if(new Random().nextBoolean()) {
-            level.moveHandler.moveUp(this);
-        }
-        else {
-            level.moveHandler.moveRight(this);
-        }
-        if(new Random().nextInt()%7==0)
-            level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
+        //level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
     }
     @Override
     public void react(Signal signal){
@@ -49,6 +40,18 @@ public class Clueless extends AbstractActiveGridEntity {
             }
             case REQUESTED_RIGHT_MOVEMENT -> {
                 level.moveHandler.moveRight(this);
+            }
+            case REQUESTED_DOWN_ATTACK -> {
+                level.requestSpawn(new Projectile("noEntrySign.png",level,-1,0,2),this.position);
+            }
+            case REQUESTED_UP_ATTACK -> {
+                level.requestSpawn(new Projectile("noEntrySign.png",level,1,0,2),this.position);
+            }
+            case REQUESTED_LEFT_ATTACK -> {
+                level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,2),this.position);
+            }
+            case REQUESTED_RIGHT_ATTACK -> {
+                level.requestSpawn(new Projectile("noEntrySign.png",level,0,1,2),this.position);
             }
         }
     }

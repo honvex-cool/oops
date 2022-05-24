@@ -70,7 +70,7 @@ public class Level {
     }
 
     public void update(float delta, /*Queue<Signal> unhandledSignals*/Signal signal) {
-        if(animationsFinished() && /*!unhandledSignals.isEmpty()*/ signal != null){
+        if(animationsFinished()&& /*!unhandledSignals.isEmpty()*/ signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
             System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
