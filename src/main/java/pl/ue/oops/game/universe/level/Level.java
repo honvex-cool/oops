@@ -19,7 +19,7 @@ public class Level {
     public final MoveHandler moveHandler;
     final Dimensions dimensions;
     public Hud hud;
-    private Player player;
+    Player player; // package private for Pathfinder
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<Projectile> projectiles = new ArrayList<>(); //package private for AIHandler to use

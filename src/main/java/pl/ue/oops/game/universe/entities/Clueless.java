@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.entities;
 
 import pl.ue.oops.game.animations.MoveAnimation;
+import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
@@ -33,6 +34,23 @@ public class Clueless extends AbstractActiveGridEntity {
         }
         if(new Random().nextInt()%7==0)
             level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
+    }
+    @Override
+    public void react(Signal signal){
+        switch(signal) {
+            case REQUESTED_DOWN_MOVEMENT -> {
+                level.moveHandler.moveDown(this);
+            }
+            case REQUESTED_UP_MOVEMENT -> {
+                level.moveHandler.moveUp(this);
+            }
+            case REQUESTED_LEFT_MOVEMENT -> {
+                level.moveHandler.moveLeft(this);
+            }
+            case REQUESTED_RIGHT_MOVEMENT -> {
+                level.moveHandler.moveRight(this);
+            }
+        }
     }
 
     @Override

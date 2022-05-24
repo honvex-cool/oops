@@ -11,15 +11,24 @@ import java.util.Random;
 
 public class AIHandler {
     private final Level level;
-
+    Pathfinder pathfinder;
     public AIHandler(Level level){
         this.level = level;
+        this.pathfinder= new Pathfinder(level);
     }
 
     public void takeTurn(){
+        try{
+            pathfinder.findPathMelee();
+        }
+        catch(Exception e){
+            System.out.println("sraka" + e);
+        }
         for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
-            entity.takeTurn(null);
-        spawnSUS(50);
+        {
+            entity.takeTurn(pathfinder.possible.get(entity));
+        }
+        //spawnSUS(50);//
     }
 
     private void spawnSUS(int probability){

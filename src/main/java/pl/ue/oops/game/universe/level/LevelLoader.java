@@ -38,8 +38,6 @@ public class LevelLoader {
             final var symbol = scanner.next();
             if(symbol.equals("@")){
                 level.setPlayer(new Player(row, column, level));
-
-
             }
             else if(symbol.equals("?"))
                 level.requestSpawn(new Clueless(row, column, level));
