@@ -1,6 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.entities.SUS;
+import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.GridPosition;
 import pl.ue.oops.game.universe.entities.Shooter;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
