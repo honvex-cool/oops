@@ -14,9 +14,10 @@ public class SimpleAnimation implements Animation {
     }
 
     @Override
-    public void start() {
+    public Animation start() {
         movement.start();
         spriteSequence.start();
+        return this;
     }
 
     @Override

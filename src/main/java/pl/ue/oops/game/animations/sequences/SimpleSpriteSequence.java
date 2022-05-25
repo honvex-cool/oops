@@ -27,8 +27,9 @@ public class SimpleSpriteSequence implements SpriteSequence {
     }
 
     @Override
-    public void start() {
+    public SpriteSequence start() {
         spriteIndex = 0;
+        return this;
     }
 
     @Override

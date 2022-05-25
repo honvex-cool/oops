@@ -1,10 +1,10 @@
 package pl.ue.oops.game.animations;
 
 public interface Continuous {
-    void start();
+    Continuous start();
     void step(float delta);
 
-    default void restart() {
-        start();
+    default Continuous restart() {
+        return start();
     }
 }

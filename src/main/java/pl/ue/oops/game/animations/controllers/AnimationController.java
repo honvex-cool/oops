@@ -6,9 +6,15 @@ import pl.ue.oops.game.universe.utils.GridPosition;
 public interface AnimationController {
     Animation getCurrentAnimation();
 
-    void animateMovement(GridPosition from, GridPosition to, float time);
+    Animation playMoveAnimation(GridPosition from, GridPosition to, float time);
 
-    void animateRest(GridPosition where);
+    Animation playIdleAnimation(GridPosition where);
+
+    Animation playAnimation(Animation animation, boolean stopsProgression);
+
+    default Animation playAnimation(Animation animation) {
+        return playAnimation(animation, false);
+    }
 
     boolean stopsTurnProgression();
 }

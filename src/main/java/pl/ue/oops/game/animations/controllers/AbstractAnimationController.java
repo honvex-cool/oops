@@ -10,7 +10,7 @@ import pl.ue.oops.game.universe.utils.GridPosition;
 
 public abstract class AbstractAnimationController implements AnimationController {
     private Animation currentAnimation;
-    private boolean isMoveAnimation;
+    private boolean stopsProgression;
 
     @Override
     public Animation getCurrentAnimation() {
@@ -18,21 +18,27 @@ public abstract class AbstractAnimationController implements AnimationController
     }
 
     @Override
-    public void animateMovement(GridPosition from, GridPosition to, float time) {
+    public Animation playMoveAnimation(GridPosition from, GridPosition to, float time) {
         final var movement = new StraightLineOneWayMovement(from, to, (int)Math.ceil(time * Config.FPS));
-        currentAnimation = new SimpleAnimation(movement, getMovementSpriteSequence());
-        isMoveAnimation = true;
+        return playAnimation(new SimpleAnimation(movement, getMovementSpriteSequence()), true);
     }
 
     @Override
-    public void animateRest(GridPosition where) {
-        currentAnimation = new SimpleAnimation(new NoMovement(where), getRestSpriteSequence());
-        isMoveAnimation = false;
+    public Animation playIdleAnimation(GridPosition where) {
+        return playAnimation(new SimpleAnimation(new NoMovement(where), getRestSpriteSequence()), false);
+    }
+
+    @Override
+    public Animation playAnimation(Animation animation, boolean stopsProgression) {
+        final var interrupted = currentAnimation;
+        this.stopsProgression = stopsProgression;
+        currentAnimation = animation;
+        return interrupted;
     }
 
     @Override
     public boolean stopsTurnProgression() {
-        return isMoveAnimation;
+        return stopsProgression;
     }
 
     protected abstract SpriteSequence getMovementSpriteSequence();

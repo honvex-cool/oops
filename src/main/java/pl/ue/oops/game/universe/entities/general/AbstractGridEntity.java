@@ -28,7 +28,7 @@ public abstract class AbstractGridEntity implements GridEntity {
         this.level = level;
         this.animationController = animationController;
         this.gridPosition = gridPosition;
-        this.animationController.animateRest(this.gridPosition);
+        this.animationController.playIdleAnimation(this.gridPosition);
     }
 
     private static AnimationController createAnimationController(String normalSpriteName, String moveSpriteName) {
@@ -64,7 +64,7 @@ public abstract class AbstractGridEntity implements GridEntity {
     @Override
     public void stepAnimation(float delta) {
         if(getAnimationController().stopsTurnProgression() && !getCurrentAnimation().isInMotion())
-            getAnimationController().animateRest(getPosition());
+            getAnimationController().playIdleAnimation(getPosition());
         else
             getCurrentAnimation().step(delta);
     }

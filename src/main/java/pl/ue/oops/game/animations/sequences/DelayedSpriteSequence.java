@@ -16,9 +16,10 @@ public class DelayedSpriteSequence extends SimpleSpriteSequence {
     }
 
     @Override
-    public void start() {
+    public SpriteSequence start() {
         super.start();
         delay = 0;
+        return this;
     }
 
     @Override

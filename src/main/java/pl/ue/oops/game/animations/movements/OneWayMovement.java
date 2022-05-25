@@ -22,8 +22,9 @@ public abstract class OneWayMovement implements Movement {
     private int currentFrame;
 
     @Override
-    public void start() {
+    public Movement start() {
         currentFrame = 0;
+        return this;
     }
 
     @Override
