@@ -28,16 +28,16 @@ public class Player extends AbstractActiveGridEntity {
                 case REQUESTED_LEFT_MOVEMENT -> {level.moveHandler.moveLeft(this);}
                 case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);}
                 case REQUESTED_DOWN_ATTACK -> {
-                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,-1,0,2));
+                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,-1,0,2, this));
                 }
                 case REQUESTED_UP_ATTACK -> {
-                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,1,0,2));
+                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,1,0,2, this));
                 }
                 case REQUESTED_LEFT_ATTACK -> {
-                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,-1,2));
+                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,-1,2,this));
                 }
                 case REQUESTED_RIGHT_ATTACK -> {
-                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,1,2));
+                    level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,1,2, this));
                 }
                 case REQUESTED_SPAWN -> {
                     level.requestSpawn(new Clueless(level));

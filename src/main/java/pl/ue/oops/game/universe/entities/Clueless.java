@@ -59,6 +59,10 @@ public class Clueless extends AbstractActiveGridEntity {
         if(other.getClass().equals(Player.class)){
             level.hud.updateScore();
             disable();
+        } else if ((other.getClass().equals(Projectile.class) && ((Projectile) other).player)) {
+            level.hud.updateScore();
+            disable();
+            other.disable();
         }
     }
 }
