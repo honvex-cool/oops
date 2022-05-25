@@ -32,7 +32,7 @@ public class AIHandler {
                 entity.takeTurn(pathfinder.possible.get(entity));
             }
         }
-        //spawnSUS(50);//
+        spawnSUS(50);
     }
 
     private void spawnSUS(int probability){

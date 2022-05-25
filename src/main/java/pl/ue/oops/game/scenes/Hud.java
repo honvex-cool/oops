@@ -34,7 +34,7 @@ public class Hud implements Disposable {
         turn = 0;
         turnLabel = new Label(String.format("%03d",turn),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
         turnNameLabel = new Label(String.format("TURN"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        hpLabel = new Label(String.format("%03d",turn),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        hpLabel = new Label("5",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
         hpNameLabel = new Label(String.format("HP"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
 
 
