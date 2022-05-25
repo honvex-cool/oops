@@ -24,6 +24,7 @@ public class Level {
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<Projectile> projectiles = new ArrayList<>(); //package private for AIHandler to use
+    private List<GridEntity> spawnQueue = new ArrayList<>();
 
     public Dimensions getDimensions() {
         return dimensions;
@@ -52,17 +53,27 @@ public class Level {
             throw new RuntimeException("Player already set");
         return this;
     }
+
     public Level requestSpawn(GridEntity gridEntity) {
+        spawnQueue.add(gridEntity);
+        return this;
+    }
+    private void performSpawn() {
+        spawnQueue.forEach(this::performSpawn);
+        spawnQueue.clear();
+    }
+
+    private void performSpawn(GridEntity gridEntity) {
         if(Projectile.class.isAssignableFrom(gridEntity.getClass()))
             projectiles.add((Projectile)gridEntity);
         else if(ActiveGridEntity.class.isAssignableFrom(gridEntity.getClass()))
             activeEntities.add((ActiveGridEntity)gridEntity);
         else
             passiveEntities.add(gridEntity);
-        return this;
     }
 
     public void update(float delta, Signal signal) {
+        performSpawn();
         if(animationsFinished() && signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
@@ -70,11 +81,14 @@ public class Level {
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();
+            performSpawn();
             aiHandler.takeTurn();
             eraseDestroyedEntities();
+            performSpawn();
             for(final var projectile: projectiles)
                 projectile.takeTurn(null);
             eraseDestroyedEntities();
+            performSpawn();
         }
         else
             stepAnimations(delta);

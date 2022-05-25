@@ -1,4 +1,4 @@
-package pl.ue.oops.game.resources;
+package pl.ue.oops.game.universe.utils;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;

@@ -5,7 +5,7 @@ import pl.ue.oops.game.animations.controllers.AnimationController;
 import pl.ue.oops.game.animations.controllers.AnimationControllers;
 import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
 import pl.ue.oops.game.animations.sequences.SimpleSpriteSequence;
-import pl.ue.oops.game.resources.TextureManager;
+import pl.ue.oops.game.universe.utils.TextureManager;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.GridPosition;
 

@@ -4,8 +4,8 @@ import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.LakeEntity;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.RockEntity;
+import pl.ue.oops.game.universe.entities.general.Summoner;
 import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -42,6 +42,9 @@ public class LevelLoader {
                 case "l" -> {
                     var temp = new LakeEntity(level, row, column);
                     level.requestSpawn(temp);
+                }
+                case "s" -> {
+                    level.requestSpawn(new Summoner(level, row, column));
                 }
             }
         }

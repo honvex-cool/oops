@@ -1,5 +1,7 @@
 package pl.ue.oops.game.universe.utils;
 
+import pl.ue.oops.game.universe.level.Level;
+
 import java.util.Objects;
 
 public class GridPosition {
@@ -47,6 +49,22 @@ public class GridPosition {
 
     public GridPosition shifted(int rowDelta, int columnDelta) {
         return new GridPosition(getRow() + rowDelta, getColumn() + columnDelta);
+    }
+
+    public GridPosition right() {
+        return shifted(0, 1);
+    }
+
+    public GridPosition left() {
+        return shifted(0, -1);
+    }
+
+    public GridPosition up() {
+        return shifted(1, 0);
+    }
+
+    public GridPosition down() {
+        return shifted(-1, 0);
     }
 
     @Override
