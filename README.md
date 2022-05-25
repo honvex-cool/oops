@@ -23,3 +23,16 @@ the `DesktopLauncher` class.
 * basic UI widgets
   - a passive HUD for displaying the turn number and the score
 * a simple main menu using libGDX's Screen API
+
+### As of May 26th 2022, we have added the following features:
+
+* new entities:
+  - rocks which the player cannot enter
+  - lakes in which the player drowns
+  - intelligent enemies who follow the player and engage in melee
+  - projectiles used by player to engage at a safer distance
+  - an easter egg :)
+* random level generation
+* pathfinding for enemy entities
+* animation controller system that allows to customize movement and sprite sequences in any animation
+* a simple texture manager to be able to reuse sprites
