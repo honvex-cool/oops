@@ -8,7 +8,6 @@ import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Position;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Pathfinder {//bfs from player to all entities
 
