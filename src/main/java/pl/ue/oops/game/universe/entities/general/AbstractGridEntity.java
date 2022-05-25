@@ -1,12 +1,11 @@
 package pl.ue.oops.game.universe.entities.general;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import pl.ue.oops.Config;
 import pl.ue.oops.game.animations.controllers.AnimationController;
 import pl.ue.oops.game.animations.controllers.AnimationControllers;
 import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
 import pl.ue.oops.game.animations.sequences.SimpleSpriteSequence;
+import pl.ue.oops.game.resources.TextureManager;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
@@ -31,10 +30,10 @@ public abstract class AbstractGridEntity implements GridEntity {
         this.animationController.playIdleAnimation(this.gridPosition);
     }
 
-    private static AnimationController createAnimationController(String normalSpriteName, String moveSpriteName) {
-        Sprite normalSprite = new Sprite(new Texture(Config.TEXTURE_PATH + normalSpriteName + ".png"));
-        Sprite moveSprite = new Sprite(new Texture(Config.TEXTURE_PATH + moveSpriteName + ".png"));
-        return AnimationControllers.create(new SimpleSpriteSequence(moveSprite), new DelayedSpriteSequence(3, moveSprite, normalSprite));
+    private static AnimationController createAnimationController(String idleSpriteName, String moveSpriteName) {
+        Sprite idleSprite = new Sprite(TextureManager.getSprite(idleSpriteName));
+        Sprite moveSprite = new Sprite(TextureManager.getSprite(moveSpriteName));
+        return AnimationControllers.create(new SimpleSpriteSequence(moveSprite), new DelayedSpriteSequence(3, moveSprite, idleSprite));
     }
 
     @Override
