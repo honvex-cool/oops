@@ -35,9 +35,9 @@ public class Projectile extends AbstractActiveGridEntity {
         if(setup) {
             var a = level.getGridEntitiesAtPosition(this.getPosition());
             for(var i : a) {
-                if(i instanceof ActiveGridEntity) {
+                if(i instanceof ActiveGridEntity && !(i instanceof Projectile) && !(i instanceof Player)) {
                     i.interact(this);
-                    break;
+                    return;
                 }
             }
         }
