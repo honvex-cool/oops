@@ -19,7 +19,9 @@ public class LevelScreen extends GameScreen {
     public LevelScreen(final Oops game) {
         super(game);
         hud = new Hud(game.batch);
-        level = LevelLoader.loadFromFile("src/main/resources/levels/exampleLevel.oopslvl").setHud(hud);
+        //level = LevelLoader.loadFromFile("src/main/resources/levels/exampleLevel.oopslvl").setHud(hud);
+        level = LevelLoader.loadFromGenerator().setHud(hud);
+        //level.add(new Clueless(level.getDimensions()));
     }
 
     private void update() {

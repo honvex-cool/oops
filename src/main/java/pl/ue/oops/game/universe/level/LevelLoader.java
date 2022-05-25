@@ -47,4 +47,31 @@ public class LevelLoader {
         }
         return level;
     }
+
+
+
+    public static Level loadFromGenerator() {
+        final var dimensions = new Dimensions(16, 24);
+        final var level = new Level(dimensions);
+        var generatedPositions = LevelGenerator.generateLevel();
+        for (var x:generatedPositions.keySet()) {
+            final int row = x.getRow(), column = x.getColumn();
+            final var symbol = generatedPositions.get(x);
+            System.out.println(symbol);
+            if(symbol.equals('@'))
+                level.setPlayer(new Player(row, column, level));
+            else if(symbol.equals('?'))
+                level.requestSpawn(new Clueless(row, column, level));
+            else if(symbol.equals('r')){
+                var temp = new RockEntity(level, new GridPosition(row, column));
+                level.requestSpawn(temp);
+            }
+            else if(symbol.equals('l')){
+                var temp = new LakeEntity(level, new GridPosition(row, column));
+                level.requestSpawn(temp);
+            }
+        }
+        level.setPlayer(new Player(0, 0, level));
+        return level;
+    }
 }
