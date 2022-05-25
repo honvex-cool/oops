@@ -6,12 +6,11 @@ import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
-import pl.ue.oops.game.universe.utils.GridPosition;
 
 public class Player extends AbstractActiveGridEntity {
     private int hp;
     public Player(int row, int column, Level level) {
-        super(level, new GridPosition(row, column), "blueSquare", "greenSquare");
+        super(level, row, column, "blueSquare", "greenSquare");
         hp = 5;
     }
 

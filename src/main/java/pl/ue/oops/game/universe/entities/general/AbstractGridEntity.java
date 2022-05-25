@@ -15,6 +15,21 @@ public abstract class AbstractGridEntity implements GridEntity {
     protected final Level level;
     protected AnimationController animationController;
 
+    public AbstractGridEntity(Level level, int row, int column, AnimationController controller) {
+        this.level = level;
+        this.animationController = controller;
+        this.gridPosition = new GridPosition(row, column);
+        this.animationController.playIdleAnimation(this.gridPosition);
+    }
+
+    public AbstractGridEntity(Level level, int row, int column, String spriteName) {
+        this(level, row, column, AnimationControllers.singleFrame(spriteName));
+    }
+
+    public AbstractGridEntity(Level level, int row, int column, String idleSpriteName, String moveSpriteName) {
+        this(level, row, column, createAnimationController(idleSpriteName, moveSpriteName));
+    }
+
     public AbstractGridEntity(Level level, GridPosition gridPosition, String spriteName) {
         this(level, gridPosition, AnimationControllers.singleFrame(spriteName));
     }
@@ -24,10 +39,7 @@ public abstract class AbstractGridEntity implements GridEntity {
     }
 
     public AbstractGridEntity(Level level, GridPosition gridPosition, AnimationController animationController) {
-        this.level = level;
-        this.animationController = animationController;
-        this.gridPosition = gridPosition;
-        this.animationController.playIdleAnimation(this.gridPosition);
+        this(level, gridPosition.getRow(), gridPosition.getColumn(), animationController);
     }
 
     private static AnimationController createAnimationController(String idleSpriteName, String moveSpriteName) {

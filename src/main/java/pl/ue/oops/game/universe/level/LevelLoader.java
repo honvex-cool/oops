@@ -36,11 +36,11 @@ public class LevelLoader {
                 case "@" -> level.setPlayer(new Player(row, column, level));
                 case "?" -> level.requestSpawn(new Clueless(row, column, level));
                 case "r" -> {
-                    var temp = new RockEntity(level, new GridPosition(row, column));
+                    var temp = new RockEntity(level, row, column);
                     level.requestSpawn(temp);
                 }
                 case "l" -> {
-                    var temp = new LakeEntity(level, new GridPosition(row, column));
+                    var temp = new LakeEntity(level, row, column);
                     level.requestSpawn(temp);
                 }
             }
@@ -63,11 +63,11 @@ public class LevelLoader {
             else if(symbol.equals('?'))
                 level.requestSpawn(new Clueless(row, column, level));
             else if(symbol.equals('r')){
-                var temp = new RockEntity(level, new GridPosition(row, column));
+                var temp = new RockEntity(level, row, column);
                 level.requestSpawn(temp);
             }
             else if(symbol.equals('l')){
-                var temp = new LakeEntity(level, new GridPosition(row, column));
+                var temp = new LakeEntity(level, row, column);
                 level.requestSpawn(temp);
             }
         }

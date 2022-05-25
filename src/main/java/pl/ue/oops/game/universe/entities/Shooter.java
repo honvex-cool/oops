@@ -12,7 +12,7 @@ public class Shooter extends AbstractActiveGridEntity {
     boolean reload;
 
     public Shooter(int row, int column, Level level) {
-        super(level, new GridPosition(row, column), "greenSquare");
+        super(level, row, column, "greenSquare");
         reload=false;
     }
 
