@@ -2,28 +2,44 @@ package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.entities.SUS;
 import pl.ue.oops.game.universe.utils.GridPosition;
+import pl.ue.oops.game.universe.entities.Shooter;
+import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 
 import java.util.Random;
 
 public class AIHandler {
     private final Level level;
-
-    public AIHandler(Level level) {
+    Pathfinder pathfinder;
+    public AIHandler(Level level){
         this.level = level;
+        this.pathfinder= new Pathfinder(level);
     }
 
-    public void takeTurn() {
-        for(final var entity : level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
-            entity.takeTurn(null);
-        spawnSUS(50);
+    public void takeTurn(){
+        try{
+            pathfinder.findPathMelee();
+        }
+        catch(Exception e){
+            System.out.println("sraka" + e);
+        }
+        for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
+        {
+            if(entity instanceof Shooter){
+                entity.takeTurn(pathfinder.shooter((Shooter)entity));
+            }
+            else{
+                entity.takeTurn(pathfinder.possible.get(entity));
+            }
+        }
+        //spawnSUS(50);//
     }
 
-    private void spawnSUS(int probability) {
-        if(new Random().nextInt() % probability == 0) {
-            int tr = new Random().nextInt() % level.getDimensions().rowCount();
+    private void spawnSUS(int probability){
+        if(new Random().nextInt()%probability==0){
+            int tr = new Random().nextInt()%level.getDimensions().rowCount();
             tr += level.getDimensions().rowCount();
             tr %= level.getDimensions().rowCount();
-            int tc = new Random().nextInt() % level.getDimensions().columnCount();
+            int tc = new Random().nextInt()%level.getDimensions().columnCount();
             tc += level.getDimensions().columnCount();
             tr %= level.getDimensions().columnCount();
             var sus = new SUS(level, new GridPosition(tr, tc));

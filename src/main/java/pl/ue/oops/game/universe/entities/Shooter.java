@@ -7,26 +7,34 @@ import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
-public class Clueless extends AbstractActiveGridEntity {
+public class Shooter extends AbstractActiveGridEntity {
 
-    public Clueless(int row, int column, Level level) {
-        super(level, new GridPosition(row, column), "redSquare");
-        gridPosition.set(row, column);
+    boolean reload;
+
+    public Shooter(int row, int column, Level level) {
+        super(level, new GridPosition(row, column), "greenSquare");
+        reload=false;
     }
 
-    public Clueless(Level level) {
+    public Shooter(Level level) {
         this(0, 0, level);
     }
 
     @Override
     public void idleBehaviour() {
         //do default stuff
-        System.err.println("Clueless at " + gridPosition.getRow() + ", " + gridPosition.getColumn() + "...");
-        //level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
+        System.err.println("Shooter at " + gridPosition.getRow() + ", " + gridPosition.getColumn() + "...");
+        if(reload){
+            reload=false;
+            return;
+        }
+
+
+        level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,0,-1,1));
     }
     @Override
     public void react(Signal signal){
-        switch(signal) {
+        switch (signal){
             case REQUESTED_DOWN_MOVEMENT -> {
                 level.moveHandler.moveDown(this);
             }
@@ -40,16 +48,16 @@ public class Clueless extends AbstractActiveGridEntity {
                 level.moveHandler.moveRight(this);
             }
             case REQUESTED_DOWN_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, -1,0,2));
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, -1, 0, 1));
             }
             case REQUESTED_UP_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 1,0,2));
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 1, 0, 1));
             }
             case REQUESTED_LEFT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,0,-1,2));
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition,0, -1, 1));
             }
             case REQUESTED_RIGHT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,1,2));
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 0, 1, 1));
             }
         }
     }

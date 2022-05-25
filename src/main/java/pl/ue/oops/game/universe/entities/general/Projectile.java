@@ -12,7 +12,7 @@ public class Projectile extends AbstractActiveGridEntity {
     private final int columnDelta;
 
     public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage) {
-        super(level, gridPosition, spriteName);
+        super(level, new GridPosition(gridPosition), spriteName);
         this.rowDelta = rowDelta;
         this.columnDelta = columnDelta;
         this.damage = damage;

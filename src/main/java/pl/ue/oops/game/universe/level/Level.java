@@ -20,7 +20,7 @@ public class Level {
     public final MoveHandler moveHandler;
     final Dimensions dimensions;
     public Hud hud;
-    private Player player;
+    Player player; // package private for Pathfinder
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<Projectile> projectiles = new ArrayList<>(); //package private for AIHandler to use
@@ -41,6 +41,7 @@ public class Level {
             this.hud = hud;
         else
             throw new RuntimeException("Hud already set");
+
         return this;
     }
 
@@ -65,6 +66,7 @@ public class Level {
         if(animationsFinished() && signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
+            System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();

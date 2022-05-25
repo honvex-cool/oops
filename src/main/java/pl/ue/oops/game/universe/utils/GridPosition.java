@@ -6,6 +6,10 @@ public class GridPosition {
     private int row;
     private int column;
 
+    public GridPosition() {
+        this(0, 0);
+    }
+
     public GridPosition(int row, int column) {
         this.row = row;
         this.column = column;
