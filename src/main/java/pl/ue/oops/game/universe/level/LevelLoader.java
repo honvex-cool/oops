@@ -1,9 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
-import pl.ue.oops.game.universe.entities.Clueless;
-import pl.ue.oops.game.universe.entities.LakeEntity;
-import pl.ue.oops.game.universe.entities.Player;
-import pl.ue.oops.game.universe.entities.RockEntity;
+import pl.ue.oops.game.universe.entities.*;
+import pl.ue.oops.game.universe.entities.general.TemporaryGroundEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
@@ -56,19 +54,19 @@ public class LevelLoader {
         var generatedPositions = LevelGenerator.generateLevel();
         for (var x:generatedPositions.keySet()) {
             final int row = x.getRow(), column = x.getColumn();
-            final var symbol = generatedPositions.get(x);
-            System.out.println(symbol);
-            if(symbol.equals('@'))
-                level.setPlayer(new Player(row, column, level));
-            else if(symbol.equals('?'))
-                level.requestSpawn(new Clueless(row, column, level));
-            else if(symbol.equals('r')){
+            final var symbol = generatedPositions.get(x).getName();
+            if(symbol.equals("r")){
                 var temp = new RockEntity(level, row, column);
                 level.requestSpawn(temp);
             }
-            else if(symbol.equals('l')){
-                var temp = new LakeEntity(level, row, column);
-                level.requestSpawn(temp);
+            else if(symbol.equals("grass_0")){
+                level.addGroundObject(new TemporaryGroundEntity(level, row, column,symbol));
+            }
+            else if(symbol.equals("SUS")){
+                level.requestSpawn(new SUS(level,new GridPosition(x)));
+            }
+            else {
+                level.requestSpawn(new LakeEntity(level, row, column,symbol));
             }
         }
         level.setPlayer(new Player(0, 0, level));
