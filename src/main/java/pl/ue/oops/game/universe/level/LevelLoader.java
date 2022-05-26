@@ -4,7 +4,7 @@ import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.LakeEntity;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.RockEntity;
-import pl.ue.oops.game.universe.entities.general.Summoner;
+import pl.ue.oops.game.universe.entities.Summoner;
 import pl.ue.oops.game.universe.utils.Dimensions;
 
 import java.io.FileNotFoundException;

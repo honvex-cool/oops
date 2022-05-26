@@ -1,12 +1,15 @@
-package pl.ue.oops.game.universe.entities.general;
+package pl.ue.oops.game.universe.entities;
 
 import pl.ue.oops.game.universe.entities.Clueless;
+import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
+import pl.ue.oops.game.universe.entities.general.GridEntity;
+import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.util.Random;
 
-public class Summoner extends AbstractActiveGridEntity{
+public class Summoner extends AbstractActiveGridEntity {
     public Summoner(Level level, int row, int column) {
         super(level, row, column, "summoner");
     }
