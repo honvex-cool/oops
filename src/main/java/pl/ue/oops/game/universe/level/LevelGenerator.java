@@ -1,17 +1,15 @@
 package pl.ue.oops.game.universe.level;
 
-import pl.ue.oops.Config;
-import pl.ue.oops.game.universe.entities.RockEntity;
-import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.utils.AdjacencyRules;
 import pl.ue.oops.game.universe.utils.GeneratorEntity;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
+import javax.swing.*;
 import java.util.*;
 
 public class LevelGenerator {
-    public static int DEFAULT_ROW_COUNT=24;
-    public static int DEFAULT_COLUMN_COUNT=36;
+    public static int DEFAULT_ROW_COUNT=16;
+    public static int DEFAULT_COLUMN_COUNT=24;
 
     private static List<GeneratorEntity> allTypes = new ArrayList<>();
 
@@ -60,50 +58,15 @@ public class LevelGenerator {
 
         while(!freePositions.isEmpty()){
             GridPosition p = getClosestToCollapse(freePositions,random);
-            GeneratorEntity type = getRandomFrom(freePositions.get(p),random);
-            try{
-                List<GeneratorEntity> list = new ArrayList<>();
-                for(var x:freePositions.get(new GridPosition(p.getRow()+1,p.getColumn()))){
-                    if(AdjacencyRules.isValidPairing(type.getUpEdge(),x.getDownEdge())) {
-                        list.add(x);
-                    }
-                }
-                freePositions.put(new GridPosition(p.getRow()+1,p.getColumn()),list);
-            }catch(Exception e){};
-
-            try{
-                List<GeneratorEntity> list = new ArrayList<>();
-                for(var x:freePositions.get(new GridPosition(p.getRow()-1,p.getColumn()))){
-                    if(AdjacencyRules.isValidPairing(type.getDownEdge(),x.getUpEdge()))
-                        list.add(x);
-                }
-                freePositions.put(new GridPosition(p.getRow()-1,p.getColumn()),list);
-            }catch (Exception e){};
-
-            try{
-                List<GeneratorEntity> list = new ArrayList<>();
-                for(var x:freePositions.get(new GridPosition(p.getRow(),p.getColumn()+1))){
-                    if(AdjacencyRules.isValidPairing(type.getRightEdge(),x.getLeftEdge()))
-                        list.add(x);
-                }
-                freePositions.put(new GridPosition(p.getRow(),p.getColumn()+1),list);
-            }catch(Exception e){};
-
-            try{
-                List<GeneratorEntity> list = new ArrayList<>();
-                for(var x:freePositions.get(new GridPosition(p.getRow(),p.getColumn()-1))){
-                    if(AdjacencyRules.isValidPairing(type.getLeftEdge(),x.getRightEdge()))
-                        list.add(x);
-                }
-                freePositions.put(new GridPosition(p.getRow(),p.getColumn()-1),list);
-            }catch(Exception e){};
+            GeneratorEntity type = getRandomFromPossibleStates(freePositions.get(p),random);
+            updateNeighbouringPositions(p,type,freePositions);
             generatedPositions.put(p,type);
             freePositions.remove(p);
         }
         return generatedPositions;
     }
 
-    private static <T> GridPosition getRandomFrom(Map<GridPosition,T> map,Random random){
+    private static <T> GridPosition getRandomFromFreePositions(Map<GridPosition,T> map, Random random){
         var temp = random.nextInt() % map.keySet().toArray().length;
         if(temp<0)
             temp += map.keySet().toArray().length;
@@ -117,10 +80,10 @@ public class LevelGenerator {
                 gridPosition = x;
         }
         if(gridPosition == null)
-            return getRandomFrom(map,random);
+            return getRandomFromFreePositions(map,random);
         return gridPosition;
     }
-    private static GeneratorEntity getRandomFrom(List<GeneratorEntity> list,Random random){
+    private static GeneratorEntity getRandomFromPossibleStates(List<GeneratorEntity> list, Random random){
         if(list.isEmpty())
             return new GeneratorEntity("SUS");
         Integer sum=0;
@@ -138,4 +101,42 @@ public class LevelGenerator {
         return new GeneratorEntity("SUS"); //we should never get here but if we do we're fucked
     }
 
+    private static void updateNeighbouringPositions(GridPosition p,GeneratorEntity type, Map<GridPosition,List<GeneratorEntity>> freePositions){
+        try{
+            List<GeneratorEntity> list = new ArrayList<>();
+            for(var x:freePositions.get(new GridPosition(p.getRow()+1,p.getColumn()))){
+                if(AdjacencyRules.isValidPairing(type.getUpEdge(),x.getDownEdge())) {
+                    list.add(x);
+                }
+            }
+            freePositions.put(new GridPosition(p.getRow()+1,p.getColumn()),list);
+        }catch(Exception e){};
+
+        try{
+            List<GeneratorEntity> list = new ArrayList<>();
+            for(var x:freePositions.get(new GridPosition(p.getRow()-1,p.getColumn()))){
+                if(AdjacencyRules.isValidPairing(type.getDownEdge(),x.getUpEdge()))
+                    list.add(x);
+            }
+            freePositions.put(new GridPosition(p.getRow()-1,p.getColumn()),list);
+        }catch (Exception e){};
+
+        try{
+            List<GeneratorEntity> list = new ArrayList<>();
+            for(var x:freePositions.get(new GridPosition(p.getRow(),p.getColumn()+1))){
+                if(AdjacencyRules.isValidPairing(type.getRightEdge(),x.getLeftEdge()))
+                    list.add(x);
+            }
+            freePositions.put(new GridPosition(p.getRow(),p.getColumn()+1),list);
+        }catch(Exception e){};
+
+        try{
+            List<GeneratorEntity> list = new ArrayList<>();
+            for(var x:freePositions.get(new GridPosition(p.getRow(),p.getColumn()-1))){
+                if(AdjacencyRules.isValidPairing(type.getLeftEdge(),x.getRightEdge()))
+                    list.add(x);
+            }
+            freePositions.put(new GridPosition(p.getRow(),p.getColumn()-1),list);
+        }catch(Exception e){};
+    }
 }
