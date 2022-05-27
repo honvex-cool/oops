@@ -21,6 +21,8 @@ public class Level {
     final Dimensions dimensions;
     public Hud hud;
     Player player; // package private for Pathfinder
+
+    List<GridEntity> groundEntities = new ArrayList<>(); //ground textures used only for rendering
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
     List<ActiveGridEntity> activeEntities = new ArrayList<>(); //package private for AIHandler to use
     List<Projectile> projectiles = new ArrayList<>(); //package private for AIHandler to use
@@ -62,6 +64,11 @@ public class Level {
         return this;
     }
 
+    public Level addGroundObject(GridEntity gridEntity) {
+            groundEntities.add(gridEntity);
+        return this;
+    }
+
     public void update(float delta, Signal signal) {
         if(animationsFinished() && signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
@@ -81,6 +88,7 @@ public class Level {
     }
 
     public void render(SpriteBatch batch, float tileSideLength) {
+        groundEntities.stream().forEachOrdered(enntity -> enntity.getCurrentAnimation().render(batch, tileSideLength));
         allEntities().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
     }
 
@@ -114,7 +122,7 @@ public class Level {
     }
 
     private Stream<GridEntity> allEntities() {
-        return Stream.of(Stream.of(player), passiveEntities.stream(), activeEntities.stream(), projectiles.stream())
+        return Stream.of(passiveEntities.stream(), activeEntities.stream(), projectiles.stream(),Stream.of(player))
             .flatMap(stream -> stream);
     }
 }

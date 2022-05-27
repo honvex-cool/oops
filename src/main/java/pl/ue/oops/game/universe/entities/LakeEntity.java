@@ -6,6 +6,9 @@ import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
 
 public class LakeEntity extends AbstractGridEntity {
+    public LakeEntity(Level level, int row, int column,String spriteName){
+        super(level, row, column, spriteName);
+    }
     public LakeEntity(Level level, int row, int column){
         super(level, row, column, "lake");
     }

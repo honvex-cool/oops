@@ -3,7 +3,7 @@ package pl.ue.oops.game.animations.controllers;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import pl.ue.oops.game.animations.sequences.SimpleSpriteSequence;
 import pl.ue.oops.game.animations.sequences.SpriteSequence;
-import pl.ue.oops.game.resources.TextureManager;
+import pl.ue.oops.game.universe.utils.TextureManager;
 
 public final class AnimationControllers {
     private AnimationControllers() {
