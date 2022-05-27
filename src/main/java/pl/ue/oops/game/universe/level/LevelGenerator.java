@@ -10,36 +10,36 @@ import pl.ue.oops.game.universe.utils.GridPosition;
 import java.util.*;
 
 public class LevelGenerator {
-    public static int DEFAULT_ROW_COUNT=16;
-    public static int DEFAULT_COLUMN_COUNT=24;
+    public static int DEFAULT_ROW_COUNT=24;
+    public static int DEFAULT_COLUMN_COUNT=36;
 
     private static List<GeneratorEntity> allTypes = new ArrayList<>();
 
     static {
-        for(int i=0;i<800;i++) //default terrain
-            allTypes.add(AdjacencyRules.getGeneratorEntity("grass_0"));
-        for(int i=0;i<20;i++) { //lakes
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_0"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_1"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_2"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_3"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_3_0"));
-        }
-        for(int i=0;i<15;i++){
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_0"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_1"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_2"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_3"));
-        }
-        for(int i=0;i<5;i++){
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_0"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_1"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_2"));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_3"));
-        }
-        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_0"));
-        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_1"));
-        allTypes.add(AdjacencyRules.getGeneratorEntity("r"));
+        //for(int i=0;i<800;i++) //default terrain
+            allTypes.add(AdjacencyRules.getGeneratorEntity("grass_0").setProbablity(800));
+        //for(int i=0;i<20;i++) { //lakes
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_0").setProbablity(20));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_1").setProbablity(20));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_2").setProbablity(20));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_3").setProbablity(20));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_3_0").setProbablity(20));
+        //}
+        //for(int i=0;i<15;i++){
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_0").setProbablity(15));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_1").setProbablity(15));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_2").setProbablity(15));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_3").setProbablity(15));
+        //}
+        //for(int i=0;i<5;i++){
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_0").setProbablity(10));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_1").setProbablity(10));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_2").setProbablity(10));
+            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_3").setProbablity(10));
+        //}
+        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_0").setProbablity(1));
+        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_1").setProbablity(1));
+        allTypes.add(AdjacencyRules.getGeneratorEntity("r").setProbablity(1));
     }
 
     public LevelGenerator(){}
@@ -112,16 +112,10 @@ public class LevelGenerator {
     private static GridPosition getClosestToCollapse(Map<GridPosition,List<GeneratorEntity>> map,Random random){
         int currentMin = 100000;
         GridPosition gridPosition=null;
-
         for (var x:map.keySet()) {
-            var temp = new HashSet<String>();
-            for(var y:map.get(x))
-                temp.add(y.getName());
-            if(temp.size() < currentMin){
+            if(map.get(x).size() < currentMin)
                 gridPosition = x;
-            }
         }
-
         if(gridPosition == null)
             return getRandomFrom(map,random);
         return gridPosition;
@@ -129,10 +123,19 @@ public class LevelGenerator {
     private static GeneratorEntity getRandomFrom(List<GeneratorEntity> list,Random random){
         if(list.isEmpty())
             return new GeneratorEntity("SUS");
-        var temp = random.nextInt()%list.size();
-        if(temp<0)
-            temp += list.size();
-        return list.get(temp);
+        Integer sum=0;
+        for(var x:list){
+            sum+= x.getProbability();
+        }
+        int target = random.nextInt()%sum;
+        if(target<0)
+            target+=sum;
+        for(var x:list){
+            if(x.getProbability()>target)
+                return x;
+            else target-=x.getProbability();
+        }
+        return new GeneratorEntity("SUS"); //we should never get here but if we do we're fucked
     }
 
 }

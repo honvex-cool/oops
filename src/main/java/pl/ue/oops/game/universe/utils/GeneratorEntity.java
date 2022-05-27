@@ -1,5 +1,7 @@
 package pl.ue.oops.game.universe.utils;
 
+import org.lwjgl.system.CallbackI;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +9,7 @@ import java.util.List;
 
 public class GeneratorEntity {
     private String name;
+    private Integer probablity=1;
     //private Type type;
     private List<String> edges;
 
@@ -24,7 +27,6 @@ public class GeneratorEntity {
         this.name = new String(generatorEntity.name);
         this.edges = new ArrayList<>(generatorEntity.edges);
     }
-
     public List<String> getUpEdge(){
         return new ArrayList<>(Arrays.asList(edges.get(0),edges.get(1),edges.get(2)));
     }
@@ -38,6 +40,14 @@ public class GeneratorEntity {
         return new ArrayList<>(Arrays.asList(edges.get(9),edges.get(10),edges.get(11)));
     }
 
+    public GeneratorEntity setProbablity(Integer probablity){
+        this.probablity = probablity;
+        return this;
+    }
+
+    public int getProbability(){
+        return probablity;
+    }
     public String toString(){
         return name;
     }
