@@ -1,58 +1,84 @@
 package pl.ue.oops.game.universe.level;
 
+import pl.ue.oops.Config;
+import pl.ue.oops.game.universe.entities.Clueless;
+import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.utils.AdjacencyRules;
 import pl.ue.oops.game.universe.utils.GeneratorEntity;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
-import javax.swing.*;
 import java.util.*;
 
 public class LevelGenerator {
-    public static int DEFAULT_ROW_COUNT=16;
-    public static int DEFAULT_COLUMN_COUNT=24;
-
-    private static List<GeneratorEntity> allTypes = new ArrayList<>();
+    private static List<GeneratorEntity> possibleTerrains = new ArrayList<>();
+    private static List<GeneratorEntity> possibleEnemies = new ArrayList<>();
 
     static {
-        //for(int i=0;i<800;i++) //default terrain
-            allTypes.add(AdjacencyRules.getGeneratorEntity("grass_0").setProbablity(800));
-        //for(int i=0;i<20;i++) { //lakes
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_0").setProbablity(20));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_1").setProbablity(20));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_2").setProbablity(20));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_0_3").setProbablity(20));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_3_0").setProbablity(20));
-        //}
-        //for(int i=0;i<15;i++){
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_0").setProbablity(15));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_1").setProbablity(15));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_2").setProbablity(15));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_2_3").setProbablity(15));
-        //}
-        //for(int i=0;i<5;i++){
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_0").setProbablity(10));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_1").setProbablity(10));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_2").setProbablity(10));
-            allTypes.add(AdjacencyRules.getGeneratorEntity("lake_1_3").setProbablity(10));
-        //}
-        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_0").setProbablity(1));
-        allTypes.add(AdjacencyRules.getGeneratorEntity("lake_4_1").setProbablity(1));
-        allTypes.add(AdjacencyRules.getGeneratorEntity("r").setProbablity(1));
+//TERRAIN
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("grass_0").setProbability(600));
+
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_0_0").setProbability(20));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_0_1").setProbability(20));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_0_2").setProbability(20));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_0_3").setProbability(20));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_3_0").setProbability(20));
+
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_2_0").setProbability(15));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_2_1").setProbability(15));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_2_2").setProbability(15));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_2_3").setProbability(15));
+
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_1_0").setProbability(5));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_1_1").setProbability(5));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_1_2").setProbability(5));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_1_3").setProbability(5));
+
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_0").setProbability(1));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_1").setProbability(1));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("r").setProbability(1));
+
+
+//ENEMIES
+        possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
+        possibleEnemies.add(new GeneratorEntity("?").setProbability(2));
+        possibleEnemies.add(new GeneratorEntity("s").setProbability(1));
     }
 
     public LevelGenerator(){}
 
-    public static Map<GridPosition,GeneratorEntity> generateLevel(){
-        return generateLevel(DEFAULT_ROW_COUNT,DEFAULT_COLUMN_COUNT);
-    }
-    public static Map<GridPosition,GeneratorEntity> generateLevel(int rowCount, int columnCount){
-        Random random = new Random();
+    public static Map<GridPosition,GeneratorEntity> generateLevel(int rowCount, int columnCount,long seed){
+        Random random = new Random(seed);
         Map<GridPosition,List<GeneratorEntity>> freePositions = new HashMap<>();
         Map<GridPosition,GeneratorEntity> generatedPositions = new HashMap<>();
 
         for(int i=0;i<rowCount;i++){
             for(int j=0;j<columnCount;j++){
-                freePositions.put(new GridPosition(i,j),new ArrayList<>(allTypes));
+                freePositions.put(new GridPosition(i,j),new ArrayList<>(possibleTerrains));
+            }
+        }
+
+
+        GridPosition currentPathPosition = new GridPosition(0,0);
+        GridPosition targetPathPosition = new GridPosition(rowCount-1,columnCount-1);
+        GeneratorEntity pathGroundEntity = AdjacencyRules.getGeneratorEntity("grass_0");
+
+        while(!currentPathPosition.equals(targetPathPosition)){
+            updateNeighbouringPositions(currentPathPosition,pathGroundEntity,freePositions);
+            generatedPositions.put(currentPathPosition,pathGroundEntity);
+            freePositions.remove(currentPathPosition);
+            if(currentPathPosition.getRow()<rowCount-1 && currentPathPosition.getColumn()<columnCount-1){
+                if(random.nextInt()%2==0){
+                    currentPathPosition = currentPathPosition.shifted(1,0);
+                }
+                else{
+                    currentPathPosition = currentPathPosition.shifted(0,1);
+                }
+            }
+            else if(currentPathPosition.getRow()<rowCount-1){
+                currentPathPosition = currentPathPosition.shifted(1,0);
+            }
+            else{
+                currentPathPosition = currentPathPosition.shifted(0,1);
             }
         }
 
@@ -95,7 +121,7 @@ public class LevelGenerator {
             target+=sum;
         for(var x:list){
             if(x.getProbability()>target)
-                return x;
+                return new GeneratorEntity(x);
             else target-=x.getProbability();
         }
         return new GeneratorEntity("SUS"); //we should never get here but if we do we're fucked
@@ -138,5 +164,53 @@ public class LevelGenerator {
             }
             freePositions.put(new GridPosition(p.getRow(),p.getColumn()-1),list);
         }catch(Exception e){};
+    }
+
+    public static Map<GridPosition,GeneratorEntity> fillWithEnemies(Map<GridPosition,GeneratorEntity> terrainMap,long seed){
+        final Random random = new Random(seed);
+        var possibleEntityPositions = getReachableFromStart(terrainMap);
+        Map<GridPosition,GeneratorEntity> enemies = new HashMap<>();
+        System.out.println(possibleEntityPositions);
+
+        for(var x:possibleEntityPositions){
+            if(x.getRow()> Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER && x.getColumn()>Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER){
+                GeneratorEntity type = getRandomFromPossibleStates(possibleEnemies,random);
+                System.out.println(type);
+                if(!type.getName().equals("none")){
+                    enemies.put(x,new GeneratorEntity(type));
+                }
+            }
+        }
+        return enemies;
+    }
+    private static List<GridPosition> getReachableFromStart(Map<GridPosition,GeneratorEntity> terrainMap){
+        List<GridPosition> reachable=new ArrayList<>();
+        dfs(new GridPosition(0,0),new HashMap<>(terrainMap),reachable);
+        return reachable;
+    }
+
+    private static void dfs(GridPosition position,Map<GridPosition,GeneratorEntity> terrainMap,List<GridPosition> reachable){
+        reachable.add(position);
+        terrainMap.remove(position);
+        try{
+            if(terrainMap.get(position.shifted(1,0)).getName().equals("grass_0")){
+                dfs(position.shifted(1,0),terrainMap,reachable);
+            }
+        }catch (Exception ignored){}
+        try{
+            if(terrainMap.get(position.shifted(-1,0)).getName().equals("grass_0")){
+                dfs(position.shifted(-1,0),terrainMap,reachable);
+            }
+        }catch (Exception ignored){}
+        try{
+            if(terrainMap.get(position.shifted(0,1)).getName().equals("grass_0")){
+                dfs(position.shifted(0,1),terrainMap,reachable);
+            }
+        }catch (Exception ignored){}
+        try{
+            if(terrainMap.get(position.shifted(0,-1)).getName().equals("grass_0")){
+                dfs(position.shifted(0,-1),terrainMap,reachable);
+            }
+        }catch (Exception ignored){}
     }
 }

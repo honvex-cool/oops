@@ -1,25 +1,22 @@
 package pl.ue.oops.game.universe.utils;
 
-import org.lwjgl.system.CallbackI;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class GeneratorEntity {
     private String name;
-    private Integer probablity=1;
-    //private Type type;
+    private Integer probability =1;
     private List<String> edges;
+
+    private boolean reachableFromStart=false;
 
     public String getName() {
         return name;
     }
 
-    public GeneratorEntity(String name,/*Type type,*/String ... edges){
+    public GeneratorEntity(String name,String ... edges){
         this.name = name;
-        //this.type = type;
         this.edges = new ArrayList<>(Arrays.asList(edges));
     }
 
@@ -40,15 +37,23 @@ public class GeneratorEntity {
         return new ArrayList<>(Arrays.asList(edges.get(9),edges.get(10),edges.get(11)));
     }
 
-    public GeneratorEntity setProbablity(Integer probablity){
-        this.probablity = probablity;
+    public GeneratorEntity setProbability(Integer probability){
+        this.probability = probability;
         return this;
     }
 
     public int getProbability(){
-        return probablity;
+        return probability;
     }
     public String toString(){
         return name;
+    }
+
+    public boolean isReachableFromStart() {
+        return reachableFromStart;
+    }
+
+    public void setReachableFromStart(boolean reachableFromStart) {
+        this.reachableFromStart = reachableFromStart;
     }
 }

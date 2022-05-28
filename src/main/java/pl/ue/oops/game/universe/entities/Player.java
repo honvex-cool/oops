@@ -14,6 +14,10 @@ public class Player extends AbstractActiveGridEntity {
         hp = 5;
     }
 
+    public void setPlayerInfo(int hp){
+        this.hp = hp;
+    }
+
     @Override
     public void idleBehaviour() {
     }
@@ -52,7 +56,7 @@ public class Player extends AbstractActiveGridEntity {
             projectile.disable();
             level.hud.updateHp(hp);
             if(hp<=0)
-                Gdx.app.exit();
+                level.levelFailed();
         }
     }
 
@@ -62,5 +66,9 @@ public class Player extends AbstractActiveGridEntity {
         level.hud.updateHp(hp);
         if(hp <= 0) // temporary
             Gdx.app.exit();
+    }
+
+    public int getHp(){
+        return hp;
     }
 }

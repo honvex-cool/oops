@@ -9,6 +9,7 @@ import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Dimensions;
 import pl.ue.oops.game.universe.utils.GridPosition;
+import pl.ue.oops.game.universe.utils.LevelState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class Level {
     final Dimensions dimensions;
     public Hud hud;
     Player player; // package private for Pathfinder
+    LevelState levelState;
 
     List<GridEntity> groundEntities = new ArrayList<>(); //ground textures used only for rendering
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
@@ -35,6 +37,7 @@ public class Level {
         this.dimensions = dimensions;
         aiHandler = new AIHandler(this);
         moveHandler = new MoveHandler(this);
+        levelState = LevelState.ACTIVE;
     }
 
     //Are the functions setHud and setPlayer necessary? Maybe we can just put them in level constructor
@@ -43,6 +46,15 @@ public class Level {
             this.hud = hud;
         else
             throw new RuntimeException("Hud already set");
+
+        return this;
+    }
+
+    public Level setPlayerInfo(int hp) {
+        if(this.player == null)
+            throw new RuntimeException("No player found");
+        else
+            player.setPlayerInfo(hp);
 
         return this;
     }
@@ -69,7 +81,7 @@ public class Level {
         return this;
     }
 
-    public void update(float delta, Signal signal) {
+    public LevelState update(float delta, Signal signal) {
         if(animationsFinished() && signal != null){
             System.err.println("Currently active entities: " + activeEntities.size());
             System.err.println("Currently active projectiles: " + projectiles.size());
@@ -85,6 +97,7 @@ public class Level {
         }
         else
             stepAnimations(delta);
+        return levelState;
     }
 
     public void render(SpriteBatch batch, float tileSideLength) {
@@ -124,5 +137,20 @@ public class Level {
     private Stream<GridEntity> allEntities() {
         return Stream.of(passiveEntities.stream(), activeEntities.stream(), projectiles.stream(),Stream.of(player))
             .flatMap(stream -> stream);
+    }
+
+    public void levelFailed(){
+        levelState = LevelState.GAME_OVER;
+    }
+    public void levelPassed(){
+        levelState = LevelState.FINISHED_WITH_SUCCESS;
+    }
+
+    public boolean allEnemiesDead(){
+        return aiHandler.allEnemiesDead();
+    }
+
+    public int getPlayerHp(){
+        return player.getHp();
     }
 }

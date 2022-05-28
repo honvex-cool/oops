@@ -48,4 +48,8 @@ public class AIHandler {
                 level.requestSpawn(sus);
         }
     }
+
+    public boolean allEnemiesDead(){
+        return level.activeEntities.isEmpty();
+    }
 }

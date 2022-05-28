@@ -10,17 +10,24 @@ import pl.ue.oops.game.scenes.Hud;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.level.LevelLoader;
+import pl.ue.oops.game.universe.utils.LevelState;
+
+import java.util.Random;
 
 public class LevelScreen extends GameScreen {
     private final Hud hud;
     private Signal signal;
-    private final Level level;
+    private Level level;
 
-    public LevelScreen(final Oops game) {
+    private LevelState currentLevelState;
+    private final Random random;
+
+    public LevelScreen(final Oops game,long seed) {
         super(game);
         hud = new Hud(game.batch);
         //level = LevelLoader.loadFromFile("src/main/resources/levels/exampleLevel.oopslvl").setHud(hud);
-        level = LevelLoader.loadFromGenerator().setHud(hud);
+        random = new Random(seed);
+        level = LevelLoader.loadFromGenerator(random.nextLong()).setHud(hud);
         //level.add(new Clueless(level.getDimensions()));
     }
 
@@ -79,12 +86,18 @@ public class LevelScreen extends GameScreen {
         if(level.animationsFinished())
             signal = handleKeyInput();
         ScreenUtils.clear(Color.GRAY);
-        level.update(delta, signal);
+        currentLevelState = level.update(delta, signal);
         game.batch.begin();
         level.render(game.batch, Config.TILE_SIDE_LENGTH);
         game.batch.end();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+        if(currentLevelState == LevelState.GAME_OVER){
+            Gdx.app.exit();
+        }
+        if(currentLevelState == LevelState.FINISHED_WITH_SUCCESS){
+            level = LevelLoader.loadFromGenerator(random.nextLong()).setHud(hud).setPlayerInfo(level.getPlayerHp());
+        }
     }
 
     @Override

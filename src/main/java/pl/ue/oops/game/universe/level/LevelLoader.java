@@ -1,12 +1,15 @@
 package pl.ue.oops.game.universe.level;
 
+import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.entities.*;
 import pl.ue.oops.game.universe.entities.general.TemporaryGroundEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
+import pl.ue.oops.game.universe.utils.GeneratorEntity;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Random;
 import java.util.Scanner;
 
 public class LevelLoader {
@@ -46,12 +49,13 @@ public class LevelLoader {
         return level;
     }
 
-
-
-    public static Level loadFromGenerator() {
-        final var dimensions = new Dimensions(16, 24);
+    public static Level loadFromGenerator(long seed) {
+        return loadFromGenerator(Config.DEFAULT_ROW_COUNT,Config.DEFAULT_COLUMN_COUNT,seed);
+    }
+    public static Level loadFromGenerator(int rowCount,int collumnCount,long seed) {
+        final var dimensions = new Dimensions(rowCount, collumnCount);
         final var level = new Level(dimensions);
-        var generatedPositions = LevelGenerator.generateLevel();
+        var generatedPositions = LevelGenerator.generateLevel(rowCount,collumnCount,seed);
         for (var x:generatedPositions.keySet()) {
             final int row = x.getRow(), column = x.getColumn();
             final var symbol = generatedPositions.get(x).getName();
@@ -69,7 +73,27 @@ public class LevelLoader {
                 level.requestSpawn(new LakeEntity(level, row, column,symbol));
             }
         }
+
+
+        var enemies = LevelGenerator.fillWithEnemies(generatedPositions,seed);
+        System.out.println(enemies);
+        enemies.remove(new GridPosition(rowCount-1,collumnCount-1));
+        for (var x:enemies.keySet()) {
+            final int row = x.getRow(), column = x.getColumn();
+            final var symbol = enemies.get(x).getName();
+            System.out.println(symbol);
+            if(symbol.equals("?")){
+                var temp = new Clueless(row,column,level);
+                level.requestSpawn(temp);
+            }
+            /*else if(symbol.equals("s")){
+                var temp = new Summoner(row,column,level);
+                level.requestSpawn(temp);
+            }*/
+        }
+
         level.setPlayer(new Player(0, 0, level));
+        level.requestSpawn(new DoorEntity(level,rowCount-1,collumnCount-1));
         return level;
     }
 }

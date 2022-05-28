@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.ScreenUtils;
 import pl.ue.oops.game.Oops;
 
+import java.util.Random;
+
 public class MainMenuScreen implements Screen {
     boolean settings, selection;
 
@@ -68,7 +70,7 @@ public class MainMenuScreen implements Screen {
                 && Gdx.input.getY()>=getY((def_h/3f)-128f) && Gdx.input.getY()<=getY((def_h/3f)+64f) ){
 
             if(Gdx.input.isTouched()) {
-                game.setScreen(new LevelScreen(game));
+                game.setScreen(new LevelScreen(game,new Random().nextLong())); //Here we need to have some kind of seed input
             }
             else {
                 game.batch.draw(play_button_active, (def_w/3f)-128f,(def_h/3f)+128f,256f,256f);
