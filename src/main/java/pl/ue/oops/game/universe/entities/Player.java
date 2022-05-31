@@ -6,9 +6,13 @@ import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
+import pl.ue.oops.game.universe.utils.statistics.Statistics;
+import pl.ue.oops.game.universe.utils.statistics.TrackedParameter;
 
 public class Player extends AbstractActiveGridEntity {
     private int hp;
+    private final Statistics statistics = new Statistics();
+
     public Player(int row, int column, Level level) {
         super(level, row, column, "blueSquare", "greenSquare");
         hp = 5;
@@ -28,20 +32,25 @@ public class Player extends AbstractActiveGridEntity {
                 case REQUESTED_RIGHT_MOVEMENT -> {level.moveHandler.moveRight(this);}
                 case REQUESTED_DOWN_ATTACK -> {
                     level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,-1,0,2, this));
+                    statistics.increment(TrackedParameter.PROJECTILES_FIRED);
                 }
                 case REQUESTED_UP_ATTACK -> {
                     level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,1,0,2, this));
+                    statistics.increment(TrackedParameter.PROJECTILES_FIRED);
                 }
                 case REQUESTED_LEFT_ATTACK -> {
                     level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,-1,2,this));
+                    statistics.increment(TrackedParameter.PROJECTILES_FIRED);
                 }
                 case REQUESTED_RIGHT_ATTACK -> {
                     level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,1,2, this));
+                    statistics.increment(TrackedParameter.PROJECTILES_FIRED);
                 }
                 case REQUESTED_SPAWN -> {
                     level.requestSpawn(new Clueless(level));
                 }
             }
+            statistics.increment(TrackedParameter.TURNS_SURVIVED);
         }
     }
 
@@ -51,8 +60,10 @@ public class Player extends AbstractActiveGridEntity {
             hp = Math.max(hp - projectile.getDamage(), 0);
             projectile.disable();
             level.hud.updateHp(hp);
-            if(hp<=0)
+            if(hp<=0) {
+                System.out.println(statistics.toKeyValueRepresentation());
                 Gdx.app.exit();
+            }
         }
     }
 
@@ -60,7 +71,9 @@ public class Player extends AbstractActiveGridEntity {
         System.err.println("HURTING!!!");
         hp = Math.max(hp - damage, 0);
         level.hud.updateHp(hp);
-        if(hp <= 0) // temporary
+        if(hp <= 0) {
+            System.out.println(statistics.toKeyValueRepresentation());
             Gdx.app.exit();
+        }
     }
 }
