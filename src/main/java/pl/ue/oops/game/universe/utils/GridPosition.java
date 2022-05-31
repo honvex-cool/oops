@@ -6,6 +6,9 @@ public class GridPosition {
     private int row;
     private int column;
 
+    private int prevRow;
+    private int prevColumn;
+
     public GridPosition() {
         this(0, 0);
     }
@@ -38,6 +41,15 @@ public class GridPosition {
     public void set(int row, int column) {
         setRow(row);
         setColumn(column);
+    }
+
+    public void setPrev(int prevRow, int prevColumn) {
+        this.prevRow = prevRow;
+        this.prevColumn = prevColumn;
+    }
+
+    public GridPosition getPreviousGridPosition(){
+        return new GridPosition(prevRow,prevColumn);
     }
 
     public void set(final GridPosition gridPosition) {

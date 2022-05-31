@@ -51,7 +51,7 @@ public class Player extends AbstractActiveGridEntity {
 
     @Override
     public void interact(GridEntity other) {
-        if(other instanceof final Projectile projectile){
+        if(other instanceof final Projectile projectile && !projectile.getOwner().getClass().equals(Player.class)){
             hp = Math.max(hp - projectile.getDamage(), 0);
             projectile.disable();
             level.hud.updateHp(hp);

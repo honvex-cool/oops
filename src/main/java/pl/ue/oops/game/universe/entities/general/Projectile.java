@@ -11,37 +11,31 @@ public class Projectile extends AbstractActiveGridEntity {
     private final int damage;
     private final int rowDelta;
     private final int columnDelta;
-    public boolean player;
-    private boolean setup = false;
+
+    public Object getOwner() {
+        return owner;
+    }
+
+    private final Object owner;
 
     public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage) {
         super(level, new GridPosition(gridPosition), spriteName);
         this.rowDelta = rowDelta;
         this.columnDelta = columnDelta;
         this.damage = damage;
-        player = false;
+        this.owner = new Object();
     }
 
-    public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage, Player p) {
+    public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage, Object owner) {
         super(level, gridPosition, spriteName);
         this.rowDelta = rowDelta;
         this.columnDelta = columnDelta;
         this.damage = damage;
-        player = true;
+        this.owner = owner;
     }
 
     @Override
     public void idleBehaviour() {
-        if(setup) {
-            var a = level.getGridEntitiesAtPosition(this.getPosition());
-            for(var i : a) {
-                if(i instanceof ActiveGridEntity) {
-                    i.interact(this);
-                    break;
-                }
-            }
-        }
-        setup = true;
         for(int i = 0; i < max(abs(rowDelta), abs(columnDelta)); i++)
             level.moveHandler.move(this, rowDelta, columnDelta); //here move should be 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if(!level.getDimensions().contain(gridPosition))
@@ -50,5 +44,12 @@ public class Projectile extends AbstractActiveGridEntity {
 
     public int getDamage() {
         return damage;
+    }
+
+    @Override
+    public void interact(GridEntity other) {
+        if(!(other instanceof Projectile) && other.getPosition().getPreviousGridPosition().equals(getPosition().shifted(rowDelta,columnDelta))){
+            other.interact(this);
+        }
     }
 }
