@@ -25,7 +25,8 @@ public class LevelScreen extends GameScreen {
     }
 
     private void update() {
-
+        if(!level.isInProgress())
+            game.setScreen(new GameOverScreen(game, level.getPlayer().getStatistics()));
     }
 
     private Signal handleKeyInput(){
@@ -76,8 +77,10 @@ public class LevelScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        if(level.animationsFinished())
+        if(level.animationsFinished()) {
+            update();
             signal = handleKeyInput();
+        }
         ScreenUtils.clear(Color.GRAY);
         level.update(delta, signal);
         game.batch.begin();

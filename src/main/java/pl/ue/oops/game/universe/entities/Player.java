@@ -11,6 +11,7 @@ import pl.ue.oops.game.universe.utils.statistics.TrackedParameter;
 
 public class Player extends AbstractActiveGridEntity {
     private int hp;
+    private boolean dead = false;
     private final Statistics statistics = new Statistics();
 
     public Player(int row, int column, Level level) {
@@ -60,10 +61,8 @@ public class Player extends AbstractActiveGridEntity {
             hp = Math.max(hp - projectile.getDamage(), 0);
             projectile.disable();
             level.hud.updateHp(hp);
-            if(hp<=0) {
-                System.out.println(statistics.toKeyValueRepresentation());
-                Gdx.app.exit();
-            }
+            if(hp<=0)
+                die();
         }
     }
 
@@ -71,9 +70,23 @@ public class Player extends AbstractActiveGridEntity {
         System.err.println("HURTING!!!");
         hp = Math.max(hp - damage, 0);
         level.hud.updateHp(hp);
-        if(hp <= 0) {
-            System.out.println(statistics.toKeyValueRepresentation());
-            Gdx.app.exit();
-        }
+        if(hp <= 0)
+            die();
+    }
+
+    public Statistics getStatistics() {
+        return statistics;
+    }
+
+    public void die() {
+        dead = true;
+    }
+
+    public void revive() {
+        dead = false;
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }

@@ -21,6 +21,7 @@ public class Level {
     final Dimensions dimensions;
     public Hud hud;
     Player player; // package private for Pathfinder
+    private boolean inProgress = true;
 
     List<GridEntity> groundEntities = new ArrayList<>(); //ground textures used only for rendering
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
@@ -54,6 +55,11 @@ public class Level {
             throw new RuntimeException("Player already set");
         return this;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public Level requestSpawn(GridEntity gridEntity) {
         if(Projectile.class.isAssignableFrom(gridEntity.getClass()))
             projectiles.add((Projectile)gridEntity);
@@ -85,10 +91,12 @@ public class Level {
         }
         else
             stepAnimations(delta);
+        if(player.isDead())
+            inProgress = false;
     }
 
     public void render(SpriteBatch batch, float tileSideLength) {
-        groundEntities.stream().forEachOrdered(enntity -> enntity.getCurrentAnimation().render(batch, tileSideLength));
+        groundEntities.stream().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
         allEntities().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
     }
 
@@ -124,5 +132,9 @@ public class Level {
     private Stream<GridEntity> allEntities() {
         return Stream.of(passiveEntities.stream(), activeEntities.stream(), projectiles.stream(),Stream.of(player))
             .flatMap(stream -> stream);
+    }
+
+    public boolean isInProgress() {
+        return inProgress;
     }
 }
