@@ -12,6 +12,9 @@ public class Projectile extends AbstractActiveGridEntity {
     private final int rowDelta;
     private final int columnDelta;
 
+    int partRowDelta=0;
+    int partColumnDelta=0;
+
     public Object getOwner() {
         return owner;
     }
@@ -19,11 +22,7 @@ public class Projectile extends AbstractActiveGridEntity {
     private final Object owner;
 
     public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage) {
-        super(level, new GridPosition(gridPosition), spriteName);
-        this.rowDelta = rowDelta;
-        this.columnDelta = columnDelta;
-        this.damage = damage;
-        this.owner = new Object();
+        this(spriteName,level,gridPosition,rowDelta,columnDelta,damage,new Object());
     }
 
     public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage, Object owner) {
@@ -32,12 +31,17 @@ public class Projectile extends AbstractActiveGridEntity {
         this.columnDelta = columnDelta;
         this.damage = damage;
         this.owner = owner;
+        try{partRowDelta = rowDelta/abs(rowDelta);}catch (Exception ignored){}
+        try{partColumnDelta = columnDelta/abs(columnDelta);}catch (Exception ignored){}
     }
 
     @Override
     public void idleBehaviour() {
-        for(int i = 0; i < max(abs(rowDelta), abs(columnDelta)); i++)
-            level.moveHandler.move(this, rowDelta, columnDelta); //here move should be 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        animationController.playMoveAnimation(gridPosition,gridPosition.shifted(rowDelta,columnDelta),0.1f);
+        for(int i = 0; i < max(abs(rowDelta), abs(columnDelta)); i++) {
+            if (active)
+                level.moveHandler.move(this, partRowDelta, partColumnDelta);
+        }//here move should be 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if(!level.getDimensions().contain(gridPosition))
             disable();
     }
@@ -48,7 +52,7 @@ public class Projectile extends AbstractActiveGridEntity {
 
     @Override
     public void interact(GridEntity other) {
-        if(!(other instanceof Projectile) && other.getPosition().getPreviousGridPosition().equals(getPosition().shifted(rowDelta,columnDelta))){
+        if(!(other instanceof Projectile) && other.getPosition().getPreviousGridPosition().equals(getPosition().shifted(partRowDelta,partColumnDelta))){
             other.interact(this);
         }
     }

@@ -83,9 +83,10 @@ public class Level {
 
     public LevelState update(float delta, Signal signal) {
         if(animationsFinished() && signal != null){
-            System.err.println("Currently active entities: " + activeEntities.size());
-            System.err.println("Currently active projectiles: " + projectiles.size());
-            System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
+            //System.err.println("Currently active entities: " + activeEntities.size());
+            //System.err.println("Currently active projectiles: " + projectiles.size());
+            //System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
+            System.err.println(player.getHp());
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();

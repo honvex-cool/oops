@@ -17,7 +17,9 @@ public class MoveHandler {
     public boolean move(ActiveGridEntity entity, int rowDelta, int columnDelta){
         if(isMovePossible(entity,rowDelta,columnDelta)){
             final var destination = entity.getPosition().shifted(rowDelta, columnDelta);
-            entity.getAnimationController().playMoveAnimation(entity.getPosition(), destination, 0.1f);
+            if(!(entity instanceof Projectile)) {
+                entity.getAnimationController().playMoveAnimation(entity.getPosition(), destination, 0.1f);
+            }
             entity.getPosition().setPrev(entity.getPosition().getRow(),entity.getPosition().getColumn());
             entity.getPosition().set(destination);
             final var interruptedEntities = level.getGridEntitiesAtPosition(entity.getPosition());
