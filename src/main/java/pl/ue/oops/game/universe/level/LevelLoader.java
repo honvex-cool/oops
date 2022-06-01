@@ -84,10 +84,10 @@ public class LevelLoader {
                 var temp = new Clueless(row,column,level);
                 level.requestSpawn(temp);
             }
-            /*else if(symbol.equals("s")){
-                var temp = new Summoner(row,column,level);
+            else if(symbol.equals("+")){
+                var temp = new MedKit(row, column, level);
                 level.requestSpawn(temp);
-            }*/
+            }
         }
 
         level.substitutePlayer(new Player(0, 0, level));

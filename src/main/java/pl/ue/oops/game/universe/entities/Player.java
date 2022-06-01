@@ -1,12 +1,10 @@
 package pl.ue.oops.game.universe.entities;
 
-import com.badlogic.gdx.Gdx;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.level.Level;
-import pl.ue.oops.game.universe.utils.GridPosition;
 import pl.ue.oops.game.universe.utils.statistics.Statistics;
 import pl.ue.oops.game.universe.utils.statistics.TrackedParameter;
 
@@ -71,7 +69,7 @@ public class Player extends AbstractActiveGridEntity {
     public void hurt(int damage){
         System.err.println("HURTING!!!");
         statistics.increment(TrackedParameter.HITS_TAKEN);
-        statistics.add(TrackedParameter.DAMAGE_TAKEN, damage);
+        statistics.add(TrackedParameter.DAMAGE_POINTS_TAKEN, damage);
         hp = Math.max(hp - damage, 0);
         level.hud.updateHp(hp);
         if(hp <= 0)
@@ -97,5 +95,11 @@ public class Player extends AbstractActiveGridEntity {
     public Player moveToLevel(Level nextLevel) {
         level = nextLevel;
         return this;
+    }
+
+    public void heal(int heal) {
+        hp += heal;
+        level.hud.updateHp(hp);
+        statistics.add(TrackedParameter.HP_POINTS_GAINED, heal);
     }
 }
