@@ -1,5 +1,6 @@
 package pl.ue.oops.game.universe.entities.general;
 
+import pl.ue.oops.game.animations.controllers.AnimationController;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.level.Level;
 import pl.ue.oops.game.universe.utils.GridPosition;
@@ -19,6 +20,10 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
 
     public AbstractActiveGridEntity(Level level, int row, int column, String idleSpriteName, String moveSpriteName) {
         super(level, row, column, idleSpriteName, moveSpriteName);
+    }
+
+    public AbstractActiveGridEntity(Level level, int row, int column, AnimationController controller) {
+        super(level, row, column, controller);
     }
 
     @Override

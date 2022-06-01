@@ -80,13 +80,10 @@ public class LevelLoader {
             final int row = x.getRow(), column = x.getColumn();
             final var symbol = enemies.get(x).getName();
             System.out.println(symbol);
-            if(symbol.equals("?")){
-                var temp = new Clueless(row,column,level);
-                level.requestSpawn(temp);
-            }
-            else if(symbol.equals("+")){
-                var temp = new MedKit(row, column, level);
-                level.requestSpawn(temp);
+            switch(symbol) {
+                case "?" -> level.requestSpawn(new Clueless(row, column, level));
+                case "+" -> level.requestSpawn(new MedKit(row, column, level));
+                case "*" -> level.requestSpawn(new Mag(row, column, level));
             }
         }
 

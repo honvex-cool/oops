@@ -23,6 +23,7 @@ public class Hud implements Disposable {
     private final Label turnNameLabel;
     private final Label hpLabel;
     private final Label hpNameLabel;
+    private final Label ammoLabel;
 
 
     public Hud(SpriteBatch spriteBatch){
@@ -36,6 +37,8 @@ public class Hud implements Disposable {
         turnNameLabel = new Label(String.format("TURN"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
         hpLabel = new Label("5",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
         hpNameLabel = new Label(String.format("HP"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        ammoLabel = new Label("10",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        final var ammoNameLabel = new Label("AMMO",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
 
 
         Table table = new Table();
@@ -43,10 +46,12 @@ public class Hud implements Disposable {
         table.top();
         table.add(scoreNameLabel).expandX();
         table.add(hpNameLabel).expandX();
+        table.add(ammoNameLabel).expandX();
         table.add(turnNameLabel).expandX();
         table.row();
         table.add(scoreLabel).expandX();
         table.add(hpLabel).expandX();
+        table.add(ammoLabel).expandX();
         table.add(turnLabel).expandX();
 
         stage.addActor(table);
@@ -63,6 +68,13 @@ public class Hud implements Disposable {
 
     public void updateHp(int hp){
         hpLabel.setText(hp);
+    }
+
+    public void updateAmmo(int ammo) {
+        if(ammo == 0)
+            ammoLabel.setText("EMPTY!");
+        else
+            ammoLabel.setText(ammo);
     }
 
 

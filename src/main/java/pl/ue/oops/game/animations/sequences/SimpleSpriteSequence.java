@@ -1,19 +1,30 @@
 package pl.ue.oops.game.animations.sequences;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import pl.ue.oops.game.universe.utils.TextureManager;
+
+import java.util.Arrays;
 
 public class SimpleSpriteSequence implements SpriteSequence {
     private final Sprite[] sprites;
     protected int spriteIndex;
     private boolean repeating;
 
-    SimpleSpriteSequence(boolean repeating, Sprite... sprites) {
+    public SimpleSpriteSequence(boolean repeating, Sprite... sprites) {
         this.sprites = sprites;
         this.repeating = repeating;
     }
 
+    public SimpleSpriteSequence(boolean repeating, String... spriteNames) {
+        this(repeating, Arrays.stream(spriteNames).map(TextureManager::getSprite).toArray(Sprite[]::new));
+    }
+
     public SimpleSpriteSequence(Sprite... sprites) {
         this(true, sprites);
+    }
+
+    public SimpleSpriteSequence(String... spriteNames) {
+        this(true, spriteNames);
     }
 
     @Override

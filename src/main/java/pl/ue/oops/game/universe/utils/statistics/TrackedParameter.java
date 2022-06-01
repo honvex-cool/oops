@@ -5,7 +5,7 @@ public enum TrackedParameter {
     PROJECTILES_FIRED,
     LEVELS_CLEARED,
     HITS_TAKEN,
-    DAMAGE_POINTS_TAKEN,
+    HP_POINTS_LOST,
     HP_POINTS_GAINED,
     ;
 

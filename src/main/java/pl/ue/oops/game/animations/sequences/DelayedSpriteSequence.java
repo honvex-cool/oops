@@ -15,6 +15,15 @@ public class DelayedSpriteSequence extends SimpleSpriteSequence {
         this(true, framesBetweenChanges, sprites);
     }
 
+    public DelayedSpriteSequence(boolean repeating, int framesBetweenChanges, String... spriteNames) {
+        super(repeating, spriteNames);
+        this.framesBetweenChanges = framesBetweenChanges;
+    }
+
+    public DelayedSpriteSequence(int framesBetweenChanges, String... spriteNames) {
+        this(true, framesBetweenChanges, spriteNames);
+    }
+
     @Override
     public SpriteSequence start() {
         super.start();
