@@ -1,7 +1,7 @@
 package pl.ue.oops.game.universe.level;
 
 import pl.ue.oops.game.universe.control.Signal;
-import pl.ue.oops.game.universe.entities.Shooter;
+import pl.ue.oops.game.universe.entities.*;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
@@ -131,7 +131,7 @@ public class Pathfinder {//bfs from player to all entities
     }
     private boolean canMove(GridPosition p){
         for(var i : level.passiveEntities){
-            if(i.getPosition().equals(p)){
+            if(i.getPosition().equals(p) && (i instanceof LakeEntity || i instanceof RockEntity)){
                 return false;
             }
         }
@@ -144,7 +144,7 @@ public class Pathfinder {//bfs from player to all entities
         a = level.getGridEntitiesAtPosition(p);
         go = null;
         for (var i : a) {
-            if (!i.getClass().isAssignableFrom(Projectile.class)&& i instanceof ActiveGridEntity ) {
+            if (!i.getClass().isAssignableFrom(Projectile.class)&& i instanceof Clueless) {
                 go = (ActiveGridEntity) i;
                 break;
             }
