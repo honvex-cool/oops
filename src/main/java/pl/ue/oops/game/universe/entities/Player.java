@@ -113,5 +113,7 @@ public class Player extends AbstractActiveGridEntity {
 
     public void refillAmmo(int quantity) {
         level.hud.updateAmmo(ammo += quantity);
+        statistics.increment(TrackedParameter.MAGS_COLLECTED);
+        statistics.add(TrackedParameter.BULLETS_COLLECTED, quantity);
     }
 }
