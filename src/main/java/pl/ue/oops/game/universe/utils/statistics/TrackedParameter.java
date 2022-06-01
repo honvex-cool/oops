@@ -3,15 +3,23 @@ package pl.ue.oops.game.universe.utils.statistics;
 public enum TrackedParameter {
     TURNS_SURVIVED,
     PROJECTILES_FIRED,
-    LEVELS_CLEARED, HITS_TAKEN, DAMAGE_TAKEN;
+    LEVELS_CLEARED,
+    HITS_TAKEN,
+    DAMAGE_POINTS_TAKEN,
+    HP_POINTS_GAINED,
+    ;
 
     public static String formatted(TrackedParameter parameter, int value) {
         return value + " " + (value == 1 ? parameter.singular() : parameter.plural());
     }
 
     public String singular() {
-        final var plural = plural();
-        return plural.substring(0, plural.length() - 1);
+        final var words = plural().split(" ");
+        if(words.length >= 2) {
+            final String noun = words[words.length - 2];
+            words[words.length - 2] = noun.substring(0, noun.length() - 1);
+        }
+        return String.join(" ", words);
     }
 
     public String plural() {

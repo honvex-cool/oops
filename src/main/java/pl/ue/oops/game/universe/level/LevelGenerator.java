@@ -42,6 +42,8 @@ public class LevelGenerator {
         possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
         possibleEnemies.add(new GeneratorEntity("?").setProbability(2));
         possibleEnemies.add(new GeneratorEntity("s").setProbability(1));
+
+        possibleEnemies.add(new GeneratorEntity("+").setProbability(2));
     }
 
     public LevelGenerator(){}
