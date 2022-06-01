@@ -12,7 +12,7 @@ import pl.ue.oops.game.universe.utils.GridPosition;
 public abstract class AbstractGridEntity implements GridEntity {
     protected final GridPosition gridPosition;
     protected boolean active = true;
-    protected final Level level;
+    protected Level level;
     protected AnimationController animationController;
 
     public AbstractGridEntity(Level level, int row, int column, AnimationController controller) {

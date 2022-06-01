@@ -10,6 +10,7 @@ import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.Dimensions;
 import pl.ue.oops.game.universe.utils.GridPosition;
 import pl.ue.oops.game.universe.utils.LevelState;
+import pl.ue.oops.game.universe.utils.statistics.TrackedParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,13 +60,17 @@ public class Level {
         return this;
     }
 
-    public Level setPlayer(Player player) {
-        if(this.player == null)
-            this.player = player;
-        else
-            throw new RuntimeException("Player already set");
+    public Level substitutePlayer(Player player) {
+        if(this.player != null)
+            player.getPosition().set(this.player.getPosition());
+        this.player = player;
         return this;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
     public Level requestSpawn(GridEntity gridEntity) {
         if(Projectile.class.isAssignableFrom(gridEntity.getClass()))
             projectiles.add((Projectile)gridEntity);
@@ -86,7 +91,6 @@ public class Level {
             //System.err.println("Currently active entities: " + activeEntities.size());
             //System.err.println("Currently active projectiles: " + projectiles.size());
             //System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
-            System.err.println(player.getHp());
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();
@@ -95,6 +99,8 @@ public class Level {
             for(final var projectile: projectiles)
                 projectile.takeTurn(null);
             eraseDestroyedEntities();
+            if(player.isDead())
+                levelState = LevelState.GAME_OVER;
         }
         else
             stepAnimations(delta);
@@ -102,7 +108,7 @@ public class Level {
     }
 
     public void render(SpriteBatch batch, float tileSideLength) {
-        groundEntities.stream().forEachOrdered(enntity -> enntity.getCurrentAnimation().render(batch, tileSideLength));
+        groundEntities.stream().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
         allEntities().forEachOrdered(entity -> entity.getCurrentAnimation().render(batch, tileSideLength));
     }
 
@@ -151,7 +157,10 @@ public class Level {
         return aiHandler.allEnemiesDead();
     }
 
-    public int getPlayerHp(){
-        return player.getHp();
+    public Level advance(long seed) {
+        player.getStatistics().increment(TrackedParameter.LEVELS_CLEARED);
+        final var nextLevel = LevelLoader.loadFromGenerator(seed).setHud(hud);
+        nextLevel.substitutePlayer(player.moveToLevel(nextLevel));
+        return nextLevel;
     }
 }

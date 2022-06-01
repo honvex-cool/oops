@@ -32,7 +32,6 @@ public class LevelScreen extends GameScreen {
     }
 
     private void update() {
-
     }
 
     private Signal handleKeyInput(){
@@ -83,8 +82,10 @@ public class LevelScreen extends GameScreen {
 
     @Override
     public void render(float delta) {
-        if(level.animationsFinished())
+        if(level.animationsFinished()) {
+            update();
             signal = handleKeyInput();
+        }
         ScreenUtils.clear(Color.GRAY);
         currentLevelState = level.update(delta, signal);
         game.batch.begin();
@@ -93,10 +94,10 @@ public class LevelScreen extends GameScreen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         if(currentLevelState == LevelState.GAME_OVER){
-            Gdx.app.exit();
+            game.setScreen(new GameOverScreen(game, level.getPlayer().getStatistics()));
         }
         if(currentLevelState == LevelState.FINISHED_WITH_SUCCESS){
-            level = LevelLoader.loadFromGenerator(random.nextLong()).setHud(hud).setPlayerInfo(level.getPlayerHp());
+            level = level.advance(random.nextLong());
         }
     }
 

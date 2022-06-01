@@ -60,6 +60,7 @@ public class LevelGenerator {
 
         GridPosition currentPathPosition = new GridPosition(0,0);
         GridPosition targetPathPosition = new GridPosition(rowCount-1,columnCount-1);
+        freePositions.remove(targetPathPosition);
         GeneratorEntity pathGroundEntity = AdjacencyRules.getGeneratorEntity("grass_0");
 
         while(!currentPathPosition.equals(targetPathPosition)){

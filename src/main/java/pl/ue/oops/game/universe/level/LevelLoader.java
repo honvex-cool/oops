@@ -4,12 +4,10 @@ import pl.ue.oops.Config;
 import pl.ue.oops.game.universe.entities.*;
 import pl.ue.oops.game.universe.entities.general.TemporaryGroundEntity;
 import pl.ue.oops.game.universe.utils.Dimensions;
-import pl.ue.oops.game.universe.utils.GeneratorEntity;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Random;
 import java.util.Scanner;
 
 public class LevelLoader {
@@ -34,7 +32,7 @@ public class LevelLoader {
             final int row = scanner.nextInt(), column = scanner.nextInt();
             final var symbol = scanner.next();
             switch(symbol) {
-                case "@" -> level.setPlayer(new Player(row, column, level));
+                case "@" -> level.substitutePlayer(new Player(row, column, level));
                 case "?" -> level.requestSpawn(new Clueless(row, column, level));
                 case "r" -> {
                     var temp = new RockEntity(level, row, column);
@@ -92,7 +90,7 @@ public class LevelLoader {
             }*/
         }
 
-        level.setPlayer(new Player(0, 0, level));
+        level.substitutePlayer(new Player(0, 0, level));
         level.requestSpawn(new DoorEntity(level,rowCount-1,collumnCount-1));
         return level;
     }
