@@ -86,6 +86,8 @@ public class LevelGenerator {
         while(!freePositions.isEmpty()){
             GridPosition p = getClosestToCollapse(freePositions,random);
             GeneratorEntity type = getRandomFromPossibleStates(freePositions.get(p),random);
+            if(type == null)
+                return generateLevel(rowCount,columnCount,random.nextLong());
             updateNeighbouringPositions(p,type,freePositions);
             generatedPositions.put(p,type);
             freePositions.remove(p);
@@ -112,7 +114,7 @@ public class LevelGenerator {
     }
     private static GeneratorEntity getRandomFromPossibleStates(List<GeneratorEntity> list, Random random){
         if(list.isEmpty())
-            return new GeneratorEntity("SUS");
+            return null;
         Integer sum=0;
         for(var x:list){
             sum+= x.getProbability();
@@ -125,7 +127,7 @@ public class LevelGenerator {
                 return new GeneratorEntity(x);
             else target-=x.getProbability();
         }
-        return new GeneratorEntity("SUS"); //we should never get here but if we do we're fucked
+        return null; //we should never get here but if we do we're fucked
     }
 
     private static void updateNeighbouringPositions(GridPosition p,GeneratorEntity type, Map<GridPosition,List<GeneratorEntity>> freePositions){
@@ -176,7 +178,6 @@ public class LevelGenerator {
         for(var x:possibleEntityPositions){
             if(x.getRow()> Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER && x.getColumn()>Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER){
                 GeneratorEntity type = getRandomFromPossibleStates(possibleEnemies,random);
-                System.out.println(type);
                 if(!type.getName().equals("none")){
                     enemies.put(x,new GeneratorEntity(type));
                 }

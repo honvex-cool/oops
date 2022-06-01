@@ -9,7 +9,7 @@ import pl.ue.oops.game.universe.level.Level;
 public class Clueless extends AbstractActiveGridEntity {
 
     public Clueless(int row, int column, Level level) {
-        super(level, row, column, "redSquare");
+        super(level, row, column, "snake");
         gridPosition.set(row, column);
     }
 
