@@ -41,7 +41,7 @@ public class LevelGenerator {
 //ENEMIES
         possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
         possibleEnemies.add(new GeneratorEntity("?").setProbability(2));
-        possibleEnemies.add(new GeneratorEntity("s").setProbability(1));
+        //possibleEnemies.add(new GeneratorEntity("s").setProbability(1));
 
         possibleEnemies.add(new GeneratorEntity("+").setProbability(1));
         possibleEnemies.add(new GeneratorEntity("*").setProbability(1));
@@ -176,7 +176,6 @@ public class LevelGenerator {
         final Random random = new Random(seed);
         var possibleEntityPositions = getReachableFromStart(terrainMap);
         Map<GridPosition,GeneratorEntity> enemies = new HashMap<>();
-        System.out.println(possibleEntityPositions);
 
         for(var x:possibleEntityPositions){
             if(x.getRow()> Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER && x.getColumn()>Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER){

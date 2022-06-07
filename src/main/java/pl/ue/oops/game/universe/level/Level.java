@@ -88,9 +88,6 @@ public class Level {
 
     public LevelState update(float delta, Signal signal) {
         if(animationsFinished() && signal != null){
-            //System.err.println("Currently active entities: " + activeEntities.size());
-            //System.err.println("Currently active projectiles: " + projectiles.size());
-            //System.err.println("Player at " + player.getPosition().getColumn() + " " + player.getPosition().getRow());
             hud.updateTurn();
             player.takeTurn(signal);
             eraseDestroyedEntities();
@@ -115,12 +112,12 @@ public class Level {
     private void eraseDestroyedEntities(){
         final var nextActiveEntities = new ArrayList<ActiveGridEntity>();
         for(final var entity : activeEntities) {
-            if(entity.isActive())
+            if(entity.isActive()) //OR HAVE ACTIVE ANIMATION - to check
                 nextActiveEntities.add(entity);
         }
         final var nextProjectiles = new ArrayList<Projectile>();
         for(final var entity : projectiles) {
-            if(entity.isActive())
+            if(entity.isActive()) //OR HAVE ACTIVE ANIMATION - to check
                 nextProjectiles.add(entity);
         }
         activeEntities = nextActiveEntities;

@@ -27,7 +27,6 @@ public class MoveHandler {
                 if(interruptedEntity != entity)
                     interruptedEntity.interact(entity);
             }
-            System.err.println("Entity " + entity + " at position " + entity.getPosition());
             return true;
         }
         return false;

@@ -41,7 +41,7 @@ public class Projectile extends AbstractActiveGridEntity {
         for(int i = 0; i < max(abs(rowDelta), abs(columnDelta)); i++) {
             if (active)
                 level.moveHandler.move(this, partRowDelta, partColumnDelta);
-        }//here move should be 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        }
         if(!level.getDimensions().contain(gridPosition))
             disable();
     }

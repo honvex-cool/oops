@@ -19,9 +19,6 @@ public class Clueless extends AbstractActiveGridEntity {
 
     @Override
     public void idleBehaviour() {
-        //do default stuff
-        System.err.println("Clueless at " + gridPosition.getRow() + ", " + gridPosition.getColumn() + "...");
-        //level.requestSpawn(new Projectile("noEntrySign.png",level,0,-1,1),this.position);
     }
     @Override
     public void react(Signal signal){

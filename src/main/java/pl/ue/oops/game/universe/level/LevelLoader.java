@@ -84,6 +84,7 @@ public class LevelLoader {
                 case "?" -> level.requestSpawn(new Clueless(row, column, level));
                 case "+" -> level.requestSpawn(new MedKit(row, column, level));
                 case "*" -> level.requestSpawn(new Mag(row, column, level));
+                case "s" -> level.requestSpawn(new Shooter(row,column,level));
             }
         }
 

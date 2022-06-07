@@ -23,7 +23,6 @@ public class Shooter extends AbstractActiveGridEntity {
     @Override
     public void idleBehaviour() {
         //do default stuff
-        System.err.println("Shooter at " + gridPosition.getRow() + ", " + gridPosition.getColumn() + "...");
         if(reload){
             reload=false;
             return;

@@ -38,43 +38,33 @@ public class LevelScreen extends GameScreen {
         if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
         if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            System.err.println("W pressed");
             return Signal.REQUESTED_UP_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            System.err.println("S pressed");
             return Signal.REQUESTED_DOWN_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            System.err.println("A pressed");
             return Signal.REQUESTED_LEFT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-            System.err.println("D pressed");
             return Signal.REQUESTED_RIGHT_MOVEMENT;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            System.err.println("[Space] pressed");
             return Signal.REQUESTED_PASS;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            System.err.println("[Enter] pressed");
             return Signal.REQUESTED_SPAWN;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            System.err.println("[Right] pressed");
             return Signal.REQUESTED_RIGHT_ATTACK;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            System.err.println("[Up] pressed");
             return Signal.REQUESTED_UP_ATTACK;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            System.err.println("[Down] pressed");
             return Signal.REQUESTED_DOWN_ATTACK;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            System.err.println("[Left] pressed");
             return Signal.REQUESTED_LEFT_ATTACK;
         }
         return null;
