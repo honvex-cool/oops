@@ -18,7 +18,7 @@ public final class AnimationControllers {
     }
 
     public static AnimationController singleFrame(Sprite sprite) {
-        return create(new SimpleSpriteSequence(sprite));
+        return create(new SimpleSpriteSequence(false,sprite));
     }
 
     public static AnimationController singleFrame(String spriteName) {

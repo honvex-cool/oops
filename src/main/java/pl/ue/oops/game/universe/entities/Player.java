@@ -19,7 +19,7 @@ public class Player extends AbstractActiveGridEntity {
     private final Statistics statistics = new Statistics();
 
     public Player(int row, int column, Level level) {
-        super(level, row, column, "blueSquare", "greenSquare");
+        super(level, row, column, "abstract_eye_square_mouth");
     }
 
     public void setPlayerInfo(int hp){

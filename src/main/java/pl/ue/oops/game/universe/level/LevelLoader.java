@@ -8,7 +8,11 @@ import pl.ue.oops.game.universe.utils.GridPosition;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
+
+import static java.lang.Math.abs;
 
 public class LevelLoader {
     private LevelLoader() {
@@ -58,11 +62,19 @@ public class LevelLoader {
             final int row = x.getRow(), column = x.getColumn();
             final var symbol = generatedPositions.get(x).getName();
             if(symbol.equals("r")){
-                var temp = new RockEntity(level, row, column);
+                var possible = new ArrayList<String>();
+                possible.add("rock_0_0");
+                possible.add("rock_0_1");
+                var temp = new RockEntity(level, row, column, possible.get(positiveModulo(new Random().nextInt(),possible.size())));
                 level.requestSpawn(temp);
             }
             else if(symbol.equals("grass_0")){
-                level.addGroundObject(new TemporaryGroundEntity(level, row, column,symbol));
+                var possible = new ArrayList<String>();
+                possible.add("grass_0");
+                possible.add("grass_1");
+                possible.add("grass_2");
+                possible.add("grass_3");
+                level.addGroundObject(new TemporaryGroundEntity(level, row, column,possible.get(positiveModulo(new Random().nextInt(),possible.size()))));
             }
             else if(symbol.equals("SUS")){
                 level.requestSpawn(new SUS(level,new GridPosition(x)));
@@ -91,5 +103,12 @@ public class LevelLoader {
         level.substitutePlayer(new Player(0, 0, level));
         level.requestSpawn(new DoorEntity(level,rowCount-1,collumnCount-1));
         return level;
+    }
+
+    private static int positiveModulo(int val,int mod){
+        val = val%mod;
+        if(val<0)
+            val+=mod;
+        return val;
     }
 }

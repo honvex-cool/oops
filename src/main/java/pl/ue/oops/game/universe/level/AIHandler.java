@@ -50,6 +50,6 @@ public class AIHandler {
     }
 
     public boolean allEnemiesDead(){
-        return level.activeEntities.isEmpty();
+        return level.activeEntities.size()==1;
     }
 }
