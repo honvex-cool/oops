@@ -35,7 +35,7 @@ public class LevelGenerator {
 
         possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_0").setProbability(1));
         possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_1").setProbability(1));
-        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("r").setProbability(1));
+        possibleTerrains.add(AdjacencyRules.getGeneratorEntity("r").setProbability(10));
 
 
 //ENEMIES

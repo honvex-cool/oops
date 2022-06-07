@@ -6,5 +6,6 @@ import pl.ue.oops.game.animations.Continuous;
 public interface SpriteSequence extends Continuous {
     Sprite getSprite();
     boolean isRepeating();
+    boolean isFinished();
     void setRepeating(boolean repeating);
 }

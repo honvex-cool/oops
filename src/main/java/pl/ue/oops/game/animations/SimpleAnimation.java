@@ -36,4 +36,9 @@ public class SimpleAnimation implements Animation {
         final var renderPosition = movement.getRenderPosition(tileSideLength);
         batch.draw(spriteSequence.getSprite(), renderPosition.x, renderPosition.y, tileSideLength, tileSideLength);
     }
+
+    @Override
+    public boolean isFinished() {
+        return spriteSequence.isFinished() && !movement.isInProgress();
+    }
 }

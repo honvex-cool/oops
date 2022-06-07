@@ -5,6 +5,8 @@ import pl.ue.oops.game.universe.utils.TextureManager;
 
 import java.util.Arrays;
 
+import static java.lang.Math.min;
+
 public class SimpleSpriteSequence implements SpriteSequence {
     private final Sprite[] sprites;
     protected int spriteIndex;
@@ -20,11 +22,11 @@ public class SimpleSpriteSequence implements SpriteSequence {
     }
 
     public SimpleSpriteSequence(Sprite... sprites) {
-        this(true, sprites);
+        this(false, sprites);
     }
 
     public SimpleSpriteSequence(String... spriteNames) {
-        this(true, spriteNames);
+        this(false, spriteNames);
     }
 
     @Override
@@ -44,13 +46,21 @@ public class SimpleSpriteSequence implements SpriteSequence {
     }
 
     @Override
+    public boolean isFinished() {
+        return !repeating && spriteIndex==sprites.length;
+    }
+
+    @Override
     public void step(float delta) {
-        if(++spriteIndex == sprites.length)
-            spriteIndex = isRepeating() ? 0 : sprites.length - 1;
+        if(spriteIndex < sprites.length)
+            ++spriteIndex;
+        if(spriteIndex == sprites.length && repeating)
+            spriteIndex = 0;
+
     }
 
     @Override
     public Sprite getSprite() {
-        return sprites[spriteIndex];
+        return sprites[min(spriteIndex,sprites.length-1)];
     }
 }
