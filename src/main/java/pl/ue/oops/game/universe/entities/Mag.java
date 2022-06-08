@@ -3,10 +3,11 @@ package pl.ue.oops.game.universe.entities;
 import pl.ue.oops.game.animations.controllers.AnimationControllers;
 import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
+import pl.ue.oops.game.universe.entities.general.AbstractGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.level.Level;
 
-public class Mag extends AbstractActiveGridEntity {
+public class Mag extends AbstractGridEntity {
     private static final int CAPACITY = 3;
 
     public Mag(int row, int column, Level level) {
@@ -29,9 +30,5 @@ public class Mag extends AbstractActiveGridEntity {
             player.refillAmmo(CAPACITY);
             disable();
         }
-    }
-
-    @Override
-    public void idleBehaviour() {
     }
 }

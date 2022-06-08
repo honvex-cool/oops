@@ -25,12 +25,7 @@ public class AIHandler {
         }
         for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
         {
-            if(entity instanceof Shooter){
-                entity.takeTurn(pathfinder.shooter((Shooter)entity));
-            }
-            else{
-                entity.takeTurn(pathfinder.possible.get(entity));
-            }
+            entity.takeTurn(pathfinder.possible.get(entity));
         }
         spawnSUS(50);
     }

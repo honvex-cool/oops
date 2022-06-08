@@ -23,16 +23,14 @@ public class Shooter extends AbstractActiveGridEntity {
     @Override
     public void idleBehaviour() {
         //do default stuff
+        reload=false;
+    }
+    @Override
+    public void react(Signal signal){
         if(reload){
             reload=false;
             return;
         }
-
-
-        level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,0,-1,1));
-    }
-    @Override
-    public void react(Signal signal){
         switch (signal){
             case REQUESTED_DOWN_MOVEMENT -> {
                 level.moveHandler.moveDown(this);
@@ -47,16 +45,20 @@ public class Shooter extends AbstractActiveGridEntity {
                 level.moveHandler.moveRight(this);
             }
             case REQUESTED_DOWN_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, -1, 0, 1));
+                reload=true;
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, -2, 0, 1));
             }
             case REQUESTED_UP_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 1, 0, 1));
+                reload=true;
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 2, 0, 1));
             }
             case REQUESTED_LEFT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition,0, -1, 1));
+                reload=true;
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition,0, -2, 1));
             }
             case REQUESTED_RIGHT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 0, 1, 1));
+                reload=true;
+                level.requestSpawn(new Projectile("noEntrySign", level, this.gridPosition, 0, 2, 1));
             }
         }
     }
@@ -66,6 +68,10 @@ public class Shooter extends AbstractActiveGridEntity {
         if(other.getClass().equals(Player.class)){
             level.hud.updateScore();
             disable();
+        } else if (other instanceof Projectile projectile && projectile.getOwner().getClass().equals(Player.class)) {
+            level.hud.updateScore();
+            disable();
+            other.disable();
         }
     }
 }

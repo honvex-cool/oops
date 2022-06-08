@@ -7,12 +7,14 @@ import pl.ue.oops.game.universe.entities.general.GridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.GridPosition;
 
+import javax.swing.text.Position;
 import java.util.*;
 
 public class Pathfinder {//bfs from player to all entities
 
     int count;
     Map<ActiveGridEntity, Signal> possible;
+
     Level level;
     Pathfinder(Level level) {
         this.level = level;
@@ -21,8 +23,7 @@ public class Pathfinder {//bfs from player to all entities
 
     public void findPathMelee() {//bfs from player
 
-        Queue<GridPosition> q = new LinkedList<>() {
-        };
+        Queue<GridPosition> q = new LinkedList<>() ;
         possible = new HashMap<>();
         boolean[][] visited = new boolean[level.getDimensions().columnCount()][level.getDimensions().rowCount()];
 
@@ -75,8 +76,44 @@ public class Pathfinder {//bfs from player to all entities
 
 
         }
+        makeShootersShoot(possible);
+
+
+
 
         System.out.println(possible);
+    }
+
+    private void makeShootersShoot(Map<ActiveGridEntity, Signal> possible){
+        GridPosition up= new GridPosition(level.player.getPosition().getRow()+1,level.player.getPosition().getColumn());
+        GridPosition down= new GridPosition(level.player.getPosition().getRow()-1,level.player.getPosition().getColumn());
+        GridPosition right= new GridPosition(level.player.getPosition().getRow(),level.player.getPosition().getColumn()+1);
+        GridPosition left= new GridPosition(level.player.getPosition().getRow(),level.player.getPosition().getColumn()-1);
+
+        while(up.getRow()<16&&canShoot(up)){
+            if(getActive(up) instanceof Shooter){
+                possible.put(getActive(up), Signal.REQUESTED_DOWN_ATTACK);
+            }
+            up.set(up.getRow()+1, up.getColumn());
+        }
+        while(down.getRow()>=0 && canShoot(down)){
+            if(getActive(down) instanceof Shooter){
+                possible.put(getActive(down), Signal.REQUESTED_UP_ATTACK);
+            }
+            down.set(down.getRow()-1, down.getColumn());
+        }
+        while(right.getColumn()<24 && canShoot(right)){
+            if(getActive(right) instanceof Shooter){
+                possible.put(getActive(right), Signal.REQUESTED_LEFT_ATTACK);
+            }
+            right.set(right.getRow(), right.getColumn()+1);
+        }
+        while(left.getColumn()>=0 && canShoot(left)){
+            if(getActive(left) instanceof Shooter){
+                possible.put(getActive(left), Signal.REQUESTED_RIGHT_ATTACK);
+            }
+            left.set(left.getRow(), left.getColumn()-1);
+        }
     }
 
     private boolean goForIt(Queue<GridPosition> q, boolean[][] visited, boolean taken, GridPosition adj, GridPosition p) {
@@ -137,6 +174,14 @@ public class Pathfinder {//bfs from player to all entities
         }
         return true;
     }
+    private boolean canShoot(GridPosition p){
+        for(var i : level.passiveEntities){
+            if(i.getPosition().equals(p) && (i instanceof RockEntity)){
+                return false;
+            }
+        }
+        return true;
+    }
 
     private ActiveGridEntity getActive(GridPosition p) {
         List<GridEntity> a;
@@ -144,16 +189,11 @@ public class Pathfinder {//bfs from player to all entities
         a = level.getGridEntitiesAtPosition(p);
         go = null;
         for (var i : a) {
-            if (!i.getClass().isAssignableFrom(Projectile.class)&& i instanceof Clueless) {
+            if (!i.getClass().isAssignableFrom(Projectile.class) && (i instanceof Clueless || i instanceof Shooter)) {
                 go = (ActiveGridEntity) i;
                 break;
             }
         }
         return go;
-    }
-
-    public Signal shooter(Shooter s){
-
-        return null;
     }
 }

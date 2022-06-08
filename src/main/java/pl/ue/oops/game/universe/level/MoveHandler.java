@@ -3,6 +3,7 @@ package pl.ue.oops.game.universe.level;
 import pl.ue.oops.game.universe.entities.Clueless;
 import pl.ue.oops.game.universe.entities.Player;
 import pl.ue.oops.game.universe.entities.RockEntity;
+import pl.ue.oops.game.universe.entities.Shooter;
 import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.Projectile;
 import pl.ue.oops.game.universe.utils.GridPosition;
@@ -48,7 +49,7 @@ public class MoveHandler {
         //Here it gets even worse
         //We need some kind of checker class with function boolean canEnter(ActiveGridEntity entering,GridEntity entered);
         for (var x:list){
-            if(x.getClass().equals(RockEntity.class) || x.getClass().equals(Player.class) || x.getClass().equals(Clueless.class))
+            if(x.getClass().equals(RockEntity.class) || x.getClass().equals(Player.class) || x.getClass().equals(Clueless.class)|| x.getClass().equals(Shooter.class))
                 return false;
         }
         return true;
