@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.backends.lwjgl3.audio.Mp3;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,7 +25,7 @@ public class Oops extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1440, 900);
         camera.update();
-        music = Gdx.audio.newMusic(Gdx.files.external("oops/src/main/resources/music/music(SFW).mp3"));
+        music = Gdx.audio.newMusic(new FileHandle("src/main/resources/music/music(SFW).mp3"));
         music.setLooping(true);
         music.setVolume(0.01f);
         music.play();
