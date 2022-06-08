@@ -115,6 +115,11 @@ public class Level {
             if(entity.isActive()) //OR HAVE ACTIVE ANIMATION - to check
                 nextActiveEntities.add(entity);
         }
+        final var nextPassiveEntities = new ArrayList<GridEntity>();
+        for(final var entity : passiveEntities) {
+            if(entity.isActive()) //OR HAVE ACTIVE ANIMATION - to check
+                nextPassiveEntities.add(entity);
+        }
         final var nextProjectiles = new ArrayList<Projectile>();
         for(final var entity : projectiles) {
             if(entity.isActive()) //OR HAVE ACTIVE ANIMATION - to check
@@ -122,6 +127,7 @@ public class Level {
         }
         activeEntities = nextActiveEntities;
         projectiles = nextProjectiles;
+        passiveEntities = nextPassiveEntities;
     }
 
     private void stepAnimations(float delta) {

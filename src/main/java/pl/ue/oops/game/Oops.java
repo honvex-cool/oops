@@ -1,6 +1,9 @@
 package pl.ue.oops.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.backends.lwjgl3.audio.Mp3;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,15 +15,19 @@ import pl.ue.oops.game.screens.MainMenuScreen;
 public class Oops extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
-
     public OrthographicCamera camera;
+    public Music music;
     @Override
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false);
+        camera.setToOrtho(false, 1440, 900);
         camera.update();
+        music = Gdx.audio.newMusic(Gdx.files.external("oops/src/main/resources/music/music(SFW).mp3"));
+        music.setLooping(true);
+        music.setVolume(0.01f);
+        music.play();
         setScreen(new MainMenuScreen(this));
     }
 
@@ -34,5 +41,6 @@ public class Oops extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        music.dispose();
     }
 }
