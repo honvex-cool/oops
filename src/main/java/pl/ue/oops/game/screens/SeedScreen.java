@@ -40,8 +40,8 @@ public class SeedScreen implements Screen {
         skin = Config.DEFAULT_UI_SKIN;
 
         seed_b =new TextButton("Seed!", skin);
-        seed_b.setPosition(200, 100);
-        seed_b.setSize(100, 50);
+        seed_b.setPosition(320, 100);
+        seed_b.setSize(200, 50);
         stage.addActor(seed_b);
         seed_b.addListener(new ClickListener(){
             @Override
@@ -54,13 +54,13 @@ public class SeedScreen implements Screen {
 
         se=new Random().nextLong();
         seed = new TextField(""+se, skin);
-        seed.setPosition(200, 200);
-        seed.setSize(500, 50);
+        seed.setPosition(320, 200);
+        seed.setSize(800, 50);
         stage.addActor(seed);
 
         back = new TextButton("Back", skin);
-        back.setPosition(800, 100);
-        back.setSize(100, 50);
+        back.setPosition(920, 100);
+        back.setSize(200, 50);
         stage.addActor(back);
         back.addListener(new ClickListener(){
             @Override

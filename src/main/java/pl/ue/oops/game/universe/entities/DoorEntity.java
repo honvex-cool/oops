@@ -1,5 +1,8 @@
 package pl.ue.oops.game.universe.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import org.lwjgl.system.CallbackI;
 import pl.ue.oops.game.animations.SimpleAnimation;
 import pl.ue.oops.game.animations.movements.NoMovement;
@@ -28,6 +31,8 @@ public class DoorEntity extends AbstractActiveGridEntity {
     public void stepAnimation(float delta) {
         super.stepAnimation(delta);
         if(open && getCurrentAnimation().isFinished()){
+            //var sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/unknown.mp3"));
+            //sound.play(0.4f);
             animationController.playAnimation(new SimpleAnimation(new NoMovement(this.gridPosition), new DelayedSpriteSequence(true,15,
                     "portal_active_0",
                     "portal_active_1",

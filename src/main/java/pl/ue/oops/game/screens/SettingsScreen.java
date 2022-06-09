@@ -41,7 +41,7 @@ public class SettingsScreen implements Screen {
         skin = new Skin(new FileHandle("src/main/resources/skins/uiskin.json"));
 
         back = new TextButton("Back", skin);
-        back.setPosition(800, 100);
+        back.setPosition(1020, 75);
         back.setSize(100, 50);
         stage.addActor(back);
         back.addListener(new ClickListener() {
@@ -54,9 +54,9 @@ public class SettingsScreen implements Screen {
 
 
         sliderm = new Slider(0, 100, 0.1f, false, skin);
-        sliderm.setSize(400, 100);
+        sliderm.setSize(800, 100);
         sliderm.setValue(game.music.getVolume() * 100f);
-        sliderm.setPosition(200, 20);
+        sliderm.setPosition(320, 145);
         sliderm.addListener((EventListener) e -> {
             boolean sliderUpdating = false;
             if (!sliderUpdating && sliderm.isDragging()) {
@@ -88,7 +88,7 @@ public class SettingsScreen implements Screen {
         stage.act(v);
         stage.draw();
         game.batch.begin();
-        text.draw(game.batch, "Music Volume", 200,100);
+        text.draw(game.batch, "Music Volume", 100,200);
         game.batch.end();
     }
 
