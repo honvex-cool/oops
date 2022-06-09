@@ -1,5 +1,8 @@
 package pl.ue.oops.game.universe.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import pl.ue.oops.game.animations.SimpleAnimation;
 import pl.ue.oops.game.animations.movements.NoMovement;
 import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
@@ -15,10 +18,12 @@ import java.util.Random;
 public class Shooter extends AbstractActiveGridEntity {
 
     boolean reload;
+    private Sound sound;
 
     public Shooter(int row, int column, Level level) {
         super(level, row, column, "venomous_snake_0_0");
         reload=false;
+        sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/Snake_final.mp3"));
     }
 
     public Shooter(Level level) {
@@ -50,18 +55,22 @@ public class Shooter extends AbstractActiveGridEntity {
                 level.moveHandler.moveRight(this);
             }
             case REQUESTED_DOWN_ATTACK -> {
+                sound.play(1f);
                 reload=true;
                 level.requestSpawn(new Projectile(level, this.gridPosition, -2, 0, 1,this));
             }
             case REQUESTED_UP_ATTACK -> {
+                sound.play(1f);
                 reload=true;
                 level.requestSpawn(new Projectile( level, this.gridPosition, 2, 0, 1,this));
             }
             case REQUESTED_LEFT_ATTACK -> {
+                sound.play(1f);
                 reload=true;
                 level.requestSpawn(new Projectile( level, this.gridPosition,0, -2, 1,this));
             }
             case REQUESTED_RIGHT_ATTACK -> {
+                sound.play(1f);
                 reload=true;
                 level.requestSpawn(new Projectile( level, this.gridPosition, 0, 2, 1,this));
             }
@@ -72,9 +81,11 @@ public class Shooter extends AbstractActiveGridEntity {
     public void interact(GridEntity other) {
         if(other.getClass().equals(Player.class)){
             level.hud.updateScore();
+            sound.dispose();
             disable();
         } else if (other instanceof Projectile projectile && projectile.getOwner().getClass().equals(Player.class)) {
             level.hud.updateScore();
+            sound.dispose();
             disable();
             other.disable();
         }

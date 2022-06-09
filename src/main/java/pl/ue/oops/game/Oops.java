@@ -27,7 +27,7 @@ public class Oops extends Game {
         camera.update();
         music = Gdx.audio.newMusic(new FileHandle("src/main/resources/music/music(SFW).mp3"));
         music.setLooping(true);
-        music.setVolume(0.4f);
+        music.setVolume(0.3f);
         music.play();
         setScreen(new MainMenuScreen(this));
     }

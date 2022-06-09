@@ -77,8 +77,8 @@ public class SeedScreen implements Screen {
     }
     private void seedSent(){
         try{
+            Config.LAST_SEED = Long.parseLong(seed.getText());
             game.setScreen(new LevelScreen (game, Long.parseLong(seed.getText())));
-            Config.LAST_SEED = se;
         }catch(Exception ignore){
             System.out.println("Random seed:" + se);
             game.setScreen(new LevelScreen (game, se));
