@@ -27,7 +27,7 @@ public class AIHandler {
         {
             entity.takeTurn(pathfinder.possible.get(entity));
         }
-        spawnSUS(50);
+        spawnSUS(500);
     }
 
     private void spawnSUS(int probability){

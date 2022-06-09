@@ -2,8 +2,10 @@ package pl.ue.oops;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import pl.ue.oops.game.universe.utils.TextureManager;
 
 //Config is a namespace with constants
 public class Config {
@@ -23,6 +25,7 @@ public class Config {
     public static final Label.LabelStyle DEFAULT_LABEL_STYLE = new Label.LabelStyle(DEFAULT_UI_SKIN.getFont("default-font"),Color.FIREBRICK);
     public static final int ENEMIES_MINIMAL_DISTANCE_TO_PLAYER = 3;
     public static long LAST_SEED;
+    public static final Sprite LOGO = TextureManager.getSprite("wyprawa");
 
     private Config() {
     }

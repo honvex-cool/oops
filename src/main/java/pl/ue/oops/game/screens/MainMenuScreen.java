@@ -71,8 +71,10 @@ public class MainMenuScreen implements Screen {
         game.camera.unproject(touchPos);
         //System.out.println(touchPos);
 
+        game.batch.draw(Config.LOGO, 444, 600,512,256);
+
         if(play.contains(touchPos.x, touchPos.y)){
-            game.batch.draw(play_button_active, play.x, play.y);
+            game.batch.draw(play_button_active,play.x, play.y);
             if(Gdx.input.justTouched()) {
                 game.setScreen(new SeedScreen(game));
             }

@@ -89,6 +89,7 @@ public class SettingsScreen implements Screen {
         stage.draw();
         game.batch.begin();
         text.draw(game.batch, "Music Volume", 100,200);
+        game.batch.draw(Config.LOGO, 444, 600,512,256);
         game.batch.end();
     }
 
