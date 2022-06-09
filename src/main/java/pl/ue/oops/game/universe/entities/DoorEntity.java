@@ -31,8 +31,6 @@ public class DoorEntity extends AbstractActiveGridEntity {
     public void stepAnimation(float delta) {
         super.stepAnimation(delta);
         if(open && getCurrentAnimation().isFinished()){
-            //var sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/unknown.mp3"));
-            //sound.play(0.4f);
             animationController.playAnimation(new SimpleAnimation(new NoMovement(this.gridPosition), new DelayedSpriteSequence(true,15,
                     "portal_active_0",
                     "portal_active_1",

@@ -1,5 +1,8 @@
 package pl.ue.oops.game.universe.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import pl.ue.oops.game.animations.controllers.AnimationControllers;
 import pl.ue.oops.game.animations.movements.NoMovement;
 import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
@@ -21,11 +24,13 @@ public class Player extends AbstractActiveGridEntity {
     private int ammo = INITIAL_AMMO;
     private boolean dead = false;
     private final Statistics statistics = new Statistics();
+    private Sound sound;
 
     public Player(int row, int column, Level level) {
         super(level, row, column, "eyer_0_0");
         animationController = AnimationControllers.create(new SimpleSpriteSequence("eyer_move_1","eyer_move_2","eyer_move_1"),new SimpleSpriteSequence("eyer_0_0"));
         animationController.playIdleAnimation(this.gridPosition);
+        sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/Pocisk_final.mp3"));
     }
 
     public void setPlayerInfo(int hp){
@@ -57,6 +62,7 @@ public class Player extends AbstractActiveGridEntity {
     private void fireProjectile(int rowDelta, int columnDelta) {
         if(ammo == 0)
             return;
+        sound.play(1f);
         level.requestSpawn(
             new Projectile(
                 level,
