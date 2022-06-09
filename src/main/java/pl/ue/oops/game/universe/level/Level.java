@@ -174,4 +174,8 @@ public class Level {
         nextLevel.substitutePlayer(player.moveToLevel(nextLevel));
         return nextLevel;
     }
+
+    public List<ActiveGridEntity> getListOfActiveEntities() {
+        return new ArrayList<>(activeEntities);
+    }
 }

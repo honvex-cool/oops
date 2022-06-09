@@ -23,7 +23,7 @@ public class AIHandler {
         catch(Exception e){
             System.out.println("sraka" + e);
         }
-        for(final var entity :level.activeEntities) //some decision-making and forcing objects to take turns(with some suggestions in Signals
+        for(final var entity :level.getListOfActiveEntities()) //some decision-making and forcing objects to take turns(with some suggestions in Signals
         {
             entity.takeTurn(pathfinder.possible.get(entity));
         }
@@ -45,6 +45,6 @@ public class AIHandler {
     }
 
     public boolean allEnemiesDead(){
-        return level.activeEntities.size()==1;
+        return level.getListOfActiveEntities().size()==1;
     }
 }

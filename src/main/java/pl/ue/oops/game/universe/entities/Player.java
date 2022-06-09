@@ -1,5 +1,9 @@
 package pl.ue.oops.game.universe.entities;
 
+import pl.ue.oops.game.animations.controllers.AnimationControllers;
+import pl.ue.oops.game.animations.movements.NoMovement;
+import pl.ue.oops.game.animations.sequences.DelayedSpriteSequence;
+import pl.ue.oops.game.animations.sequences.SimpleSpriteSequence;
 import pl.ue.oops.game.universe.control.Signal;
 import pl.ue.oops.game.universe.entities.general.AbstractActiveGridEntity;
 import pl.ue.oops.game.universe.entities.general.GridEntity;
@@ -19,7 +23,9 @@ public class Player extends AbstractActiveGridEntity {
     private final Statistics statistics = new Statistics();
 
     public Player(int row, int column, Level level) {
-        super(level, row, column, "abstract_eye_square_mouth");
+        super(level, row, column, "eyer_0_0");
+        animationController = AnimationControllers.create(new SimpleSpriteSequence("eyer_move_1","eyer_move_2","eyer_move_1"),new SimpleSpriteSequence("eyer_0_0"));
+        animationController.playIdleAnimation(this.gridPosition);
     }
 
     public void setPlayerInfo(int hp){

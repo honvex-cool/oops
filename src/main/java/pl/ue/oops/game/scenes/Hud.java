@@ -30,8 +30,8 @@ public class Hud implements Disposable {
         viewport = new FitViewport(Config.NATIVE_WIDTH,Config.NATIVE_HEIGHT,new OrthographicCamera());
         stage = new Stage(viewport,spriteBatch);
         score = 0;
-        scoreLabel = new Label(String.format("%03d",score),Config.DEFAULT_UI_SKIN);
-        scoreNameLabel = new Label(String.format("SCORE"),Config.DEFAULT_UI_SKIN);
+        scoreLabel = new Label(String.format("%03d",score),Config.DEFAULT_LABEL_STYLE);
+        scoreNameLabel = new Label(String.format("SCORE"),Config.DEFAULT_LABEL_STYLE);
         turn = 0;
         turnLabel = new Label(String.format("%03d",turn),Config.DEFAULT_LABEL_STYLE);
         turnNameLabel = new Label(String.format("TURN"),Config.DEFAULT_LABEL_STYLE);

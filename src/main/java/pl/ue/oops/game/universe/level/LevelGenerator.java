@@ -6,12 +6,12 @@ import pl.ue.oops.game.universe.entities.general.ActiveGridEntity;
 import pl.ue.oops.game.universe.utils.AdjacencyRules;
 import pl.ue.oops.game.universe.utils.GeneratorEntity;
 import pl.ue.oops.game.universe.utils.GridPosition;
+import pl.ue.oops.game.universe.utils.statistics.Statistics;
 
 import java.util.*;
 
 public class LevelGenerator {
     private static List<GeneratorEntity> possibleTerrains = new ArrayList<>();
-    private static List<GeneratorEntity> possibleEnemies = new ArrayList<>();
 
     static {
 //TERRAIN
@@ -36,15 +36,6 @@ public class LevelGenerator {
         possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_0").setProbability(1));
         possibleTerrains.add(AdjacencyRules.getGeneratorEntity("lake_4_1").setProbability(1));
         possibleTerrains.add(AdjacencyRules.getGeneratorEntity("r").setProbability(10));
-
-
-//ENEMIES
-        possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
-        possibleEnemies.add(new GeneratorEntity("?").setProbability(2));
-        possibleEnemies.add(new GeneratorEntity("s").setProbability(1));
-
-        possibleEnemies.add(new GeneratorEntity("+").setProbability(1));
-        possibleEnemies.add(new GeneratorEntity("*").setProbability(1));
     }
 
     public LevelGenerator(){}
@@ -133,6 +124,13 @@ public class LevelGenerator {
         return null; //we should never get here but if we do we're fucked
     }
 
+    private static <T> T getRandomFromList(List<T> list,Random random){
+        int index = random.nextInt()%list.size();
+        if(index<0)
+            index+= list.size();
+        return list.get(index);
+    }
+
     private static void updateNeighbouringPositions(GridPosition p,GeneratorEntity type, Map<GridPosition,List<GeneratorEntity>> freePositions){
         try{
             List<GeneratorEntity> list = new ArrayList<>();
@@ -172,18 +170,35 @@ public class LevelGenerator {
         }catch(Exception e){};
     }
 
-    public static Map<GridPosition,GeneratorEntity> fillWithEnemies(Map<GridPosition,GeneratorEntity> terrainMap,long seed){
+    public static Map<GridPosition,String> fillWithEnemies(Map<GridPosition,GeneratorEntity> terrainMap,long seed){
         final Random random = new Random(seed);
-        var possibleEntityPositions = getReachableFromStart(terrainMap);
-        Map<GridPosition,GeneratorEntity> enemies = new HashMap<>();
+        List<GridPosition> possibleEntityPositions = new ArrayList<>();
+        Map<GridPosition,String> enemies = new HashMap<>();
 
-        for(var x:possibleEntityPositions){
+        List<String> possibleEnemies = new ArrayList<>();
+        //Here probability means occurences
+        //possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
+        for(int i=0;i<3;i++) {
+            possibleEnemies.add("?");
+        }
+        possibleEnemies.add("s");
+        possibleEnemies.add("nest");
+        possibleEnemies.add("+");
+        possibleEnemies.add("*");
+
+
+        for(var x:getReachableFromStart(terrainMap)){
             if(x.getRow()> Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER && x.getColumn()>Config.ENEMIES_MINIMAL_DISTANCE_TO_PLAYER){
-                GeneratorEntity type = getRandomFromPossibleStates(possibleEnemies,random);
-                if(!type.getName().equals("none")){
-                    enemies.put(x,new GeneratorEntity(type));
-                }
+                possibleEntityPositions.add(x);
             }
+        }
+        while(!possibleEntityPositions.isEmpty() && !possibleEnemies.isEmpty()) {
+            var randomEnemy = getRandomFromList(possibleEnemies,random);
+            var randomLegalGridPossition = getRandomFromList(possibleEntityPositions,random);
+            enemies.put(randomLegalGridPossition, randomEnemy);
+            possibleEntityPositions.remove(randomLegalGridPossition);
+            possibleEnemies.remove(randomEnemy);
+            System.err.println(possibleEntityPositions.size());
         }
         return enemies;
     }

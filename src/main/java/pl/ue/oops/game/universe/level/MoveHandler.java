@@ -19,7 +19,7 @@ public class MoveHandler {
         if(isMovePossible(entity,rowDelta,columnDelta)){
             final var destination = entity.getPosition().shifted(rowDelta, columnDelta);
             if(!(entity instanceof Projectile)) {
-                entity.getAnimationController().playMoveAnimation(entity.getPosition(), destination, 0.1f);
+                entity.getAnimationController().playMoveAnimation(entity.getPosition(), destination, 0.2f);
             }
             entity.getPosition().setPrev(entity.getPosition().getRow(),entity.getPosition().getColumn());
             entity.getPosition().set(destination);

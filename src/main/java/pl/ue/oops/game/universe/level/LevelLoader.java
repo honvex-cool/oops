@@ -90,13 +90,14 @@ public class LevelLoader {
         enemies.remove(new GridPosition(rowCount-1,collumnCount-1));
         for (var x:enemies.keySet()) {
             final int row = x.getRow(), column = x.getColumn();
-            final var symbol = enemies.get(x).getName();
+            final var symbol = enemies.get(x);
             System.out.println(symbol);
             switch(symbol) {
                 case "?" -> level.requestSpawn(new Clueless(row, column, level));
                 case "+" -> level.requestSpawn(new MedKit(row, column, level));
                 case "*" -> level.requestSpawn(new Mag(row, column, level));
                 case "s" -> level.requestSpawn(new Shooter(row,column,level));
+                case "nest" -> level.requestSpawn(new SnakeNest(row,column,level));
             }
         }
 
