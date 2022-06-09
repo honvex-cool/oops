@@ -178,8 +178,8 @@ public class LevelGenerator {
         List<String> possibleEnemies = new ArrayList<>();
         //Here probability means occurences
         //possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
-        int cluelessNumber = 2+(levelNumber/2)+positiveModulo(random.nextInt(),3+levelNumber/3);
-        int shooterNumber = (levelNumber/3)+positiveModulo(random.nextInt(),2+levelNumber/5);
+        int cluelessNumber = 2+(levelNumber/3)+positiveModulo(random.nextInt(),2+levelNumber/5);
+        int shooterNumber = (levelNumber/4)+positiveModulo(random.nextInt(),1+levelNumber/7);
         int nestNumber = (levelNumber/5)+positiveModulo(random.nextInt(),levelNumber/7);
         int medPackNumber = positiveModulo(random.nextInt(),3);
         int ammoPackNumber = positiveModulo(random.nextInt(),3);
