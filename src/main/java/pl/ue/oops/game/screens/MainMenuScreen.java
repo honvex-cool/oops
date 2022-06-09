@@ -59,7 +59,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {//1440 x 900
+    public void render(float delta) {
 
         ScreenUtils.clear(Config.MENU_BACKGROUND_COLOR);
         game.batch.setProjectionMatrix(game.camera.combined);
@@ -87,6 +87,9 @@ public class MainMenuScreen implements Screen {
         }
         if(settings.contains(touchPos.x, touchPos.y)){
             game.batch.draw(settings_button_active, settings.x, settings.y);
+            if(Gdx.input.justTouched()){
+                game.setScreen(new SettingsScreen(game));
+            }
         }else{
             game.batch.draw(settings_button_inactive, settings.x, settings.y);
         }
