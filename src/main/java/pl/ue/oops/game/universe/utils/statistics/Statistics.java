@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Statistics {
-    private final Map<TrackedParameter, Integer> stats;
+    private final Map<TrackedParameter, Long> stats;
 
-    private Statistics(Map<TrackedParameter, Integer> stats) {
+    private Statistics(Map<TrackedParameter, Long> stats) {
         this.stats = stats;
     }
 
@@ -25,12 +25,16 @@ public class Statistics {
         add(parameter, -1);
     }
 
-    public void add(TrackedParameter parameter, int value) {
+    public void add(TrackedParameter parameter, long value) {
         stats.put(parameter, get(parameter) + value);
     }
 
-    public int get(TrackedParameter parameter) {
-        return stats.getOrDefault(parameter, 0);
+    public void setSeed(long value){
+        stats.put(TrackedParameter.CURRENT_SEED,value);
+    }
+
+    public long get(TrackedParameter parameter) {
+        return stats.getOrDefault(parameter, 0l);
     }
 
     public String toKeyValueRepresentation() {
@@ -46,13 +50,13 @@ public class Statistics {
                 .collect(
                     Collectors.toMap(
                         pair -> TrackedParameter.valueOf(pair[0]),
-                        pair -> Integer.parseInt(pair[1])
+                        pair -> Long.parseLong(pair[1])
                     )
                 )
         );
     }
 
-    public Stream<Map.Entry<TrackedParameter, Integer>> entries() {
+    public Stream<Map.Entry<TrackedParameter, Long>> entries() {
         return stats.entrySet().stream();
     }
 }

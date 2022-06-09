@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 
 public class SettingsScreen implements Screen {
@@ -82,7 +83,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.CHARTREUSE);
+        ScreenUtils.clear(Config.MENU_BACKGROUND_COLOR);
 
         stage.act(v);
         stage.draw();

@@ -20,6 +20,7 @@ public class Summary implements Disposable {
     public Stage stage;
 
     public Summary(SpriteBatch spriteBatch, Statistics statistics) {
+        statistics.setSeed(Config.LAST_SEED);
         Viewport viewport = new FitViewport(Config.NATIVE_WIDTH, Config.NATIVE_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,spriteBatch);
 

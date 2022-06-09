@@ -22,6 +22,7 @@ public class Config {
     public static final Skin DEFAULT_UI_SKIN = new Skin(new FileHandle("src/main/resources/skins/uiskin.json"));
     public static final Label.LabelStyle DEFAULT_LABEL_STYLE = new Label.LabelStyle(DEFAULT_UI_SKIN.getFont("default-font"),Color.FIREBRICK);
     public static final int ENEMIES_MINIMAL_DISTANCE_TO_PLAYER = 3;
+    public static long LAST_SEED;
 
     private Config() {
     }

@@ -24,6 +24,7 @@ public class Level {
     public Hud hud;
     Player player; // package private for Pathfinder
     LevelState levelState;
+    private int levelNumber = 0;
 
     List<GridEntity> groundEntities = new ArrayList<>(); //ground textures used only for rendering
     List<GridEntity> passiveEntities = new ArrayList<>(); //package private for AIHandler to use
@@ -51,6 +52,10 @@ public class Level {
             throw new RuntimeException("Hud already set");
 
         return this;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
     }
 
     public Level setPlayerInfo(int hp) {
@@ -170,8 +175,9 @@ public class Level {
 
     public Level advance(long seed) {
         player.getStatistics().increment(TrackedParameter.LEVELS_CLEARED);
-        final var nextLevel = LevelLoader.loadFromGenerator(seed).setHud(hud);
+        final var nextLevel = LevelLoader.loadFromGenerator(seed, levelNumber + 1).setHud(hud);
         nextLevel.substitutePlayer(player.moveToLevel(nextLevel));
+        nextLevel.levelNumber = levelNumber + 1;
         return nextLevel;
     }
 

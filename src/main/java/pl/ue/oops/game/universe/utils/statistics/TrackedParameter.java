@@ -7,9 +7,10 @@ public enum TrackedParameter {
     HITS_TAKEN,
     HP_POINTS_LOST,
     HP_POINTS_GAINED,
-    BULLETS_COLLECTED, MAGS_COLLECTED;
+    BULLETS_COLLECTED, MAGS_COLLECTED,
+    CURRENT_SEED;
 
-    public static String formatted(TrackedParameter parameter, int value) {
+    public static String formatted(TrackedParameter parameter, long value) {
         return value + " " + (value == 1 ? parameter.singular() : parameter.plural());
     }
 

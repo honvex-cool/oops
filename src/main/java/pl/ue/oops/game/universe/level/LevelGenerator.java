@@ -170,7 +170,7 @@ public class LevelGenerator {
         }catch(Exception e){};
     }
 
-    public static Map<GridPosition,String> fillWithEnemies(Map<GridPosition,GeneratorEntity> terrainMap,long seed){
+    public static Map<GridPosition,String> fillWithEnemies(Map<GridPosition,GeneratorEntity> terrainMap,long seed,int levelNumber){
         final Random random = new Random(seed);
         List<GridPosition> possibleEntityPositions = new ArrayList<>();
         Map<GridPosition,String> enemies = new HashMap<>();
@@ -178,13 +178,22 @@ public class LevelGenerator {
         List<String> possibleEnemies = new ArrayList<>();
         //Here probability means occurences
         //possibleEnemies.add(new GeneratorEntity("none").setProbability(100));
-        for(int i=0;i<3;i++) {
+        int cluelessNumber = 2+(levelNumber/2)+positiveModulo(random.nextInt(),3+levelNumber/3);
+        int shooterNumber = (levelNumber/3)+positiveModulo(random.nextInt(),2+levelNumber/5);
+        int nestNumber = (levelNumber/5)+positiveModulo(random.nextInt(),levelNumber/7);
+        int medPackNumber = positiveModulo(random.nextInt(),3);
+        int ammoPackNumber = positiveModulo(random.nextInt(),3);
+
+        for(int i=0;i<cluelessNumber;i++)
             possibleEnemies.add("?");
-        }
-        possibleEnemies.add("s");
-        possibleEnemies.add("nest");
-        possibleEnemies.add("+");
-        possibleEnemies.add("*");
+        for(int i=0;i<shooterNumber;i++)
+            possibleEnemies.add("s");
+        for(int i=0;i<nestNumber;i++)
+            possibleEnemies.add("nest");
+        for(int i=0;i<medPackNumber;i++)
+            possibleEnemies.add("+");
+        for(int i=0;i<ammoPackNumber;i++)
+            possibleEnemies.add("*");
 
 
         for(var x:getReachableFromStart(terrainMap)){
@@ -231,5 +240,14 @@ public class LevelGenerator {
                 dfs(position.shifted(0,-1),terrainMap,reachable);
             }
         }catch (Exception ignored){}
+    }
+
+    private static int positiveModulo(int val,int mod){
+        if(mod == 0)
+            return 0;
+        val = val%mod;
+        if(val<0)
+            val+=mod;
+        return val;
     }
 }

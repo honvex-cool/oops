@@ -51,10 +51,10 @@ public class LevelLoader {
         return level;
     }
 
-    public static Level loadFromGenerator(long seed) {
-        return loadFromGenerator(Config.DEFAULT_ROW_COUNT,Config.DEFAULT_COLUMN_COUNT,seed);
+    public static Level loadFromGenerator(long seed,int levelNumber) {
+        return loadFromGenerator(Config.DEFAULT_ROW_COUNT,Config.DEFAULT_COLUMN_COUNT,seed,levelNumber);
     }
-    public static Level loadFromGenerator(int rowCount,int collumnCount,long seed) {
+    public static Level loadFromGenerator(int rowCount,int collumnCount,long seed, int levelNumber) {
         final var dimensions = new Dimensions(rowCount, collumnCount);
         final var level = new Level(dimensions);
         var generatedPositions = LevelGenerator.generateLevel(rowCount,collumnCount,seed);
@@ -85,7 +85,7 @@ public class LevelLoader {
         }
 
 
-        var enemies = LevelGenerator.fillWithEnemies(generatedPositions,seed);
+        var enemies = LevelGenerator.fillWithEnemies(generatedPositions,seed,levelNumber);
         System.out.println(enemies);
         enemies.remove(new GridPosition(rowCount-1,collumnCount-1));
         for (var x:enemies.keySet()) {
@@ -107,6 +107,8 @@ public class LevelLoader {
     }
 
     private static int positiveModulo(int val,int mod){
+        if(mod==0)
+            return 0;
         val = val%mod;
         if(val<0)
             val+=mod;
