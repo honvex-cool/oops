@@ -28,10 +28,12 @@ public abstract class AbstractActiveGridEntity extends AbstractGridEntity implem
 
     @Override
     public void takeTurn(Signal signal) {
-        if(signal == null)
-            idleBehaviour();
-        else
-            react(signal);
+        if(active) {
+            if (signal == null)
+                idleBehaviour();
+            else
+                react(signal);
+        }
     }
 
     public abstract void idleBehaviour();

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 
 import java.util.Random;
@@ -35,7 +36,7 @@ public class SeedScreen implements Screen {
 
         stage=new Stage();
         stage.setViewport(viewport);
-        skin = new Skin(new FileHandle("src/main/resources/skins/uiskin.json"));
+        skin = Config.DEFAULT_UI_SKIN;
 
         seed_b =new TextButton("Seed!", skin);
         seed_b.setPosition(200, 100);
@@ -86,7 +87,7 @@ public class SeedScreen implements Screen {
 
     @Override
     public void render(float v) {
-        ScreenUtils.clear(Color.CHARTREUSE);
+        ScreenUtils.clear(Config.MENU_BACKGROUND_COLOR);
 
         stage.act(v);
         stage.draw();

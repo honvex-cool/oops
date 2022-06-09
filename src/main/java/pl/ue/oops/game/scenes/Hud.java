@@ -30,15 +30,15 @@ public class Hud implements Disposable {
         viewport = new FitViewport(Config.NATIVE_WIDTH,Config.NATIVE_HEIGHT,new OrthographicCamera());
         stage = new Stage(viewport,spriteBatch);
         score = 0;
-        scoreLabel = new Label(String.format("%03d",score),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        scoreNameLabel = new Label(String.format("SCORE"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        scoreLabel = new Label(String.format("%03d",score),Config.DEFAULT_UI_SKIN);
+        scoreNameLabel = new Label(String.format("SCORE"),Config.DEFAULT_UI_SKIN);
         turn = 0;
-        turnLabel = new Label(String.format("%03d",turn),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        turnNameLabel = new Label(String.format("TURN"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        hpLabel = new Label("5",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        hpNameLabel = new Label(String.format("HP"),new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        ammoLabel = new Label("10",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
-        final var ammoNameLabel = new Label("AMMO",new Label.LabelStyle(new BitmapFont(), Color.FIREBRICK));
+        turnLabel = new Label(String.format("%03d",turn),Config.DEFAULT_LABEL_STYLE);
+        turnNameLabel = new Label(String.format("TURN"),Config.DEFAULT_LABEL_STYLE);
+        hpLabel = new Label("5",Config.DEFAULT_LABEL_STYLE);
+        hpNameLabel = new Label(String.format("HP"),Config.DEFAULT_LABEL_STYLE);
+        ammoLabel = new Label("10",Config.DEFAULT_LABEL_STYLE);
+        final var ammoNameLabel = new Label("AMMO",Config.DEFAULT_LABEL_STYLE);
 
 
         Table table = new Table();

@@ -25,12 +25,18 @@ public class Projectile extends AbstractActiveGridEntity {
 
     private final Object owner;
 
-    public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage) {
-        this(spriteName,level,gridPosition,rowDelta,columnDelta,damage,new Object());
-    }
-
     public Projectile(String spriteName, Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage, Object owner) {
         super(level, gridPosition, spriteName);
+        this.rowDelta = rowDelta;
+        this.columnDelta = columnDelta;
+        this.damage = damage;
+        this.owner = owner;
+        try{partRowDelta = rowDelta/abs(rowDelta);}catch (Exception ignored){}
+        try{partColumnDelta = columnDelta/abs(columnDelta);}catch (Exception ignored){}
+    }
+
+    public Projectile(Level level, GridPosition gridPosition, int rowDelta, int columnDelta, int damage, Object owner) {
+        super(level, gridPosition, "empty");
         this.rowDelta = rowDelta;
         this.columnDelta = columnDelta;
         this.damage = damage;
@@ -47,6 +53,16 @@ public class Projectile extends AbstractActiveGridEntity {
                 animationController = AnimationControllers.create(new SimpleSpriteSequence("bullet_move_1_0","bullet_move_1_1"),new SimpleSpriteSequence("bullet_1"));
             if(partColumnDelta==-1)
                 animationController = AnimationControllers.create(new SimpleSpriteSequence("bullet_move_3_0","bullet_move_3_1"),new SimpleSpriteSequence("bullet_3"));
+        }
+        else{
+            if(partRowDelta==1)
+                animationController = AnimationControllers.create(new SimpleSpriteSequence("venom_drop_move_0_0","venom_drop_move_0_1"),new SimpleSpriteSequence("venom_drop_0"));
+            if(partRowDelta==-1)
+                animationController = AnimationControllers.create(new SimpleSpriteSequence("venom_drop_move_2_0","venom_drop_move_2_1"),new SimpleSpriteSequence("venom_drop_2"));
+            if(partColumnDelta==1)
+                animationController = AnimationControllers.create(new SimpleSpriteSequence("venom_drop_move_1_0","venom_drop_move_1_1"),new SimpleSpriteSequence("venom_drop_1"));
+            if(partColumnDelta==-1)
+                animationController = AnimationControllers.create(new SimpleSpriteSequence("venom_drop_move_3_0","venom_drop_move_3_1"),new SimpleSpriteSequence("venom_drop_3"));
         }
     }
 

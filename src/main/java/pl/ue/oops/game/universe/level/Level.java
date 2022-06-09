@@ -33,12 +33,14 @@ public class Level {
     public Dimensions getDimensions() {
         return dimensions;
     }
+    private boolean firstFrameAfterAnimations;
 
     public Level(Dimensions dimensions) {
         this.dimensions = dimensions;
         aiHandler = new AIHandler(this);
         moveHandler = new MoveHandler(this);
         levelState = LevelState.ACTIVE;
+        firstFrameAfterAnimations=true;
     }
 
     //Are the functions setHud and setPlayer necessary? Maybe we can just put them in level constructor
@@ -87,20 +89,26 @@ public class Level {
     }
 
     public LevelState update(float delta, Signal signal) {
-        if(animationsFinished() && signal != null){
-            hud.updateTurn();
-            player.takeTurn(signal);
-            eraseDestroyedEntities();
-            aiHandler.takeTurn();
-            eraseDestroyedEntities();
-            for(final var projectile: projectiles)
-                projectile.takeTurn(null);
-            eraseDestroyedEntities();
-            if(player.isDead())
-                levelState = LevelState.GAME_OVER;
+        if(animationsFinished()){
+            if(signal != null) {
+                firstFrameAfterAnimations = true;
+                hud.updateTurn();
+                player.takeTurn(signal);
+                //eraseDestroyedEntities();
+                aiHandler.takeTurn();
+                //eraseDestroyedEntities();
+                for (final var projectile : projectiles)
+                    projectile.takeTurn(null);
+                //eraseDestroyedEntities();
+                if (player.isDead())
+                    levelState = LevelState.GAME_OVER;
+            }
+            else if(firstFrameAfterAnimations){
+                firstFrameAfterAnimations = false;
+                eraseDestroyedEntities();
+            }
         }
-        else
-            stepAnimations(delta);
+        stepAnimations(delta);
         return levelState;
     }
 

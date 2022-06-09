@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
 import pl.ue.oops.game.scenes.Summary;
 import pl.ue.oops.game.universe.utils.statistics.Statistics;
@@ -23,7 +24,7 @@ public class GameOverScreen extends GameScreen {
             Gdx.app.exit();
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER))
             game.setScreen(new MainMenuScreen(game));
-        ScreenUtils.clear(Color.CORAL);
+        ScreenUtils.clear(Config.MENU_BACKGROUND_COLOR);
         summary.stage.draw();
     }
 }

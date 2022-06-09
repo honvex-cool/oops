@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import pl.ue.oops.Config;
 import pl.ue.oops.game.Oops;
+import pl.ue.oops.game.universe.utils.TextureManager;
 
 import java.awt.*;
 
@@ -19,8 +21,10 @@ public class MainMenuScreen implements Screen {
     private final Sprite play_button_inactive;
     private final Sprite exit_button_inactive;
     private final Sprite settings_button_inactive;
-    private final Sprite music_active;
-    private final Sprite music_inactive;
+    private final Sprite music_playing_active;
+    private final Sprite music_not_playing_active;
+    private final Sprite music_playing_inactive;
+    private final Sprite music_not_playing_inactive;
     private final Rectangle play;
     private final Rectangle settings;
     private final Rectangle exit;
@@ -29,14 +33,17 @@ public class MainMenuScreen implements Screen {
     Oops game;
     public MainMenuScreen(final Oops game) {
         this.game=game;
-        play_button_inactive = new Sprite(new Texture("src/main/resources/test_sprites/start_inactive.png"));
-        exit_button_inactive = new Sprite(new Texture("src/main/resources/test_sprites/exit_inactive.png"));
-        settings_button_inactive = new Sprite(new Texture("src/main/resources/test_sprites/settings_inactive.png"));
-        play_button_active = new Sprite(new Texture("src/main/resources/test_sprites/start_active.png"));
-        exit_button_active = new Sprite(new Texture("src/main/resources/test_sprites/exit_active.png"));
-        settings_button_active = new Sprite(new Texture("src/main/resources/test_sprites/settings_active.png"));
-        music_inactive = new Sprite(new Texture("src/main/resources/test_sprites/music_inactive.png"));
-        music_active = new Sprite(new Texture("src/main/resources/test_sprites/music_active.png"));
+        System.err.println("gsgs");
+        play_button_inactive = TextureManager.getSprite("start_inactive");
+        exit_button_inactive = TextureManager.getSprite("exit_inactive");
+        settings_button_inactive = TextureManager.getSprite("settings_inactive");
+        play_button_active = TextureManager.getSprite("start_active");
+        exit_button_active = TextureManager.getSprite("exit_active");
+        settings_button_active = TextureManager.getSprite("settings_active");
+        music_playing_active = TextureManager.getSprite("music_active_1");
+        music_playing_inactive = TextureManager.getSprite("music_active_0");
+        music_not_playing_active = TextureManager.getSprite("music_inactive_1");
+        music_not_playing_inactive = TextureManager.getSprite("music_inactive_0");
         game.camera.setToOrtho(false, 1440, 900);
         game.camera.update();
         play=new Rectangle(352, 350, 256, 256);
@@ -54,7 +61,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {//1440 x 900
 
-        ScreenUtils.clear(Color.CHARTREUSE);
+        ScreenUtils.clear(Config.MENU_BACKGROUND_COLOR);
         game.batch.setProjectionMatrix(game.camera.combined);
         game.camera.update();
         game.batch.begin();
@@ -66,7 +73,7 @@ public class MainMenuScreen implements Screen {
 
         if(play.contains(touchPos.x, touchPos.y)){
             game.batch.draw(play_button_active, play.x, play.y);
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.justTouched()) {
                 game.setScreen(new SeedScreen(game));
             }
         }else{
@@ -74,7 +81,7 @@ public class MainMenuScreen implements Screen {
         }
         if(exit.contains(touchPos.x, touchPos.y)){
             game.batch.draw(exit_button_active, exit.x, exit.y);
-            if(Gdx.input.isTouched()) Gdx.app.exit();
+            if(Gdx.input.justTouched()) Gdx.app.exit();
         }else{
             game.batch.draw(exit_button_inactive, exit.x, exit.y);
         }
@@ -85,24 +92,24 @@ public class MainMenuScreen implements Screen {
         }
         if(game.music.isPlaying()){//triggers many times will fix in future
             if(music.contains(touchPos.x, touchPos.y)){
-                game.batch.draw(music_active, music.x, music.y);
-                if(Gdx.input.isTouched()){
+                game.batch.draw(music_playing_active, music.x, music.y);
+                if(Gdx.input.justTouched()){
                     game.music.stop();
                     System.out.println("music stop");
                 }
             }else{
-                game.batch.draw(music_inactive, music.x, music.y);
+                game.batch.draw(music_playing_inactive, music.x, music.y);
             }
         }
-        else{//triggers many times will fix in future
+        else{//triggers many times will fix in future //FIXED :)
             if(music.contains(touchPos.x, touchPos.y)){
-                game.batch.draw(music_inactive, music.x, music.y);
-                if(Gdx.input.isTouched()) {
+                game.batch.draw(music_not_playing_active, music.x, music.y);
+                if(Gdx.input.justTouched()) {
                     game.music.play();
                     System.out.println("music start");
                 }
             }else{
-                game.batch.draw(music_active, music.x, music.y);
+                game.batch.draw(music_not_playing_inactive, music.x, music.y);
             }
         }
         game.batch.end();

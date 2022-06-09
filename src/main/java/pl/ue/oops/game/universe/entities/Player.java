@@ -53,7 +53,6 @@ public class Player extends AbstractActiveGridEntity {
             return;
         level.requestSpawn(
             new Projectile(
-                "noEntrySign",
                 level,
                 this.gridPosition,
                 rowDelta * PROJECTILE_SPEED,

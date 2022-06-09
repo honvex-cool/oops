@@ -42,16 +42,16 @@ public class Clueless extends AbstractActiveGridEntity {
                 level.moveHandler.moveRight(this);
             }
             case REQUESTED_DOWN_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, -1,0,2));
+                level.requestSpawn(new Projectile("empty",level,this.gridPosition, -1,0,2,this));
             }
             case REQUESTED_UP_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 1,0,2));
+                level.requestSpawn(new Projectile("empty",level,this.gridPosition, 1,0,2,this));
             }
             case REQUESTED_LEFT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition,0,-1,2));
+                level.requestSpawn(new Projectile("empty",level,this.gridPosition,0,-1,2,this));
             }
             case REQUESTED_RIGHT_ATTACK -> {
-                level.requestSpawn(new Projectile("noEntrySign",level,this.gridPosition, 0,1,2));
+                level.requestSpawn(new Projectile("empty",level,this.gridPosition, 0,1,2,this));
             }
         }
     }
