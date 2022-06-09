@@ -46,6 +46,16 @@ the `DesktopLauncher` class.
 * new sprites, animations, sounds and music 
 * extended main menu with seed input
 
+### Contributions
+
+Filip Jasionowicz (34)
+Map generation, game engine, Sprite design, entities, game architecture, soundeffect design
+
+Jakub Oskwarek (33)
+Animation Engine, game engine, entities, game architecture, statistics
+
+Przemysław Pasiński (33)
+AiHandler, Pathfinding, entities, menu, game concept design
 
 ### HOW TO PLAY 
 Use WASD to move, arrows to shoot and spacebar to wait.
