@@ -52,7 +52,7 @@ public class MainMenuScreen implements Screen {
     }
 
     @Override
-    public void render(float delta) {//1440 x 900
+    public void render(float delta) {
 
         ScreenUtils.clear(Color.CHARTREUSE);
         game.batch.setProjectionMatrix(game.camera.combined);
@@ -66,7 +66,7 @@ public class MainMenuScreen implements Screen {
 
         if(play.contains(touchPos.x, touchPos.y)){
             game.batch.draw(play_button_active, play.x, play.y);
-            if(Gdx.input.isTouched()) {
+            if(Gdx.input.justTouched()) {
                 game.setScreen(new SeedScreen(game));
             }
         }else{
@@ -74,19 +74,22 @@ public class MainMenuScreen implements Screen {
         }
         if(exit.contains(touchPos.x, touchPos.y)){
             game.batch.draw(exit_button_active, exit.x, exit.y);
-            if(Gdx.input.isTouched()) Gdx.app.exit();
+            if(Gdx.input.justTouched()) Gdx.app.exit();
         }else{
             game.batch.draw(exit_button_inactive, exit.x, exit.y);
         }
         if(settings.contains(touchPos.x, touchPos.y)){
             game.batch.draw(settings_button_active, settings.x, settings.y);
+            if(Gdx.input.justTouched()){
+                game.setScreen(new SettingsScreen(game));
+            }
         }else{
             game.batch.draw(settings_button_inactive, settings.x, settings.y);
         }
         if(game.music.isPlaying()){//triggers many times will fix in future
             if(music.contains(touchPos.x, touchPos.y)){
                 game.batch.draw(music_active, music.x, music.y);
-                if(Gdx.input.isTouched()){
+                if(Gdx.input.justTouched()){
                     game.music.stop();
                     System.out.println("music stop");
                 }
@@ -97,7 +100,7 @@ public class MainMenuScreen implements Screen {
         else{//triggers many times will fix in future
             if(music.contains(touchPos.x, touchPos.y)){
                 game.batch.draw(music_inactive, music.x, music.y);
-                if(Gdx.input.isTouched()) {
+                if(Gdx.input.justTouched()) {
                     game.music.play();
                     System.out.println("music start");
                 }
