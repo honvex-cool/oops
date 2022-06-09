@@ -23,7 +23,7 @@ public class Shooter extends AbstractActiveGridEntity {
     public Shooter(int row, int column, Level level) {
         super(level, row, column, "venomous_snake_0_0");
         reload=false;
-        sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/Snake_final.mp3"));
+        sound = Gdx.audio.newSound(Gdx.files.internal("music/Snake_final.mp3"));
     }
 
     public Shooter(Level level) {

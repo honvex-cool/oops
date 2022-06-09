@@ -24,7 +24,6 @@ public class SettingsScreen implements Screen {
     private Oops game;
     private Stage stage;
     private TextButton back;
-    private Skin skin;
     private FitViewport viewport;
     private Slider sliderm;
     private BitmapFont text;
@@ -38,9 +37,8 @@ public class SettingsScreen implements Screen {
 
         stage = new Stage();
         stage.setViewport(viewport);
-        skin = new Skin(new FileHandle("src/main/resources/skins/uiskin.json"));
 
-        back = new TextButton("Back", skin);
+        back = new TextButton("Back", Config.DEFAULT_UI_SKIN);
         back.setPosition(1020, 75);
         back.setSize(100, 50);
         stage.addActor(back);
@@ -53,7 +51,7 @@ public class SettingsScreen implements Screen {
         });
 
 
-        sliderm = new Slider(0, 100, 0.1f, false, skin);
+        sliderm = new Slider(0, 100, 0.1f, false, Config.DEFAULT_UI_SKIN);
         sliderm.setSize(800, 100);
         sliderm.setValue(game.music.getVolume() * 100f);
         sliderm.setPosition(320, 145);

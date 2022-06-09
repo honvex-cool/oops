@@ -30,7 +30,7 @@ public class Player extends AbstractActiveGridEntity {
         super(level, row, column, "eyer_0_0");
         animationController = AnimationControllers.create(new SimpleSpriteSequence("eyer_move_1","eyer_move_2","eyer_move_1"),new SimpleSpriteSequence("eyer_0_0"));
         animationController.playIdleAnimation(this.gridPosition);
-        sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/Pocisk_final.mp3"));
+        sound = Gdx.audio.newSound(Gdx.files.internal("music/Pocisk_final.mp3"));
     }
 
     public void setPlayerInfo(int hp){

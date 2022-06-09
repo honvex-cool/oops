@@ -25,7 +25,7 @@ public class Oops extends Game {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1440, 900);
         camera.update();
-        music = Gdx.audio.newMusic(new FileHandle("src/main/resources/music/music(SFW).mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("music/music(SFW).mp3"));
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();

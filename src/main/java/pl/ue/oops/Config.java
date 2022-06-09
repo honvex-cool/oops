@@ -1,5 +1,6 @@
 package pl.ue.oops;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,7 +22,7 @@ public class Config {
     public static final int DEFAULT_COLUMN_COUNT=24;
     public static final String TEXTURE_PATH = "src/main/resources/test_sprites/";
     public static final Color MENU_BACKGROUND_COLOR = new Color(221/255f, 172/255f, 136/255f, 1.0f);
-    public static final Skin DEFAULT_UI_SKIN = new Skin(new FileHandle("src/main/resources/skins/uiskin.json"));
+    public static final Skin DEFAULT_UI_SKIN = new Skin(Gdx.files.internal("skins/uiskin.json"));
     public static final Label.LabelStyle DEFAULT_LABEL_STYLE = new Label.LabelStyle(DEFAULT_UI_SKIN.getFont("default-font"),Color.FIREBRICK);
     public static final int ENEMIES_MINIMAL_DISTANCE_TO_PLAYER = 3;
     public static long LAST_SEED;

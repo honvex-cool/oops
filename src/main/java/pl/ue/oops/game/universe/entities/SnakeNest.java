@@ -16,7 +16,7 @@ public class SnakeNest extends AbstractActiveGridEntity {
     public SnakeNest(int row, int column, Level level) {
         super(level, row, column, "snake_nest");
         gridPosition.set(row, column);
-        sound = Gdx.audio.newSound(new FileHandle("src/main/resources/music/Sssss_final.mp3"));
+        sound = Gdx.audio.newSound(Gdx.files.internal("music/Sssss_final.mp3"));
     }
     @Override
     public void idleBehaviour() {
