@@ -31,7 +31,7 @@ public class SeedScreen implements Screen {
     SeedScreen(final Oops game){
         this.game=game;
         game.camera.setToOrtho(false, 1440, 900);
-        this.viewport = new FitViewport(0, 0, game.camera);
+        this.viewport = new FitViewport(1440, 900, game.camera);
 
         game.camera.update();
 
@@ -99,9 +99,8 @@ public class SeedScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        game.camera.setToOrtho(false, width, height);
-        viewport.setWorldSize(width, height);
-        stage.getViewport().update(width, height, true);
+        viewport.update(width, height);
+        stage.getViewport().update(width, height);
     }
 
     @Override
