@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class SnakeNest extends AbstractActiveGridEntity {
     public SnakeNest(int row, int column, Level level) {
-        super(level, row, column, "lake");
+        super(level, row, column, "snake_nest");
         gridPosition.set(row, column);
     }
     @Override
